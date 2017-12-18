@@ -1,5 +1,6 @@
 package com.example.gotounaoto.myapplication.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -61,5 +62,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relative, fragment);
         transaction.commit();
+    }
+
+    public void intentList(String title){
+        Intent intent = new Intent(this, ListsActivity.class);
+        intent.putExtra("title",title);
+        startActivity(intent);
     }
 }

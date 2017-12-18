@@ -1,13 +1,30 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.gotounaoto.myapplication.Fragment.ListsFragment">
-    <Button
+
+    <ImageButton
+        android:id="@+id/add_button_top"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/colorTheme" />
+        android:layout_height="80dp"
+        android:background="@color/colorTheme"
+        android:padding="15dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/add_icon_white" />
+
+    <Button
+        android:id="@+id/add_button_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorTheme"
+        android:text="Add!"
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</RelativeLayout>
+</LinearLayout>
