@@ -6,8 +6,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/colorTheme"
-        android:drawableTop="@drawable/check_icon_white"/>
+        android:background="@color/colorTheme" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

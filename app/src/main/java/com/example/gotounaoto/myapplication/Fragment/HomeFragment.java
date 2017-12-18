@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener{
 
     public HomeFragment() {
         // Required empty public constructor
@@ -27,13 +28,30 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         // Inflate the layout for this fragment
-        Button checkButton = (Button)getActivity().findViewById(R.id.checkButton);
-        settingFont(checkButton);
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        view.findViewById(R.id.check_button).setOnClickListener(this);
+        return view;
     }
 
-    public void settingFont(TextView view){
-      //  Typeface kurochan = Typeface.createFromAsset(getAssets(),"kurochan.ttf");
+    @Override
+    public void onClick(View view){
+        if(view != null){
+            switch (view.getId()){
+                case R.id.check_button:
+                    CustomDialogCheckFragment dialogCheckFragment = new CustomDialogCheckFragment();
+                    dialogCheckFragment.show(getFragmentManager(),"check");
+                break;
+
+            }
+        }
+
     }
+
+
+
+    public void settingFont(TextView view){
+       //Typeface kurochan = Typeface.createFromAsset(getActivity(),"kurochan.ttf");
+    }
+
 }

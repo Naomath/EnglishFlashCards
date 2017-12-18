@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
 import com.example.gotounaoto.myapplication.Fragment.ListsFragment;
 import com.example.gotounaoto.myapplication.Fragment.SettngsFragment;
+import com.example.gotounaoto.myapplication.Fragment.ShareFragment;
 import com.example.gotounaoto.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +31,13 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     fragment = new HomeFragment();
                     settingFragment();
-                   break;
+                    break;
                 case R.id.navigation_cards:
                     fragment = new ListsFragment();
                     settingFragment();
+                    break;
+                case R.id.navigation_share:
+                    fragment = new ShareFragment();
                     break;
                 case R.id.navigation_settings:
                     fragment = new SettngsFragment();
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
         settingFragment();
     }
 
-    public void settingFragment(){
+    public void settingFragment() {
         //フラグメントの一括設定
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, fragment);
+        transaction.replace(R.id.relative, fragment);
         transaction.commit();
     }
 }
