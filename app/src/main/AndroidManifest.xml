@@ -18,7 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ListsActivity"></activity>
-    </application>
 
+        <meta-data
+            android:name="DATABASE"
+            android:value=" sugar_example.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="false" />
+        <meta-data
+            android:name="APP_CONTEST_3"
+            android:value="com.example.gotounaoto.myapplication" />
+
+        <activity android:name=".Activity.ListsActivity"></activity>
+
+    </application>
 </manifest>

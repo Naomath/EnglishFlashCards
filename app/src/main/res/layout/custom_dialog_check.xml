@@ -22,7 +22,7 @@
             android:background="@drawable/background_dialog_title"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Solve!"
+            android:text="SOLVE!"
             android:textColor="#ffffff"
             android:textSize="18dp" />
 
