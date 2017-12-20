@@ -32,5 +32,4 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'com.github.chuross:aspect-ratio-imageview:v1.0.2'
     compile 'com.github.satyan:sugar:1.5'
-    provided 'org.projectlombok:lombok:1.16.18'
 }
