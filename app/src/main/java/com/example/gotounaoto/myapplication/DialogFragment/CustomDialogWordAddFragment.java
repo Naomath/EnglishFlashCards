@@ -1,7 +1,10 @@
 package com.example.gotounaoto.myapplication.DialogFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -23,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.gotounaoto.myapplication.Fragment.AddWordsFragment;
 import com.example.gotounaoto.myapplication.R;
 
 public class CustomDialogWordAddFragment extends DialogFragment implements View.OnClickListener {
@@ -30,19 +34,25 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
     Dialog dialog;
     boolean bl_original;
     boolean bl_translated;
+    EditText edit_original;
+    EditText edit_translated;
+    TextView shownPart;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static CustomDialogWordAddFragment newInstance(Fragment target, int requestCode) {
+        CustomDialogWordAddFragment fragment = new CustomDialogWordAddFragment();
+        fragment.setTargetFragment(target, requestCode);
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
     }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.custom_dialog_add);
+        dialog.setContentView(R.layout.custom_dialog_word_add);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.findViewById(R.id.decide_button).setOnClickListener(this);
         dialog.findViewById(R.id.decide_button).setEnabled(false);
@@ -56,6 +66,10 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
         if (view != null) {
             switch (view.getId()) {
                 case R.id.decide_button:
+                    String original = edit_original.getText().toString();
+                    String translated = edit_translated.getText().toString();
+                    String part = shownPart.getText().toString();
+                    submit(original, translated, part);
                     break;
             }
         }
@@ -69,7 +83,7 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner spinner = (Spinner) parent;
                 String item = (String) spinner.getSelectedItem();
-                TextView shownPart = (TextView) dialog.findViewById(R.id.part);
+                shownPart = (TextView) dialog.findViewById(R.id.part);
                 shownPart.setText(item);
             }
 
@@ -81,9 +95,9 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
 
     private void watchState() {
         //監視するものの登録
-        EditText edit_original = (EditText) dialog.findViewById(R.id.original_text);
+        edit_original = (EditText) dialog.findViewById(R.id.original_text);
         edit_original.addTextChangedListener(new GenericTextWatcher(edit_original));
-        EditText edit_translated = (EditText) dialog.findViewById(R.id.translated_text);
+        edit_translated = (EditText) dialog.findViewById(R.id.translated_text);
         edit_translated.addTextChangedListener(new GenericTextWatcher(edit_translated));
     }
 
@@ -130,6 +144,16 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
     public void enableButton() {
         //ボタンの有効化
         dialog.findViewById(R.id.decide_button).setEnabled(true);
-        dialog.findViewById(R.id.relative_error).setBackgroundColor(Color.parseColor("#00000000"));
+        dialog.findViewById(R.id.relative_error).setVisibility(View.INVISIBLE);
+    }
+
+    public void submit(String original, String translated, String part) {
+        //fragmentにデータを渡す
+        Fragment target = getTargetFragment();
+        Intent data = new Intent();
+        data.putExtra("original", original);
+        data.putExtra("translated", translated);
+        data.putExtra("part", part);
+        target.onActivityResult(1, Activity.RESULT_OK, data);
     }
 }

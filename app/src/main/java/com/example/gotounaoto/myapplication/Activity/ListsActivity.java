@@ -1,13 +1,19 @@
 package com.example.gotounaoto.myapplication.Activity;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogAddFagment;
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogCheckFragment;
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.R;
 
-public class ListsActivity extends AppCompatActivity implements View.OnClickListener {
+public class ListsActivity extends AppCompatActivity {
 
     String title;
 
@@ -18,17 +24,5 @@ public class ListsActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
 
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view != null) {
-            switch (view.getId()) {
-                case R.id.button_add:
-                    break;
-                case R.id.button_decide:
-                    break;
-            }
-        }
     }
 }

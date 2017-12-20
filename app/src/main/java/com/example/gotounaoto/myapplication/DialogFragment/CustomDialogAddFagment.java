@@ -34,6 +34,7 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.findViewById(R.id.decide_button).setOnClickListener(this);
         dialog.findViewById(R.id.decide_button).setEnabled(false);
+        watchEdit();
         return dialog;
     }
 
@@ -73,7 +74,7 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
 
     public void enableButton(){
         dialog.findViewById(R.id.decide_button).setEnabled(true);
-        dialog.findViewById(R.id.relative_error).setBackgroundColor(Color.parseColor("#00000000"));
+        dialog.findViewById(R.id.relative_error).setVisibility(View.INVISIBLE);
     }
 
 }
