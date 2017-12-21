@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -24,6 +25,8 @@ import com.example.gotounaoto.myapplication.R;
 public class CustomDialogAddFagment extends DialogFragment implements View.OnClickListener {
 
     Dialog dialog;
+    Button decide;
+    RelativeLayout error;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -32,8 +35,10 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         dialog.setContentView(R.layout.custom_dialog_add);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.findViewById(R.id.decide_button).setOnClickListener(this);
-        dialog.findViewById(R.id.decide_button).setEnabled(false);
+        decide = (Button) dialog.findViewById(R.id.decide_button);
+        decide.setOnClickListener(this);
+        decide.setEnabled(false);
+        error = (RelativeLayout)dialog.findViewById(R.id.relative_error);
         watchEdit();
         return dialog;
     }
@@ -45,15 +50,15 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
                 case R.id.decide_button:
                     EditText editText = (EditText) dialog.findViewById(R.id.edit_title);
                     String title = editText.getText().toString();
-                    MainActivity activity = (MainActivity)getActivity();
+                    MainActivity activity = (MainActivity) getActivity();
                     activity.intentList(title);
                     break;
             }
         }
     }
 
-    public void watchEdit(){
-        EditText title = (EditText)dialog.findViewById(R.id.edit_title);
+    public void watchEdit() {
+        EditText title = (EditText) dialog.findViewById(R.id.edit_title);
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -61,8 +66,10 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() != 0){
+                if (charSequence.length() != 0) {
                     enableButton();
+                } else {
+                    disableButton();
                 }
             }
 
@@ -72,9 +79,16 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
         });
     }
 
-    public void enableButton(){
-        dialog.findViewById(R.id.decide_button).setEnabled(true);
-        dialog.findViewById(R.id.relative_error).setVisibility(View.INVISIBLE);
+    public void enableButton() {
+        //ボタンの有効化
+        decide.setEnabled(true);
+        error.setVisibility(View.INVISIBLE);
+    }
+
+    public void disableButton() {
+        //ボタンの無効化
+        decide.setEnabled(false);
+        error.setVisibility(View.VISIBLE);
     }
 
 }

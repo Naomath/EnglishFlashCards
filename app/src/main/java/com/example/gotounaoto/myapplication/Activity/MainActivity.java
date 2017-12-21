@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment fragment;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     settingFragment();
                     break;
             }
-            return true;
+            return false;
         }
     };
 
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BottomNavigationView navigationView = (BottomNavigationView)findViewById(R.id.navigation);
+        navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         fragment = new HomeFragment();
         settingFragment();
     }

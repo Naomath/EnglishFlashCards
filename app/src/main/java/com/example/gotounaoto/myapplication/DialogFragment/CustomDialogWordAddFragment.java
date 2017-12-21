@@ -37,6 +37,8 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
     EditText edit_original;
     EditText edit_translated;
     TextView shownPart;
+    Button decide;
+    RelativeLayout error;
 
     public static CustomDialogWordAddFragment newInstance(Fragment target, int requestCode) {
         CustomDialogWordAddFragment fragment = new CustomDialogWordAddFragment();
@@ -54,8 +56,10 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         dialog.setContentView(R.layout.custom_dialog_word_add);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.findViewById(R.id.decide_button).setOnClickListener(this);
-        dialog.findViewById(R.id.decide_button).setEnabled(false);
+        decide = (Button) dialog.findViewById(R.id.decide_button);
+        decide.setOnClickListener(this);
+        decide.setEnabled(false);
+        error = (RelativeLayout) dialog.findViewById(R.id.relative_error);
         settingSpinner();
         watchState();
         return dialog;
@@ -143,8 +147,14 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
 
     public void enableButton() {
         //ボタンの有効化
-        dialog.findViewById(R.id.decide_button).setEnabled(true);
-        dialog.findViewById(R.id.relative_error).setVisibility(View.INVISIBLE);
+        decide.setEnabled(true);
+        error.setVisibility(View.INVISIBLE);
+    }
+
+    public void disableButton() {
+        //ボタンの無効化
+        decide.setEnabled(false);
+        error.setVisibility(View.VISIBLE);
     }
 
     public void submit(String original, String translated, String part) {
