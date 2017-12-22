@@ -8,17 +8,18 @@
 
     <item
         android:id="@+id/navigation_cards"
-        android:icon="@drawable/ic_format_list_numbered_black_24dp"
+        android:icon="@drawable/flashcards_icon"
         android:title="@string/title_cards" />
 
     <item
         android:id="@+id/navigation_share"
         android:icon="@drawable/ic_share_black_24dp"
-        android:title="@string/title_share"/>
+        android:title="@string/title_share" />
 
     <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_settings" />
+
 
 </menu>

@@ -137,6 +137,8 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
             }
             if (bl_original && bl_translated) {
                 enableButton();
+            } else {
+                disableButton();
             }
         }
 

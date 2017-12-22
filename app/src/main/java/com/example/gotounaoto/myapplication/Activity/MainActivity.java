@@ -7,12 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
 import com.example.gotounaoto.myapplication.Fragment.ListsFragment;
@@ -45,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new SettngsFragment();
                     settingFragment();
                     break;
+
             }
-            return false;
+            return true;
         }
     };
 
@@ -54,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigationView = (BottomNavigationView)findViewById(R.id.navigation);
+        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         fragment = new HomeFragment();
         settingFragment();
@@ -67,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void intentList(String title){
-        Intent intent = new Intent(this, ListsActivity.class);
-        intent.putExtra("title",title);
+    public void intentList(String title) {
+        Intent intent = new Intent(this, AddWordActivity.class);
+        intent.putExtra("title", title);
         startActivity(intent);
     }
 }

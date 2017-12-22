@@ -32,7 +32,7 @@
             android:name="APP_CONTEST_3"
             android:value="com.example.gotounaoto.myapplication" />
 
-        <activity android:name=".Activity.ListsActivity"></activity>
+        <activity android:name=".Activity.AddWordActivity"></activity>
 
     </application>
 </manifest>

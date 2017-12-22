@@ -1,30 +1,25 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.example.gotounaoto.myapplication.Fragment.ListsFragment">
-
-    <ImageButton
-        android:id="@+id/add_button_top"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/colorTheme"
-        android:padding="15dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/add_icon_white" />
-
-    <Button
-        android:id="@+id/add_button_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorTheme"
-        android:text="Add!"
-        android:textColor="#ffffff"
-        android:textSize="20dp" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/colorTheme"
+        android:src="@drawable/ic_add_white_48dp"
+        app:elevation="6dp"
+        app:fabSize="normal" />
+</RelativeLayout>
