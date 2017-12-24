@@ -37,7 +37,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorTheme"
-                android:hint="英語"
+                android:hint="日本語"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
@@ -53,7 +53,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/colorTheme"
-                android:hint="和訳"
+                android:hint="英訳"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
