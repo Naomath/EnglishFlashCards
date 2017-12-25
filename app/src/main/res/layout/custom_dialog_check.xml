@@ -43,7 +43,7 @@
             android:background="@drawable/backgroud_dialog_positive"
             android:text="今日の"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             />
         <Button
             android:id="@+id/weak_button"

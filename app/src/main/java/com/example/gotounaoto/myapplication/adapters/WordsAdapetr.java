@@ -39,7 +39,7 @@ public class WordsAdapetr extends ArrayAdapter<Words> {
         //widthを取得して引いてそのぶんずらしている
         float density = getContext().getResources().getDisplayMetrics().density;
         int buttonWidthPX = (int) (BUTTON_WIDTH_DP * density + 0.5f);
-        WindowManager wm = (WindowManager)getContext().getSystemService(getContext().WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) getContext().getSystemService(getContext().WINDOW_SERVICE);
         Display dp = wm.getDefaultDisplay();
         margin = dp.getWidth() - buttonWidthPX;
     }
@@ -51,12 +51,18 @@ public class WordsAdapetr extends ArrayAdapter<Words> {
             convertView = layoutInflater.inflate(resource, null);
             view_set_up = new WordsAdapetr.ViewSetUp(convertView);
             convertView.setTag(view_set_up);
+        } else {
+            view_set_up = ((WordsAdapetr.ViewSetUp) convertView.getTag());
         }
-        //viewpagerの設定
-        ViewPager viewPager = (ViewPager)convertView.findViewById(R.id.viewpager);
-        viewPager.setPageMargin(-margin);
-        MyPagerAdapter adapter = new MyPagerAdapter(getContext(),getItem(position));
-        viewPager.setAdapter(adapter);
+        Words item = getItem(position);
+        if (item != null) {
+            String text_part = item.getPart().substring(0, 1);
+            String text_original = item.getOriginal();
+            String text_translated = item.getTranslated();
+            view_set_up.part.setText(text_part);
+            view_set_up.original.setText(text_original);
+            view_set_up.translated.setText(text_translated);
+        }
         return convertView;
     }
 
@@ -67,7 +73,7 @@ public class WordsAdapetr extends ArrayAdapter<Words> {
         TextView translated;
 
         public ViewSetUp(View view) {
-            part = (TextView) view.findViewById(R.id.part);
+            part = (TextView) view.findViewById(R.id.text_part);
             original = (TextView) view.findViewById(R.id.text_original);
             translated = (TextView) view.findViewById(R.id.text_translated);
         }

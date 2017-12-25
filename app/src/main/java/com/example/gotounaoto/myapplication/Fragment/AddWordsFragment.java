@@ -21,6 +21,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.gotounaoto.myapplication.Activity.AddWordActivity;
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
@@ -31,6 +32,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
     SwipeMenuListView listView;
     WordsAdapetr adapetr;
     CustomDialogWordAddFragment dialog;
+    AddWordActivity source;
 
     public AddWordsFragment() {
     }
@@ -50,12 +52,13 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
         adapetr = new WordsAdapetr(getActivity(), R.layout.words_add_adapter);
         listView.setAdapter(adapetr);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
+            //横に出るやつ
             @Override
             public void create(SwipeMenu menu) {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getContext());
-                deleteItem.setBackground(Color.RED);
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xd3, 0x2f, 0x2f)));
                 deleteItem.setIcon(R.drawable.ic_delete_white_48dp);
-                deleteItem.setWidth(100);
+                deleteItem.setWidth(300);
                 menu.addMenuItem(deleteItem);
             }
         };
@@ -69,7 +72,6 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                         adapetr.remove(item);
                         break;
                 }
-                // false : close the menu; true : not close the menu
                 return false;
             }
         });
@@ -90,6 +92,14 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                 adapetr.add(words);
                 dialog.dismiss();
                 return;
+            case 2:
+                if(resultCode != Activity.RESULT_OK){
+                    return;
+                }
+                source.goHome();
+                //activityに遷移させる
+                //ダイアログからきてこのfragmentを中継してactivityへ!!!
+                return;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -107,5 +117,16 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     break;
             }
         }
+    }
+
+    public void showDialog(){
+        CustomDialogFinishFragment fragment = new CustomDialogFinishFragment();
+        fragment.show(getFragmentManager(),"finish");
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        source = (AddWordActivity) activity;
+        super.onAttach(activity);
     }
 }
