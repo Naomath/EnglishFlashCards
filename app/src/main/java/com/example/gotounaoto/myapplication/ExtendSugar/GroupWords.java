@@ -26,7 +26,7 @@ public class GroupWords extends SugarRecord {
     public GroupWords() {
     }//普通のコンストラクタ
 
-    public GroupWords(String title, int firstId, int lastId) {
+    public GroupWords(String title, long firstId, long lastId) {
         this.title = title;
         this.firstId = firstId;
         this.lastId = lastId;

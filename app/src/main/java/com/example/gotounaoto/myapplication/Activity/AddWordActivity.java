@@ -10,16 +10,30 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.Fragment.AddWordsFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
+import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 
-public class AddWordActivity extends AppCompatActivity implements OnFinishListener {
+public class AddWordActivity extends AppCompatActivity implements OnFinishListener, OnInputListener {
 
     AddWordsFragment fragment;
     Toolbar toolbar;
+    String title;
+
+    @Override
+    public void sendFinish() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public String sendText() {
+        return title;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +41,9 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
         setContentView(R.layout.activity_add_word);
         Intent intent = getIntent();
         //title取得
-        String title = intent.getStringExtra("title");
-        settingToolbar(title);
+        title = intent.getStringExtra("title");
+        settingToolbar();
         settingFragment();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        boolean result = true;
-        if (id == android.R.id.home) {
-            finishActivity();
-        } else {
-            result = super.onOptionsItemSelected(item);
-        }
-        return result;
     }
 
     @Override
@@ -53,12 +55,6 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void sendFinish() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
     public void finishActivity() {
@@ -73,15 +69,17 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
         transaction.commit();
     }
 
-    public void settingToolbar(String title) {
+    public void settingToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishActivity();
+            }
+        });
         setSupportActionBar(toolbar);
         setTitle(title);
-        Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
-        upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        getSupportActionBar().setHomeAsUpIndicator(upArrow);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public void goHome() {
