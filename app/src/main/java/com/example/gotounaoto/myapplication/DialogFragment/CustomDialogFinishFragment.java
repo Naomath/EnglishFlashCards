@@ -6,19 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 
 public class CustomDialogFinishFragment extends DialogFragment implements View.OnClickListener {
+
+    public OnFinishListener onFinishListener;
 
     Dialog dialog;
 
@@ -29,7 +29,6 @@ public class CustomDialogFinishFragment extends DialogFragment implements View.O
         fragment.setArguments(args);
         return fragment;
     }
-
 
     public CustomDialogFinishFragment() {
     }
@@ -48,13 +47,19 @@ public class CustomDialogFinishFragment extends DialogFragment implements View.O
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onFinishListener = (OnFinishListener) getActivity();
+    }
+
+    @Override
     public void onClick(View view) {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_yes:
-                    //fragmentにデータを渡す
-                    Fragment target = getTargetFragment();
-                    target.onActivityResult(2, Activity.RESULT_OK, null);
+                    //fragmentを変更する
+                    onFinishListener.sendFinish();
+                    getDialog().dismiss();
                     break;
                 case R.id.button_no:
                     dialog.dismiss();
@@ -62,4 +67,5 @@ public class CustomDialogFinishFragment extends DialogFragment implements View.O
             }
         }
     }
+
 }

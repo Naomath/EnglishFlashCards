@@ -2,6 +2,8 @@ package com.example.gotounaoto.myapplication.Activity;
 
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,10 +14,12 @@ import android.view.MenuItem;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.Fragment.AddWordsFragment;
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 
-public class AddWordActivity extends AppCompatActivity {
+public class AddWordActivity extends AppCompatActivity implements OnFinishListener {
 
     AddWordsFragment fragment;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +36,11 @@ public class AddWordActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         boolean result = true;
-        switch (id) {
-            case android.R.id.home:
-                finishActivity();
-                break;
-            default:
-                result = super.onOptionsItemSelected(item);
+        if (id == android.R.id.home) {
+            finishActivity();
+        } else {
+            result = super.onOptionsItemSelected(item);
         }
-
         return result;
     }
 
@@ -52,6 +53,12 @@ public class AddWordActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void sendFinish() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void finishActivity() {
@@ -67,15 +74,19 @@ public class AddWordActivity extends AppCompatActivity {
     }
 
     public void settingToolbar(String title) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         setTitle(title);
+        Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    public void goHome(){
+    public void goHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
 }
