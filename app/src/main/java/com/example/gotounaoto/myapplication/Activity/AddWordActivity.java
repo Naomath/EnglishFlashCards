@@ -27,6 +27,9 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
     @Override
     public void sendFinish() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("which_fragment", 1);
+        intent.putExtra("please_toast", true);
+        intent.putExtra("message_toast"," 単語帳を登録できました");
         startActivity(intent);
     }
 
@@ -71,6 +74,7 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
 
     public void settingToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +82,6 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
                 finishActivity();
             }
         });
-        setSupportActionBar(toolbar);
         setTitle(title);
     }
 
