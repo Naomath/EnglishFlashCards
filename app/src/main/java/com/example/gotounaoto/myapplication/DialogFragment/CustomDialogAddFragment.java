@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import com.example.gotounaoto.myapplication.Activity.MainActivity;
 import com.example.gotounaoto.myapplication.R;
 
-public class CustomDialogAddFagment extends DialogFragment implements View.OnClickListener {
+public class CustomDialogAddFragment extends DialogFragment implements View.OnClickListener {
 
     Dialog dialog;
     Button decide;
@@ -51,7 +51,7 @@ public class CustomDialogAddFagment extends DialogFragment implements View.OnCli
                     EditText editText = (EditText) dialog.findViewById(R.id.edit_title);
                     String title = editText.getText().toString();
                     MainActivity activity = (MainActivity) getActivity();
-                    activity.intentList(title);
+                    activity.intentBooks(title);
                     break;
             }
         }

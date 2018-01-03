@@ -9,7 +9,7 @@ import lombok.Setter;
  * Created by gotounaoto on 2017/12/22.
  */
 
-public class GroupWords extends SugarRecord {
+public class BooksWords extends SugarRecord {
 
     @Getter
     @Setter
@@ -23,13 +23,16 @@ public class GroupWords extends SugarRecord {
     @Setter
     private long lastId;
 
-    public GroupWords() {
+    @Getter
+    @Setter
+    private String date;
+
+    public BooksWords() {
     }//普通のコンストラクタ
 
-    public GroupWords(String title, long firstId, long lastId) {
+    public BooksWords(String title, long firstId, long lastId) {
         this.title = title;
         this.firstId = firstId;
         this.lastId = lastId;
     }
-
 }

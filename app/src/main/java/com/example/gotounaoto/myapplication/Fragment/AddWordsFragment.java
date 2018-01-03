@@ -1,20 +1,14 @@
 package com.example.gotounaoto.myapplication.Fragment;
 
 import android.app.Activity;
-import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -23,10 +17,11 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.gotounaoto.myapplication.Activity.AddWordActivity;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
-import com.example.gotounaoto.myapplication.ExtendSugar.GroupWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapetr;
+import com.example.gotounaoto.myapplication.classes.MakeDateString;
 import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.orm.SugarRecord;
@@ -113,7 +108,8 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     SugarRecord.saveInTx(wordsList);
                     Words firstWord = wordsList.get(0);
                     Words lastWord = wordsList.get(adapetr.getCount() - 1);
-                    GroupWords group = new GroupWords(title, firstWord.getId(), lastWord.getId());
+                    BooksWords group = new BooksWords(title, firstWord.getId(), lastWord.getId());
+                    group.setDate(MakeDateString.makeDate());
                     group.save();
                     onFinishListener.sendFinish();
                     break;

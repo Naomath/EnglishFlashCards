@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
-import com.example.gotounaoto.myapplication.Fragment.ListsFragment;
+import com.example.gotounaoto.myapplication.Fragment.BooksFragment;
 import com.example.gotounaoto.myapplication.Fragment.SettngsFragment;
 import com.example.gotounaoto.myapplication.Fragment.ShareFragment;
 import com.example.gotounaoto.myapplication.R;
@@ -20,7 +20,7 @@ import com.example.gotounaoto.myapplication.R;
 public class MainActivity extends AppCompatActivity {
 
     private Fragment fragment;
-    private  Toolbar toolbar;
+    private Toolbar toolbar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
         settingToolBarFirst(0);
     }
 
-    public void gettingIntent(){
+    public void gettingIntent() {
         //インテントの取得
         Intent intent = getIntent();
-        int which_fragment = intent.getIntExtra("which_fragment",0);
+        int which_fragment = intent.getIntExtra("which_fragment", 0);
         boolean which_toast = intent.getBooleanExtra("please_toast", false);
         String message_toast = intent.getStringExtra("message_toast");
         judgmentFragment(which_fragment);
@@ -80,44 +80,48 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void settingToolBarFirst(int which){
+    public void settingToolBarFirst(int which) {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         settingToolBarSecond(which);
     }
 
-    public void settingToolBarSecond(int which){
-        switch (which){
+    public void settingToolBarSecond(int which) {
+        switch (which) {
             case 0:
+                setTitle("Home");
                 toolbar.setNavigationIcon(R.drawable.ic_home_white_24dp);
                 break;
             case 1:
+                setTitle("Books");
                 toolbar.setNavigationIcon(R.drawable.flashcards_icon_white);
                 break;
             case 2:
+                setTitle("Share");
                 toolbar.setNavigationIcon(R.drawable.ic_share_white_24dp);
                 break;
             case 3:
+                setTitle("Settings");
                 toolbar.setNavigationIcon(R.drawable.ic_settings_white_24dp);
                 break;
         }
     }
 
-    public void intentList(String title) {
+    public void intentBooks(String title) {
         //ダイアログの後にintentする処理
         Intent intent = new Intent(this, AddWordActivity.class);
         intent.putExtra("title", title);
         startActivity(intent);
     }
 
-    public void judgmentFragment(int which){
+    public void judgmentFragment(int which) {
         //どのフラグメントを最初に出すかの設定
-        switch (which){
+        switch (which) {
             case 0:
                 fragment = new HomeFragment();
                 break;
             case 1:
-                fragment = new ListsFragment();
+                fragment = new BooksFragment();
                 break;
             case 2:
                 fragment = new ShareFragment();
@@ -131,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
         settingFragment();
     }
 
-    public void makeToast(boolean which, String message){
+    public void makeToast(boolean which, String message) {
         //トーストを作るメソッド
-        if(which){
+        if (which) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT);
         }
     }
