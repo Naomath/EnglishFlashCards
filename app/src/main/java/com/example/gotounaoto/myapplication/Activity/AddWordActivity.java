@@ -25,17 +25,22 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
     String title;
 
     @Override
-    public void sendFinish() {
+    public void sendFinish(boolean which) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("which_fragment", 1);
-        intent.putExtra("please_toast", true);
-        intent.putExtra("message_toast"," 単語帳を登録できました");
+        intent.putExtra("please_toast", which);
+        intent.putExtra("message_toast","単語帳を登録しました");
         startActivity(intent);
     }
 
     @Override
     public String sendText() {
         return title;
+    }
+
+    @Override
+    public Long sendLong() {
+        return null;
     }
 
     @Override

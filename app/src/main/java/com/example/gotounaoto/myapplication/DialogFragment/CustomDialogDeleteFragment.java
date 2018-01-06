@@ -1,7 +1,6 @@
 package com.example.gotounaoto.myapplication.DialogFragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,44 +10,39 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
+import com.example.gotounaoto.myapplication.interfaces.OnDeleteListener;
 
-public class CustomDialogFinishFragment extends DialogFragment implements View.OnClickListener {
-
-    public OnFinishListener onFinishListener;
+public class CustomDialogDeleteFragment extends DialogFragment implements View.OnClickListener{
 
     Dialog dialog;
+    OnDeleteListener deleteListener;
 
-    public CustomDialogFinishFragment() {
+    public CustomDialogDeleteFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.fragment_custom_dialog_finish);
+        dialog.setContentView(R.layout.fragment_custom_dialog_delete);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.findViewById(R.id.button_yes).setOnClickListener(this);
-        dialog.findViewById(R.id.button_no).setOnClickListener(this);
+        settingListener();
         return dialog;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        onFinishListener = (OnFinishListener) getActivity();
     }
 
     @Override
     public void onClick(View view) {
         if (view != null) {
-            switch (view.getId()) {
+            switch (view.getId()){
                 case R.id.button_yes:
-                    //fragmentを変更する
-                    onFinishListener.sendFinish(false);
-                    getDialog().dismiss();
+                    deleteListener.deleteBook();
                     break;
                 case R.id.button_no:
                     dialog.dismiss();
@@ -57,4 +51,9 @@ public class CustomDialogFinishFragment extends DialogFragment implements View.O
         }
     }
 
+    public void settingListener(){
+        dialog.findViewById(R.id.button_yes).setOnClickListener(this);
+        dialog.findViewById(R.id.button_no).setOnClickListener(this);
+        deleteListener = (OnDeleteListener)getActivity();
+    }
 }

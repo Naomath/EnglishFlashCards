@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.gotounaoto.myapplication.Fragment.AddWordsFragment;
 import com.example.gotounaoto.myapplication.R;
 
 public class CustomDialogWordAddFragment extends DialogFragment implements View.OnClickListener {
@@ -48,7 +47,7 @@ public class CustomDialogWordAddFragment extends DialogFragment implements View.
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.custom_dialog_word_add);
+        dialog.setContentView(R.layout.fragment_custom_dialog_word_add);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         decide = (Button) dialog.findViewById(R.id.decide_button);
         decide.setOnClickListener(this);

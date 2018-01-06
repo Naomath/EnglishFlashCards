@@ -5,5 +5,6 @@ package com.example.gotounaoto.myapplication.interfaces;
  */
 
 public interface OnInputListener {
-    public String sendText();
+    String sendText();
+    Long sendLong();
 }

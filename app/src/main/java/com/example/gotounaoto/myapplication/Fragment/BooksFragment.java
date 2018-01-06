@@ -1,23 +1,33 @@
 package com.example.gotounaoto.myapplication.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogAddFragment;
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogSortFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
+import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
+import com.example.gotounaoto.myapplication.interfaces.OnSendSortListener;
 import com.orm.SugarRecord;
 
 import java.util.Collections;
 import java.util.List;
 
-public class BooksFragment extends Fragment implements View.OnClickListener {
+public class BooksFragment extends Fragment implements View.OnClickListener{
 
     View view;
     ListView listView;
@@ -36,6 +46,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_books, container, false);
+        setHasOptionsMenu(true);
+        //ここでmenuを持つことを宣言
         settingFab();
         settingListView();
         return view;
@@ -51,6 +63,49 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 0:
+                if (resultCode != Activity.RESULT_OK) {
+                    return;
+                }
+                //新しい順に
+                sortBooks(true);
+                return;
+            case 1:
+                if (resultCode != Activity.RESULT_OK) {
+                    return;
+                }
+                //古い順に
+                sortBooks(false);
+                return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_books, menu);
+        menu.findItem(R.id.action_sort).setVisible(true);
+        menu.findItem(R.id.action_search).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                CustomDialogSortFragment dialogSortFragment = new CustomDialogSortFragment();
+                dialogSortFragment.show(getFragmentManager(),"sort");
+                break;
+            case R.id.action_search:
+                booksSearch();
+                break;
+        }
+        return true;
+    }
+
     public void makeDialog() {
         CustomDialogAddFragment dialogAddFragment = new CustomDialogAddFragment();
         dialogAddFragment.show(getFragmentManager(), "add");
@@ -61,16 +116,27 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         floatingActionButton.setOnClickListener(this);
     }
 
+
     public void settingListView(){
         listView = (ListView)view.findViewById(R.id.list_view);
         adapter = new BooksAdapter(getActivity(), R.layout.books_adapter);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                BooksWords item = (BooksWords)adapter.getItem(i);
+                long id = item.getId();
+                OnIntentWordsListener listener = (OnIntentWordsListener) getActivity();
+                listener.moveToWords(id);
+            }
+        });
         sortBooks(true);
     }
 
     public void sortBooks(boolean which){
         //リストをソートするの
-        List<BooksWords> books = SugarRecord.listAll(BooksWords.class);
+        adapter.clear();
+        List<BooksWords> books = BooksWords.listAll(BooksWords.class);
         if(which){
             Collections.reverse(books);
             //これだと新しい順
@@ -78,5 +144,9 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         for(BooksWords item:books){
             adapter.add(item);
         }
+    }
+
+    public void booksSearch(){
+        //bookを名前で検索するときの処理
     }
 }

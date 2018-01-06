@@ -1,5 +1,6 @@
 package com.example.gotounaoto.myapplication.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,11 +17,20 @@ import com.example.gotounaoto.myapplication.Fragment.BooksFragment;
 import com.example.gotounaoto.myapplication.Fragment.SettngsFragment;
 import com.example.gotounaoto.myapplication.Fragment.ShareFragment;
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnIntentWordsListener {
 
     private Fragment fragment;
     private Toolbar toolbar;
+
+    @Override
+    public void moveToWords(long id) {
+        //インターフェイスの
+        Intent intent = new Intent(this, WordsActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,19 +63,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settingBottomNavigation();
-        settingFragment();
-        gettingIntent();
+        int which_fragment = gettingIntent();
         settingToolBarFirst(0);
+        judgmentFragment(which_fragment);
     }
 
-    public void gettingIntent() {
+    public int gettingIntent() {
         //インテントの取得
         Intent intent = getIntent();
         int which_fragment = intent.getIntExtra("which_fragment", 0);
         boolean which_toast = intent.getBooleanExtra("please_toast", false);
         String message_toast = intent.getStringExtra("message_toast");
-        judgmentFragment(which_fragment);
         makeToast(which_toast, message_toast);
+        return which_fragment;
     }
 
     public void settingBottomNavigation() {
@@ -130,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new SettngsFragment();
                 break;
         }
-        //ついでにtoolbarも
         settingToolBarSecond(which);
         settingFragment();
     }
@@ -141,4 +150,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, message, Toast.LENGTH_SHORT);
         }
     }
+
 }

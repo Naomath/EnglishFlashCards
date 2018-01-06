@@ -1,18 +1,13 @@
 package com.example.gotounaoto.myapplication.DialogFragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -33,7 +28,7 @@ public class CustomDialogAddFragment extends DialogFragment implements View.OnCl
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.custom_dialog_add);
+        dialog.setContentView(R.layout.fragment_custom_dialog_add);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         decide = (Button) dialog.findViewById(R.id.decide_button);
         decide.setOnClickListener(this);
@@ -90,5 +85,4 @@ public class CustomDialogAddFragment extends DialogFragment implements View.OnCl
         decide.setEnabled(false);
         error.setVisibility(View.VISIBLE);
     }
-
 }

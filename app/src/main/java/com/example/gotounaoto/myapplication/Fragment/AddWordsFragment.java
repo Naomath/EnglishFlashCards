@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -20,7 +22,7 @@ import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFr
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.adapters.WordsAdapetr;
+import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
 import com.example.gotounaoto.myapplication.classes.MakeDateString;
 import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
@@ -33,12 +35,15 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
 
     View view;
     SwipeMenuListView listView;
-    WordsAdapetr adapetr;
+    WordsAdapter adapetr;
     CustomDialogWordAddFragment dialog;
     AddWordActivity source;
     OnInputListener onInputListener;
     OnFinishListener onFinishListener;
     String title;
+    Button decide_button;
+    RelativeLayout error_layout;
+    int number_items;
 
     public AddWordsFragment() {
     }
@@ -58,6 +63,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_words, container, false);
+        gettingViews();
         settingListener();
         settingListView();
         settingSwipeMenu();
@@ -76,6 +82,9 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                 String part = data.getStringExtra("part");
                 Words words = new Words(original, translated, part);
                 adapetr.add(words);
+                number_items++;
+                enableButton();
+                //アイテム数をプラス1しとく
                 dialog.dismiss();
                 return;
             case 2:
@@ -111,15 +120,16 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     BooksWords group = new BooksWords(title, firstWord.getId(), lastWord.getId());
                     group.setDate(MakeDateString.makeDate());
                     group.save();
-                    onFinishListener.sendFinish();
+                    onFinishListener.sendFinish(true);
                     break;
             }
         }
     }
 
-    public void showDialog() {
-        CustomDialogFinishFragment fragment = new CustomDialogFinishFragment();
-        fragment.show(getFragmentManager(), "finish");
+    public void gettingViews() {
+        //ボタンのどのviewを取得
+        decide_button = (Button) view.findViewById(R.id.button_decide);
+        error_layout = (RelativeLayout) view.findViewById(R.id.relative_error);
     }
 
     public void settingListener() {
@@ -133,8 +143,12 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
 
     public void settingListView() {
         listView = (SwipeMenuListView) view.findViewById(R.id.list_view);
-        adapetr = new WordsAdapetr(getActivity(), R.layout.words_add_adapter);
+        adapetr = new WordsAdapter(getActivity(), R.layout.words_adapter);
         listView.setAdapter(adapetr);
+        disableButton();
+        //最初は無効化しとく
+        number_items = 0;
+        //アイテムの数をゼロに最初はしとく
     }
 
     public void settingSwipeMenu() {
@@ -157,11 +171,33 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     case 0:
                         Words item = (Words) adapetr.getItem(position);
                         adapetr.remove(item);
+                        number_items--;
+                        if (number_items == 0) {
+                            disableButton();
+                        }
                         break;
                 }
                 return false;
             }
         });
     }
+
+    public void showDialog() {
+        CustomDialogFinishFragment fragment = new CustomDialogFinishFragment();
+        fragment.show(getFragmentManager(), "finish");
+    }
+
+    public void enableButton() {
+        //ボタンの有効化
+        decide_button.setEnabled(true);
+        error_layout.setVisibility(View.INVISIBLE);
+    }
+
+    public void disableButton() {
+        //ボタンの無効化
+        decide_button.setEnabled(false);
+        error_layout.setVisibility(View.VISIBLE);
+    }
+
 
 }

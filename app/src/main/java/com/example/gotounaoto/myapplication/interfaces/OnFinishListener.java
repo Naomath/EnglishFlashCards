@@ -5,5 +5,6 @@ package com.example.gotounaoto.myapplication.interfaces;
  */
 
 public interface OnFinishListener {
-    void sendFinish();
+     void sendFinish(boolean which);
+     //このwhichはtoastを出すかどうか
 }
