@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,17 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogAddFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogSortFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
-import com.example.gotounaoto.myapplication.interfaces.OnSendSortListener;
-import com.orm.SugarRecord;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +32,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     View view;
     ListView listView;
     BooksAdapter adapter;
+    SearchView searchView;
 
     public BooksFragment() {
         // Required empty public constructor
@@ -74,14 +72,14 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 //新しい順に
-                sortBooks(true, null);
+                sortBooks(true, "");
                 return;
             case 1:
                 if (resultCode != Activity.RESULT_OK) {
                     return;
                 }
                 //古い順に
-                sortBooks(false, null);
+                sortBooks(false, "");
                 return;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -104,7 +102,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                 dialogSortFragment.show(getFragmentManager(), "sort");
                 break;
             case R.id.action_search:
-                booksSearch();
+                searchView.setIconified(false);
                 break;
         }
         return true;
@@ -134,13 +132,13 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                 listener.moveToWords(id);
             }
         });
-        sortBooks(true, null);
+        sortBooks(true, "");
     }
 
     public void settingSearchView(Menu menu) {
         //toolbarのsearchviewを設定
         MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -175,13 +173,10 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     booksShowed.add(item);
                 }
             }
-            for (BooksWords item:booksShowed){
+            for (BooksWords item : booksShowed) {
                 adapter.add(item);
             }
         }
     }
 
-    public void booksSearch() {
-        //bookを名前で検索するときの処理
-    }
 }

@@ -1,6 +1,5 @@
 package com.example.gotounaoto.myapplication.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +18,7 @@ import com.example.gotounaoto.myapplication.Fragment.ShareFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
-public class MainActivity extends AppCompatActivity implements OnIntentWordsListener {
+public class MainActivity extends AppCompatActivity implements OnIntentWordsListener{
 
     private Fragment fragment;
     private Toolbar toolbar;
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         int which_fragment = gettingIntent();
         settingToolBarFirst(0);
         judgmentFragment(which_fragment);
+
     }
 
     public int gettingIntent() {
