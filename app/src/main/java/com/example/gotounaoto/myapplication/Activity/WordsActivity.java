@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
@@ -16,11 +17,13 @@ import com.example.gotounaoto.myapplication.Fragment.WordsFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnDeleteListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordsActivity extends AppCompatActivity implements OnInputListener, OnDeleteListener, View.OnClickListener{
+public class WordsActivity extends AppCompatActivity implements OnInputListener, OnDeleteListener, View.OnClickListener {
 
     long book_id;
     BooksWords book;
@@ -38,12 +41,12 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
 
     @Override
     public void deleteBook() {
-        for(Words item:words){
+        for (Words item : words) {
             item.delete();
         }
         book.delete();
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("which_fragment",1);
+        intent.putExtra("which_fragment", 1);
         startActivity(intent);
     }
 
@@ -55,7 +58,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         gettingWords();
         settingFragment();
         settingToolBar();
-
+        settingListener();
     }
 
     @Override
@@ -71,10 +74,14 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
 
     @Override
     public void onClick(View view) {
-        if(view != null){
-            switch (view.getId()){
-                case R.id.button_study:
-                    //ここの処理はまだ書かない
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.button_upload:
+                    uploadBook();
+                    break;
+                case  R.id.button_study:
+                    break;
+                case R.id.button_add:
                     break;
             }
         }
@@ -101,6 +108,13 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
             }
         });
         //menuはfragmentの方でやる
+    }
+
+    public void settingListener() {
+        //リスナーの設定
+        findViewById(R.id.button_upload).setOnClickListener(this);
+        findViewById(R.id.button_study).setOnClickListener(this);
+        findViewById(R.id.button_add).setOnClickListener(this);
     }
 
 
@@ -131,4 +145,9 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         startActivity(intent);
     }
 
+    public void uploadBook(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference users_database = database.getReference("users");
+        DatabaseReference books_database = database.getReference("books");
+    }
 }

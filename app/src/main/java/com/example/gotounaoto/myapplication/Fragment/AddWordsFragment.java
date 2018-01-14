@@ -143,7 +143,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
 
     public void settingListView() {
         listView = (SwipeMenuListView) view.findViewById(R.id.list_view);
-        adapetr = new WordsAdapter(getActivity(), R.layout.words_adapter);
+        adapetr = new WordsAdapter(getActivity(), R.layout.adapter_words);
         listView.setAdapter(adapetr);
         disableButton();
         //最初は無効化しとく

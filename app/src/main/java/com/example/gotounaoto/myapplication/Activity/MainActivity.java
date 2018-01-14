@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
 import com.example.gotounaoto.myapplication.Fragment.BooksFragment;
 import com.example.gotounaoto.myapplication.Fragment.SettngsFragment;
-import com.example.gotounaoto.myapplication.Fragment.ShareFragment;
+import com.example.gotounaoto.myapplication.Fragment.DownLoadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 break;
             case 1:
                 setTitle("Books");
-                toolbar.setNavigationIcon(R.drawable.flashcards_icon_white);
+                toolbar.setNavigationIcon(R.drawable.ic_home_white_24dp);
                 break;
             case 2:
                 setTitle("Share");
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 fragment = new BooksFragment();
                 break;
             case 2:
-                fragment = new ShareFragment();
+                fragment = new DownLoadFragment();
                 break;
             case 3:
                 fragment = new SettngsFragment();

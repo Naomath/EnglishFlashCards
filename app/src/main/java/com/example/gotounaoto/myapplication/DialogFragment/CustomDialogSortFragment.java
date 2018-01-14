@@ -2,21 +2,15 @@ package com.example.gotounaoto.myapplication.DialogFragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnSendSortListener;
@@ -24,7 +18,15 @@ import com.example.gotounaoto.myapplication.interfaces.OnSendSortListener;
 public class CustomDialogSortFragment extends DialogFragment implements View.OnClickListener {
 
     Dialog dialog;
-    OnSendSortListener onSendSortListener;
+
+    public static CustomDialogSortFragment newInstance(Fragment target, int requestCode) {
+        CustomDialogSortFragment fragment = new CustomDialogSortFragment();
+        fragment.setTargetFragment(target, requestCode);
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     public CustomDialogSortFragment() {
     }
@@ -47,10 +49,10 @@ public class CustomDialogSortFragment extends DialogFragment implements View.OnC
         if (view != null) {
             switch (view.getId()){
                 case R.id.button_faster:
-                    submitToTaretFragment(0);
+                    submitToTargetFragment(0);
                     break;
                 case R.id.button_older:
-                    submitToTaretFragment(1);
+                    submitToTargetFragment(1);
                     break;
             }
         }
@@ -70,9 +72,9 @@ public class CustomDialogSortFragment extends DialogFragment implements View.OnC
         dialog.findViewById(R.id.button_older).setOnClickListener(this);
     }
 
-    public void submitToTaretFragment(int which){
+    public void submitToTargetFragment(int which){
         Fragment target = getTargetFragment();
-        target.onActivityResult(which, Activity.RESULT_OK,null);
+        Intent intent = new Intent();
+        target.onActivityResult(which, Activity.RESULT_OK, intent);
     }
-
 }

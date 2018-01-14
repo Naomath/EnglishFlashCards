@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorTheme"
-        android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:titleTextColor="@color/white" />
 
@@ -18,34 +17,45 @@
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8">
+        android:layout_weight="8"></RelativeLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_add_white_48dp"
-            app:backgroundTint="@color/colorTheme"
-            app:elevation="6dp"
-            app:fabSize="normal" />
-    </RelativeLayout>
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_upload"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_dialog_positive"
+            android:text="upload!"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/button_study"
-            android:layout_width="130dp"
-            android:layout_height="55dp"
-            android:text="SUTDy!"
-            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@drawable/backgroud_dialog_positive" />
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_dialog_positive"
+            android:text="SUTDy!"
+            android:textColor="@color/white" />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_dialog_positive"
+            android:text="add!"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 </LinearLayout>

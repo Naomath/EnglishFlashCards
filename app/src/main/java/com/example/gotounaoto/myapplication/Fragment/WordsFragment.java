@@ -21,7 +21,6 @@ import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
-import com.example.gotounaoto.myapplication.interfaces.OnSendSortListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,7 @@ public class WordsFragment extends Fragment{
 
     public void settingListView() {
         listView = (SwipeMenuListView) view.findViewById(R.id.list_view);
-        adapter = new WordsAdapter(getActivity(), R.layout.words_adapter);
+        adapter = new WordsAdapter(getActivity(), R.layout.adapter_words);
         listView.setAdapter(adapter);
     }
 

@@ -33,6 +33,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     ListView listView;
     BooksAdapter adapter;
     SearchView searchView;
+    CustomDialogSortFragment dialog;
 
     public BooksFragment() {
         // Required empty public constructor
@@ -73,6 +74,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                 }
                 //新しい順に
                 sortBooks(true, "");
+                dialog.dismiss();
                 return;
             case 1:
                 if (resultCode != Activity.RESULT_OK) {
@@ -80,6 +82,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                 }
                 //古い順に
                 sortBooks(false, "");
+                dialog.dismiss();
                 return;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -91,18 +94,20 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         inflater.inflate(R.menu.menu_books, menu);
         menu.findItem(R.id.action_sort).setVisible(true);
         menu.findItem(R.id.action_search).setVisible(true);
-        settingSearchView(menu);
+        settingSeachView(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort:
-                CustomDialogSortFragment dialogSortFragment = new CustomDialogSortFragment();
-                dialogSortFragment.show(getFragmentManager(), "sort");
+                dialog = new CustomDialogSortFragment();
+                dialog.setTargetFragment(this, 0);
+                dialog.show(getFragmentManager(), "sort");
                 break;
             case R.id.action_search:
                 searchView.setIconified(false);
+                adapter.clear();
                 break;
         }
         return true;
@@ -121,7 +126,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
     public void settingListView() {
         listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new BooksAdapter(getActivity(), R.layout.books_adapter);
+        adapter = new BooksAdapter(getActivity(), R.layout.adapter_books);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -135,8 +140,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         sortBooks(true, "");
     }
 
-    public void settingSearchView(Menu menu) {
-        //toolbarのsearchviewを設定
+    public void settingSeachView(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -148,7 +152,13 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                adapter.clear();
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                sortBooks(true, "");
                 return false;
             }
         });
@@ -158,7 +168,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         //リストをソートするの
         adapter.clear();
         List<BooksWords> books = BooksWords.listAll(BooksWords.class);
-        if (source.equals(null)) {
+        if (source.equals("")) {
             if (which) {
                 Collections.reverse(books);
                 //これだと新しい順
@@ -178,5 +188,4 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
 }
