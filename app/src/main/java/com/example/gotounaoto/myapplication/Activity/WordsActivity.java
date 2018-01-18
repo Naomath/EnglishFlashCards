@@ -149,5 +149,6 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference users_database = database.getReference("users");
         DatabaseReference books_database = database.getReference("books");
+        books_database.push().setValue(book);
     }
 }

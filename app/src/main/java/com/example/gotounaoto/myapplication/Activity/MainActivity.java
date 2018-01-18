@@ -1,6 +1,8 @@
 package com.example.gotounaoto.myapplication.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -60,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int which_fragment = gettingIntent();
         setContentView(R.layout.activity_main);
         settingBottomNavigation();
-        int which_fragment = gettingIntent();
         settingToolBarFirst(0);
         judgmentFragment(which_fragment);
 
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         makeToast(which_toast, message_toast);
         return which_fragment;
     }
+
 
     public void settingBottomNavigation() {
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 break;
         }
     }
+
 
     public void intentBooks(String title) {
         //ダイアログの後にintentする処理
