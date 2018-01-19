@@ -15,10 +15,13 @@ import android.widget.RelativeLayout;
 
 import com.example.gotounaoto.myapplication.R;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 public class SetUserActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
     SharedPreferences exist_preference;
     Button button_decide;
+    AppCompatEditText edit_user_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +44,19 @@ public class SetUserActivity extends AppCompatActivity implements TextWatcher, V
 
     public void settingUser() {
         //ユーザーの設定
+        String user_id = RandomStringUtils.randomAlphabetic(12);
+        String user_name = edit_user_name.getText().toString();
         SharedPreferences user_preference = getSharedPreferences("user_name", Context.MODE_PRIVATE);
-        
+        SharedPreferences.Editor editor_user = user_preference.edit();
+        editor_user.putString("id", user_id);
+        editor_user.putString("name", user_name);
+        editor_user.commit();
+        intentToMain();
     }
 
     public void settingListener() {
-        AppCompatEditText edit_ueser_name = (AppCompatEditText) findViewById(R.id.edit_user_name);
-        edit_ueser_name.addTextChangedListener(this);
+        edit_user_name = (AppCompatEditText) findViewById(R.id.edit_user_name);
+        edit_user_name.addTextChangedListener(this);
         button_decide = (Button) findViewById(R.id.button_decide);
         button_decide.setOnClickListener(this);
     }
@@ -94,7 +103,7 @@ public class SetUserActivity extends AppCompatActivity implements TextWatcher, V
     @Override
     public void onClick(View view) {
         if (view != null) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.button_decide:
                     settingUser();
                     break;
