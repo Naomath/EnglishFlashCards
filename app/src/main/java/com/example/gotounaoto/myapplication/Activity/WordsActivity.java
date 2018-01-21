@@ -1,6 +1,8 @@
 package com.example.gotounaoto.myapplication.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -146,9 +148,15 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
     }
 
     public void uploadBook(){
+        SharedPreferences user_preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String user_id=  user_preferences.getString("id", "");
+        if(!(user_id.equals(""))){
+            //useridがnullじゃないなら
+        }
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference users_database = database.getReference("users");
         DatabaseReference books_database = database.getReference("books");
         books_database.push().setValue(book);
+        users_database.child(user_id).push().setValue(book);
     }
 }

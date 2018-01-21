@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         }
     }
 
-
     public void intentBooks(String title) {
         //ダイアログの後にintentする処理
         Intent intent = new Intent(this, AddWordActivity.class);

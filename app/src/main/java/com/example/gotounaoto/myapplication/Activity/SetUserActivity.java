@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.example.gotounaoto.myapplication.R;
@@ -46,7 +45,7 @@ public class SetUserActivity extends AppCompatActivity implements TextWatcher, V
         //ユーザーの設定
         String user_id = RandomStringUtils.randomAlphabetic(12);
         String user_name = edit_user_name.getText().toString();
-        SharedPreferences user_preference = getSharedPreferences("user_name", Context.MODE_PRIVATE);
+        SharedPreferences user_preference = getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor_user = user_preference.edit();
         editor_user.putString("id", user_id);
         editor_user.putString("name", user_name);
