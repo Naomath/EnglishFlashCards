@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
@@ -25,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordsActivity extends AppCompatActivity implements OnInputListener, OnDeleteListener, View.OnClickListener {
+public class WordsActivity extends AppCompatActivity implements OnInputListener, OnDeleteListener{
 
     long book_id;
     BooksWords book;
@@ -60,7 +61,6 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         gettingWords();
         settingFragment();
         settingToolBar();
-        settingListener();
     }
 
     @Override
@@ -71,21 +71,6 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
             return true;
         } else {
             return false;
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view != null) {
-            switch (view.getId()) {
-                case R.id.button_upload:
-                    uploadBook();
-                    break;
-                case  R.id.button_study:
-                    break;
-                case R.id.button_add:
-                    break;
-            }
         }
     }
 
@@ -110,13 +95,6 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
             }
         });
         //menuはfragmentの方でやる
-    }
-
-    public void settingListener() {
-        //リスナーの設定
-        findViewById(R.id.button_upload).setOnClickListener(this);
-        findViewById(R.id.button_study).setOnClickListener(this);
-        findViewById(R.id.button_add).setOnClickListener(this);
     }
 
 
@@ -147,16 +125,4 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         startActivity(intent);
     }
 
-    public void uploadBook(){
-        SharedPreferences user_preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String user_id=  user_preferences.getString("id", "");
-        if(!(user_id.equals(""))){
-            //useridがnullじゃないなら
-        }
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference users_database = database.getReference("users");
-        DatabaseReference books_database = database.getReference("books");
-        books_database.push().setValue(book);
-        users_database.child(user_id).push().setValue(book);
-    }
 }

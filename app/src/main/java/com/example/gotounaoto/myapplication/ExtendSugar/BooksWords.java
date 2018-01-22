@@ -27,6 +27,11 @@ public class BooksWords extends SugarRecord {
     @Setter
     private String date;
 
+    @Getter
+    @Setter
+    private boolean done_upload;
+
+
     public BooksWords() {
     }//普通のコンストラクタ
 
