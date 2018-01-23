@@ -155,25 +155,10 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
 
     public void sortWords() {
         book = BooksWords.findById(BooksWords.class, book_id);
+        List<Words> source = book.returnWords();
         List<Words> words = new ArrayList<>();
-        long first_id = book.getFirstId();
-        long last_id = book.getLastId();
-        for (long i = first_id; i <= last_id; i++) {
-            Words item = Words.findById(Words.class, i);
-            //ここでnullチェック
-            if(item!=null){
-                words.add(item);
-            }
-        }
-        //ここから後に追加した単語を追加する処理
-        List <AddedWord> addedWordList = SugarRecord.listAll(AddedWord.class);
-        //後の方がitemを入れる箱
-        for(AddedWord item:addedWordList){
-            if(item.getId_group() == book_id){
-                long word_id = item.getId_word();
-                Words itemWord = Words.findById(Words.class, word_id);
-                words.add(itemWord);
-            }
+        for(Words item:source){
+            words.add(item);
         }
         //そして最後に全部ぶっこむ
        for(Words item:words){

@@ -48,7 +48,7 @@ public class CustomDialogFinishFragment extends DialogFragment implements View.O
                 case R.id.button_yes:
                     //fragmentを変更する
                     onFinishListener.sendFinish(false);
-                    getDialog().dismiss();
+                    dialog.dismiss();
                     break;
                 case R.id.button_no:
                     dialog.dismiss();

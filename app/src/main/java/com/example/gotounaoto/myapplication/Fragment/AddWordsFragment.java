@@ -118,7 +118,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     Words firstWord = wordsList.get(0);
                     Words lastWord = wordsList.get(adapetr.getCount() - 1);
                     BooksWords group = new BooksWords(title, firstWord.getId(), lastWord.getId());
-                    group.setDate(MakeDateString.makeDate());
+                    group.setDate(MakeDateString.makeDateNow());
                     group.save();
                     onFinishListener.sendFinish(true);
                     break;
