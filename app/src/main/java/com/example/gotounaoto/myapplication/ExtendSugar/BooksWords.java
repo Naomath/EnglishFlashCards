@@ -38,11 +38,10 @@ public class BooksWords extends SugarRecord {
     public BooksWords() {
     }//普通のコンストラクタ
 
-    public BooksWords(String title, long first_id, long last_id, String date){
+    public BooksWords(String title, long first_id, long last_id){
         this.title = title;
         this.first_id = first_id;
         this.last_id = last_id;
-        this.date = date;
     }
 
     public List<Words> returnWords(){

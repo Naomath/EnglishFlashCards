@@ -1,21 +1,32 @@
 package com.example.gotounaoto.myapplication.Activity;
 
+
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.Fragment.QuestionFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.classes.MakeDateString;
+import com.example.gotounaoto.myapplication.interfaces.OnSendListListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity implements OnSendListListener{
 
     List<Words> presented_items;
     //出す単語たちを全て入れるリスト
+
+    @Override
+    public List<Words> sendArrayList() {
+        //ここでfragmentに単語たちを送り届ける
+        return presented_items;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +91,9 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void settingFragment(){
+        Fragment fragment = new QuestionFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.relative, fragment);
+        transaction.commit();
     }
-
 }

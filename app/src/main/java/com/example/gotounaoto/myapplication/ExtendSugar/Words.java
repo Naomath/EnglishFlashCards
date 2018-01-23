@@ -1,5 +1,7 @@
 package com.example.gotounaoto.myapplication.ExtendSugar;
 
+import android.os.Parcelable;
+
 import com.orm.SugarRecord;
 
 import lombok.Getter;
@@ -9,7 +11,7 @@ import lombok.Setter;
  * Created by gotounaoto on 2017/12/19.
  */
 
-public class Words extends SugarRecord {
+public class Words extends SugarRecord{
 
     @Getter
     @Setter
