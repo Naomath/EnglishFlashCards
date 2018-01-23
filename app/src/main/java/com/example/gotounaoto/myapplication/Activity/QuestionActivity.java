@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
 import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.Fragment.AnswerFragment;
 import com.example.gotounaoto.myapplication.Fragment.QuestionFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.classes.MakeDateString;
@@ -17,10 +18,11 @@ import com.example.gotounaoto.myapplication.interfaces.OnSendListListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionActivity extends AppCompatActivity implements OnSendListListener{
+public class QuestionActivity extends AppCompatActivity implements OnSendListListener, QuestionFragment.OnSendChangeListener{
 
     List<Words> presented_items;
     //出す単語たちを全て入れるリスト
+    Fragment fragment;
 
     @Override
     public List<Words> sendArrayList() {
@@ -33,8 +35,10 @@ public class QuestionActivity extends AppCompatActivity implements OnSendListLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         gettingIntent();
+        changeFragment(0);
+        settingFragment();
         //流れ的には
-        //gettingIntent()-->settingPresentedToday() or settingPresentedWeak()-->settingFragment
+        //gettingIntent()-->settingPresentedToday() or settingPresentedWeak()
     }
 
     public void gettingIntent(){
@@ -81,19 +85,34 @@ public class QuestionActivity extends AppCompatActivity implements OnSendListLis
                 }
             }
         }
-        settingFragment();
     }
 
 
     public void settingPresentedItemsWeak(){
         //苦手な問題のセッティングをやる
-        settingFragment();
     }
 
     public void settingFragment(){
-        Fragment fragment = new QuestionFragment();
+        fragment = new QuestionFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relative, fragment);
         transaction.commit();
+    }
+
+    public void changeFragment(int which){
+        switch (which){
+            case 0:
+                fragment = new QuestionFragment();
+                break;
+            case 1:
+                fragment = new AnswerFragment();
+                break;
+        }
+    }
+
+    @Override
+    public void sendChangeListener() {
+       changeFragment(1);
+       settingFragment();
     }
 }

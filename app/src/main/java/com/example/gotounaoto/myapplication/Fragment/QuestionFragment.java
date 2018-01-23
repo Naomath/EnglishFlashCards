@@ -8,12 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gotounaoto.myapplication.ExtendSugar.Words;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnSendListListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class QuestionFragment extends Fragment {
 
     OnSendListListener onSendListListener;
+    List<Words> presented_words;
 
     public QuestionFragment() {
         //empty constructor
@@ -32,11 +38,27 @@ public class QuestionFragment extends Fragment {
         return view;
     }
 
-    
+    public void gettingWordList() {
+        //ここでlistを取得する
+        List<Words> source = onSendListListener.sendArrayList();
+        presented_words = new ArrayList<>();
+        for (Words item : source) {
+            presented_words.add(item);
+            //ここでディープコピー
+        }
+        Collections.shuffle(presented_words);
+    }
 
-    public void settingListener(){
-        onSendListListener = (OnSendListListener)getActivity();
 
+    public void settingListener() {
+        //リスナーの設定
+        onSendListListener = (OnSendListListener) getActivity();
+        gettingWordList();
+    }
+
+    public interface OnSendChangeListener {
+        public void sendChangeListener();
     }
 
 }
+
