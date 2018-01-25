@@ -108,8 +108,8 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
     public void gettingWords() {
         //ここでグループのワードを取得する
         words = new ArrayList<>();
-        long first_id = book.getFirstId();
-        long last_id = book.getLastId();
+        long first_id = book.getFirst_id();
+        long last_id = book.getLast_id();
         for (long i = first_id; i <= last_id; i++) {
             Words item = Words.findById(Words.class, i);
             if (item != null) {
