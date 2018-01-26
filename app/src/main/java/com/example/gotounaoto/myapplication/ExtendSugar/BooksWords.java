@@ -44,11 +44,11 @@ public class BooksWords extends SugarRecord {
         this.last_id = last_id;
     }
 
-    public List<Words> returnWords(){
+    public List<Word> returnWords(){
         //このbookの単語を返すメソッド
-        List<Words> words = new ArrayList<>();
+        List<Word> words = new ArrayList<>();
         for (long i = this.first_id; i <= this.last_id; i++) {
-            Words item = Words.findById(Words.class, i);
+            Word item = Word.findById(Word.class, i);
             //ここでnullチェック
             if(item!=null){
                 words.add(item);
@@ -59,7 +59,7 @@ public class BooksWords extends SugarRecord {
         for(AddedWord item:addedWordList){
             if(item.getId_group() == this.getId()){
                 long word_id = item.getId_word();
-                Words itemWord = Words.findById(Words.class, word_id);
+                Word itemWord = Word.findById(Word.class, word_id);
                 words.add(itemWord);
             }
         }

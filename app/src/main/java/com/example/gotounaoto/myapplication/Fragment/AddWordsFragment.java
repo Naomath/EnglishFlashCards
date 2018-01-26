@@ -20,7 +20,7 @@ import com.example.gotounaoto.myapplication.Activity.AddWordActivity;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
 import com.example.gotounaoto.myapplication.classes.MakeDateString;
@@ -80,8 +80,8 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                 String original = data.getStringExtra("original");
                 String translated = data.getStringExtra("translated");
                 String part = data.getStringExtra("part");
-                Words words = new Words(original, translated, part);
-                adapetr.add(words);
+                Word word = new Word(original, translated, part);
+                adapetr.add(word);
                 number_items++;
                 enableButton();
                 //アイテム数をプラス1しとく
@@ -109,14 +109,14 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     dialog.show(getFragmentManager(), "add_words");
                     break;
                 case R.id.button_decide:
-                    List<Words> wordsList = new ArrayList<Words>();
+                    List<Word> wordList = new ArrayList<Word>();
                     for (int i = 0, length = adapetr.getCount(); i < length; i++) {
-                        Words item = adapetr.getItem(i);
-                        wordsList.add(item);
+                        Word item = adapetr.getItem(i);
+                        wordList.add(item);
                     }
-                    SugarRecord.saveInTx(wordsList);
-                    Words firstWord = wordsList.get(0);
-                    Words lastWord = wordsList.get(adapetr.getCount() - 1);
+                    SugarRecord.saveInTx(wordList);
+                    Word firstWord = wordList.get(0);
+                    Word lastWord = wordList.get(adapetr.getCount() - 1);
                     BooksWords group = new BooksWords(title, firstWord.getId(), lastWord.getId());
                     group.setDate(MakeDateString.makeDateNow());
                     group.save();
@@ -169,7 +169,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Words item = (Words) adapetr.getItem(position);
+                        Word item = (Word) adapetr.getItem(position);
                         adapetr.remove(item);
                         number_items--;
                         if (number_items == 0) {

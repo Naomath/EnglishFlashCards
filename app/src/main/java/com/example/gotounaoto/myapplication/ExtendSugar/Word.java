@@ -11,7 +11,7 @@ import lombok.Setter;
  * Created by gotounaoto on 2017/12/19.
  */
 
-public class Words extends SugarRecord{
+public class Word extends SugarRecord{
 
     @Getter
     @Setter
@@ -26,10 +26,10 @@ public class Words extends SugarRecord{
     private String part;
 
 
-    public Words() {//普通のコンストラクタ　
+    public Word() {//普通のコンストラクタ　
     }
 
-    public Words(String original, String translated, String part){
+    public Word(String original, String translated, String part){
         this.original = original;
         this.translated = translated;
         this.part = part;

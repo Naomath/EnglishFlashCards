@@ -5,22 +5,33 @@
     android:background="#eeeeee"
     android:orientation="vertical"
     tools:context="com.example.gotounaoto.myapplication.Fragment.QuestionFragment">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:text="技術"
-        android:textColor="@color/dark"
-        android:textSize="40dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <TextView
+            android:id="@+id/text_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="技術"
+            android:textColor="@color/dark"
+            android:textSize="40dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="250dp">
+        android:layout_weight="1">
 
         <ImageButton
+            android:id="@+id/button_next"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

@@ -20,18 +20,16 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.example.gotounaoto.myapplication.Activity.WordsActivity;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogDeleteFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.AddedWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.orm.SugarRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +61,9 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
                 String original = data.getStringExtra("original");
                 String translated = data.getStringExtra("translated");
                 String part = data.getStringExtra("part");
-                Words words = new Words(original, translated, part);
-                words.save();
-                long id_word = words.getId();
+                Word word = new Word(original, translated, part);
+                word.save();
+                long id_word = word.getId();
                 AddedWord addedWord = new AddedWord(original, translated, part, book_id, id_word);
                 addedWord.save();
                 dialog.dismiss();
@@ -136,7 +134,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Words item = (Words) adapter.getItem(position);
+                        Word item = (Word) adapter.getItem(position);
                         item.delete();
                         adapter.remove(item);
                         break;
@@ -155,13 +153,13 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
 
     public void sortWords() {
         book = BooksWords.findById(BooksWords.class, book_id);
-        List<Words> source = book.returnWords();
-        List<Words> words = new ArrayList<>();
-        for(Words item:source){
+        List<Word> source = book.returnWords();
+        List<Word> words = new ArrayList<>();
+        for(Word item:source){
             words.add(item);
         }
         //そして最後に全部ぶっこむ
-       for(Words item:words){
+       for(Word item:words){
             adapter.add(item);
        }
     }

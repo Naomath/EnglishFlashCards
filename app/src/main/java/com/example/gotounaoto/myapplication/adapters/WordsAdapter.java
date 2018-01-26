@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 
 /**
  * Created by gotounaoto on 2017/12/23.
  */
 
-public class WordsAdapter extends ArrayAdapter<Words> {
+public class WordsAdapter extends ArrayAdapter<Word> {
 
     Context context;
     LayoutInflater layoutInflater;
@@ -39,7 +39,7 @@ public class WordsAdapter extends ArrayAdapter<Words> {
         } else {
             view_set_up = ((WordsAdapter.ViewSetUp) convertView.getTag());
         }
-        Words item = getItem(position);
+        Word item = getItem(position);
         if (item != null) {
             String text_part = item.getPart().substring(0, 1);
             String text_original = item.getOriginal();

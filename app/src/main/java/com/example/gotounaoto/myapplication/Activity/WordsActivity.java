@@ -1,27 +1,20 @@
 package com.example.gotounaoto.myapplication.Activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.Fragment.WordsFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnDeleteListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +23,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
 
     long book_id;
     BooksWords book;
-    List<Words> words;
+    List<Word> words;
 
     @Override
     public String sendText() {
@@ -44,7 +37,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
 
     @Override
     public void deleteBook() {
-        for (Words item : words) {
+        for (Word item : words) {
             item.delete();
         }
         book.delete();
@@ -111,7 +104,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         long first_id = book.getFirst_id();
         long last_id = book.getLast_id();
         for (long i = first_id; i <= last_id; i++) {
-            Words item = Words.findById(Words.class, i);
+            Word item = Word.findById(Word.class, i);
             if (item != null) {
                 words.add(item);
             }

@@ -1,25 +1,23 @@
 package com.example.gotounaoto.myapplication.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.interfaces.OnSendListListener;
+import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public class QuestionFragment extends Fragment implements View.OnClickListener {
 
-public class QuestionFragment extends Fragment {
-
-    OnSendListListener onSendListListener;
-    List<Words> presented_words;
+    OnSendWordListener onSendWordListener;
+    OnSendChangeListener onSendChangeListener;
+    Word word;
+    View view;
 
     public QuestionFragment() {
         //empty constructor
@@ -33,32 +31,47 @@ public class QuestionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_question, container, false);
+        view = inflater.inflate(R.layout.fragment_question, container, false);
         settingListener();
+        settingTextView();
         return view;
     }
 
-    public void gettingWordList() {
-        //ここでlistを取得する
-        List<Words> source = onSendListListener.sendArrayList();
-        presented_words = new ArrayList<>();
-        for (Words item : source) {
-            presented_words.add(item);
-            //ここでディープコピー
-        }
-        Collections.shuffle(presented_words);
-    }
 
+    public void gettingWord() {
+        //出題するワードを出す
+        word = onSendWordListener.onSendWord();
+    }
 
     public void settingListener() {
         //リスナーの設定
-        onSendListListener = (OnSendListListener) getActivity();
-        gettingWordList();
+        onSendWordListener = (OnSendWordListener) getActivity();
+        gettingWord();
+        onSendChangeListener = (OnSendChangeListener) getActivity();
+    }
+
+    public void settingTextView() {
+        //textviewの設定
+        TextView text_question = (TextView) view.findViewById(R.id.text_question);
+        String string_question = word.getOriginal();
+        text_question.setText(string_question);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.button_next:
+                    onSendChangeListener.sendChange(1);
+                    //ここでフラグメント変更を通知
+                    break;
+            }
+        }
     }
 
     public interface OnSendChangeListener {
-        public void sendChangeListener();
+        //fragmentを変更するのを教えるために使うローカルインターフェイス。AnswerFragmentも持っている
+        public void sendChange(int which);
     }
-
 }
 

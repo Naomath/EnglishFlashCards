@@ -1,8 +1,7 @@
 package com.example.gotounaoto.myapplication.interfaces;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,5 +9,5 @@ import java.util.List;
  */
 
 public interface OnSendListListener {
-    List<Words> sendArrayList();
+    List<Word> sendArrayList();
 }

@@ -8,31 +8,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
-import com.example.gotounaoto.myapplication.ExtendSugar.Words;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.Fragment.AnswerFragment;
 import com.example.gotounaoto.myapplication.Fragment.QuestionFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.classes.MakeDateString;
-import com.example.gotounaoto.myapplication.interfaces.OnSendListListener;
+import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionActivity extends AppCompatActivity implements OnSendListListener, QuestionFragment.OnSendChangeListener{
+public class QuestionActivity extends AppCompatActivity implements OnSendWordListener
+        , QuestionFragment.OnSendChangeListener, AnswerFragment.OnSendChangeListener{
 
-    List<Words> presented_items;
+    List<Word> presented_items;
     //出す単語たちを全て入れるリスト
     Fragment fragment;
+    int number_turn;
+    //presented_itemsの何番目か
+    //初期値は0
 
-    @Override
-    public List<Words> sendArrayList() {
-        //ここでfragmentに単語たちを送り届ける
-        return presented_items;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        number_turn = 0;
+        //初期値を設定
         setContentView(R.layout.activity_question);
         gettingIntent();
         changeFragment(0);
@@ -79,8 +80,8 @@ public class QuestionActivity extends AppCompatActivity implements OnSendListLis
             //その日にちの単語帳を取得してそれから単語隊を取得してそっからwordsというlistに入れる
             List<BooksWords> booksWord = gettingBooks(item);
             for(BooksWords item2: booksWord){
-                List<Words> items = item2.returnWords();
-                for(Words item3:items){
+                List<Word> items = item2.returnWords();
+                for(Word item3:items){
                     presented_items.add(item3);
                 }
             }
@@ -111,8 +112,21 @@ public class QuestionActivity extends AppCompatActivity implements OnSendListLis
     }
 
     @Override
-    public void sendChangeListener() {
-       changeFragment(1);
+    public void sendChange(int which) {
+       if(which == 0){
+           number_turn++;
+           //一周した場合ということ
+       }
+       if(presented_items.get(number_turn) == null){
+           //終わる処理をかく
+       }
+       changeFragment(which);
        settingFragment();
+    }
+
+    @Override
+    public Word onSendWord() {
+        Word sended = presented_items.get(number_turn);
+        return sended;
     }
 }
