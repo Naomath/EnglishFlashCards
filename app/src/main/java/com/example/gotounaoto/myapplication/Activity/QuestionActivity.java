@@ -119,6 +119,7 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
        }
        if(presented_items.get(number_turn) == null){
            //終わる処理をかく
+
        }
        changeFragment(which);
        settingFragment();

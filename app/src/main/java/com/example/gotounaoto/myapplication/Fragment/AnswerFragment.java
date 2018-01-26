@@ -53,9 +53,23 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     }
 
     public void settingTextView() {
-        TextView text_answer = (TextView)view.findViewById(R.id.text_answer);
+        TextView text_answer = (TextView) view.findViewById(R.id.text_answer);
         String string_answer = word.getTranslated();
         text_answer.setText(string_answer);
+    }
+
+    public void settingWordProportion(float mistake) {
+        //出題された後のwordの誤答率
+        float number_mistake = word.getNumber_mistake();
+        float number_question = word.getNumber_question();
+        word.setNumber_mistake(number_mistake + mistake);
+        word.setNumber_question(number_question++);
+        word.calculateProportion();
+        if (word.getProportion() >= 30) {
+            //誤答率30%以上で間違えやすい問題になる
+            word.setBoolean_weak(true);
+        }
+        word.save();
     }
 
     @Override
@@ -63,8 +77,12 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_know:
+                    settingWordProportion(0);
+                    onSendChangeListener.sendChange(0);
                     break;
                 case R.id.button_dont:
+                    settingWordProportion(1);
+                    onSendChangeListener.sendChange(0);
                     break;
 
             }
@@ -73,6 +91,6 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
 
     public interface OnSendChangeListener {
         //fragmentを変更するのを教えるために使うローカルインターフェイス。QuestionFragmentも持っている
-        public void sendChange(int which);
+        void sendChange(int which);
     }
 }
