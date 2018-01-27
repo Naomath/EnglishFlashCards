@@ -108,6 +108,9 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
             case 1:
                 fragment = new AnswerFragment();
                 break;
+            case 2:
+                fragment = new QuestionFragment();
+                break;
         }
     }
 
@@ -119,10 +122,13 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
        }
        if(presented_items.get(number_turn) == null){
            //終わる処理をかく
-
+           changeFragment(2);
+           settingFragment();
+       }else {
+           //通常の処理をかく
+           changeFragment(which);
+           settingFragment();
        }
-       changeFragment(which);
-       settingFragment();
     }
 
     @Override

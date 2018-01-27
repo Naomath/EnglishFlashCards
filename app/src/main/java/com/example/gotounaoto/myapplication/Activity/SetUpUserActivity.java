@@ -16,7 +16,7 @@ import com.example.gotounaoto.myapplication.R;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class SetUserActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
+public class SetUpUserActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
     SharedPreferences exist_preference;
     Button button_decide;
@@ -74,7 +74,7 @@ public class SetUserActivity extends AppCompatActivity implements TextWatcher, V
 
     public void intentToMain() {
         //mainactivityに行く
-        Intent intent = new Intent(SetUserActivity.this, MainActivity.class);
+        Intent intent = new Intent(SetUpUserActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

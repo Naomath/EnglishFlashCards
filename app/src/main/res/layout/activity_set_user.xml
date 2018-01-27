@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorTheme"
     android:orientation="vertical"
-    tools:context="com.example.gotounaoto.myapplication.Activity.SetUserActivity">
+    tools:context="com.example.gotounaoto.myapplication.Activity.SetUpUserActivity">
 
     <TextView
         android:layout_width="match_parent"
