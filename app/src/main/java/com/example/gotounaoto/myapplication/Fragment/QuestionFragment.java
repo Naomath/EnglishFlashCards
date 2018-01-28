@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
@@ -15,7 +16,7 @@ import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
 public class QuestionFragment extends Fragment implements View.OnClickListener {
 
     OnSendWordListener onSendWordListener;
-    OnSendChangeListener onSendChangeListener;
+    OnQuestionListener onQuestionListener;
     Word word;
     View view;
 
@@ -47,7 +48,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         //リスナーの設定
         onSendWordListener = (OnSendWordListener) getActivity();
         gettingWord();
-        onSendChangeListener = (OnSendChangeListener) getActivity();
+        onQuestionListener = (OnQuestionListener) getActivity();
     }
 
     public void settingTextView() {
@@ -57,19 +58,26 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         text_question.setText(string_question);
     }
 
+    public void showedFinishFragment(){
+        //back_keyが押された時にdialogを表示する時に使う
+        CustomDialogFinishFragment customDialogFinishFragment = new CustomDialogFinishFragment();
+        customDialogFinishFragment.show(getFragmentManager(),"finish");
+    }
+
+
     @Override
     public void onClick(View view) {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_next:
-                    onSendChangeListener.sendChange(1);
+                    onQuestionListener.sendChange(1);
                     //ここでフラグメント変更を通知
                     break;
             }
         }
     }
 
-    public interface OnSendChangeListener {
+    public interface OnQuestionListener {
         //fragmentを変更するのを教えるために使うローカルインターフェイス。AnswerFragmentも持っている
         public void sendChange(int which);
     }

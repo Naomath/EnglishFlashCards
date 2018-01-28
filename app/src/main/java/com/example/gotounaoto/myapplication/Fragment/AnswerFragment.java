@@ -1,14 +1,14 @@
 package com.example.gotounaoto.myapplication.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
@@ -17,7 +17,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
 
     View view;
     OnSendWordListener onSendWordListener;
-    OnSendChangeListener onSendChangeListener;
+    OnAnswerListener onAnswerListener;
     Word word;
 
 
@@ -49,7 +49,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         onSendWordListener = (OnSendWordListener) getActivity();
         gettingWord();
         //ここでwordを取得する
-        onSendChangeListener = (OnSendChangeListener) getActivity();
+       onAnswerListener = (OnAnswerListener)getActivity();
     }
 
     public void settingTextView() {
@@ -69,8 +69,19 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
             //誤答率30%以上で間違えやすい問題になる
             word.setBoolean_weak(true);
         }
+        if(mistake == 1){
+            //もし間違えたなら間違えたとactivityに伝える
+            onAnswerListener.addMistakeNumber();
+        }
         word.save();
     }
+
+    public void showedFinishFragment(){
+        //back_keyが押された時にdialogを表示する時に使う
+        CustomDialogFinishFragment customDialogFinishFragment = new CustomDialogFinishFragment();
+        customDialogFinishFragment.show(getFragmentManager(),"finish");
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -78,19 +89,22 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
             switch (view.getId()) {
                 case R.id.button_know:
                     settingWordProportion(0);
-                    onSendChangeListener.sendChange(0);
+                    onAnswerListener.sendChange(0);
                     break;
                 case R.id.button_dont:
                     settingWordProportion(1);
-                    onSendChangeListener.sendChange(0);
+                    onAnswerListener.sendChange(0);
                     break;
 
             }
         }
     }
 
-    public interface OnSendChangeListener {
-        //fragmentを変更するのを教えるために使うローカルインターフェイス。QuestionFragmentも持っている
+    public interface OnAnswerListener{
+        //fragmentを変更するのを教えるために使うmethod。QuestionFragmentも持っている
         void sendChange(int which);
+        //activityに間違えた時に実行して間違えた回数を増やすmethod
+        void addMistakeNumber();
     }
+
 }

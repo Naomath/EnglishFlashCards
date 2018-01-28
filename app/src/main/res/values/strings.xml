@@ -18,4 +18,5 @@
         <item>冠詞</item>
         <item>表現</item>
     </string-array>
+    <string name="textview_message3_finish">正解でした</string>
 </resources>

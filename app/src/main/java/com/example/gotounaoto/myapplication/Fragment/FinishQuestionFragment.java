@@ -11,15 +11,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.classes.MakeString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
-public class FinishQuestionFragment extends Fragment {
+public class FinishQuestionFragment extends Fragment implements View.OnClickListener {
 
     View view;
-    OnSendAllNumberListener onSendAllNumberListener;
-    OnSendMistakeNumberListener onSendMistakeNumberListener;
+    OnFinishQuestionListener onFinishQuestionListener;
     int number_all;
     //問題数
     int number_mistake;
@@ -44,38 +45,66 @@ public class FinishQuestionFragment extends Fragment {
         return view;
     }
 
-    public void gettingNumbers(){
+    public void gettingNumbers() {
         //問題数と間違えた回数を取得する
-        number_all = onSendAllNumberListener.sendAllNumber();
-        number_mistake = onSendMistakeNumberListener.sendMistakeNumber();
+        number_all =onFinishQuestionListener.sendAllNumber();
+        number_mistake = onFinishQuestionListener.sendMistakeNumber();
     }
 
-    public void settingListener(){
-        onSendAllNumberListener = (OnSendAllNumberListener)getActivity();
-        onSendMistakeNumberListener = (OnSendMistakeNumberListener)getActivity();
-        gettingNumbers();
-    }
-
-    public void settingTextView(){
-        //textviewの設定をする
-        TextView text_first = (TextView)view.findViewById(R.id.text_first);
+    public List<String> gettingShowedText() {
+        //textviewに表示するtextを取得してreturnする
+        //一つ目と二つ目に限る
+        List<String> texts = new ArrayList<>();
         SharedPreferences user_preference = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String user_name = user_preference.getString("name",null);
+        String user_name = user_preference.getString("name", null);
         List<String> first_items = new ArrayList<>();
         first_items.add(user_name);
         first_items.add("さんは");
         first_items.add(String.valueOf(number_all));
-        
+        first_items.add("問中");
+        texts.add(MakeString.makeString(first_items));
+        List<String> second_items = new ArrayList<>();
+        second_items.add(String.valueOf(number_mistake));
+        second_items.add("問");
+        texts.add(MakeString.makeString(second_items));
+        return texts;
     }
 
-    public interface OnSendAllNumberListener{
-        //問題数を送るinterface
+    public void settingListener() {
+        onFinishQuestionListener = (OnFinishQuestionListener) getActivity();
+        gettingNumbers();
+    }
+
+    public void settingTextView() {
+        //textviewの設定をする
+        TextView text_first = (TextView) view.findViewById(R.id.text_first);
+        TextView text_second = (TextView) view.findViewById(R.id.text_second);
+        TextView text_third = (TextView) view.findViewById(R.id.text_third);
+        List<String> showed = gettingShowedText();
+        text_first.setText(showed.get(0));
+        text_second.setText(showed.get(1));
+        text_third.setText(R.string.textview_message3_finish);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.button_go_home:
+                    onFinishQuestionListener.intentToMain();
+                    break;
+            }
+        }
+    }
+
+
+    public interface OnFinishQuestionListener{
+        //問題数を送るmethod
         int sendAllNumber();
-    }
-
-    public interface  OnSendMistakeNumberListener{
-        //間違えた数を送るinterface
+        //間違えた数を送るmethod
         int sendMistakeNumber();
+        //MainActivityに遷移するmethod
+        void intentToMain();
     }
 
 }
