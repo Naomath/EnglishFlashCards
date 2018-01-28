@@ -49,6 +49,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         SharedPreferences.Editor editor_user = user_preference.edit();
         editor_user.putString("id", user_id);
         editor_user.putString("name", user_name);
+        editor_user.putBoolean("exist", true);
         editor_user.commit();
         intentToMain();
     }

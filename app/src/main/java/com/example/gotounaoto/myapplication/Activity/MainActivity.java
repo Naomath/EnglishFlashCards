@@ -1,8 +1,6 @@
 package com.example.gotounaoto.myapplication.Activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
 import com.example.gotounaoto.myapplication.Fragment.BooksFragment;
-import com.example.gotounaoto.myapplication.Fragment.SettngsFragment;
+import com.example.gotounaoto.myapplication.Fragment.SettingsUserFragment;
 import com.example.gotounaoto.myapplication.Fragment.DownLoadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
@@ -140,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 fragment = new DownLoadFragment();
                 break;
             case 3:
-                fragment = new SettngsFragment();
+                fragment = new SettingsUserFragment();
                 break;
         }
         settingToolBarSecond(which);

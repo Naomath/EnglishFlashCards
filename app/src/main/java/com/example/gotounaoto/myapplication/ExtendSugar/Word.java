@@ -44,9 +44,15 @@ public class Word extends SugarRecord{
 
     @Getter
     @Setter
-    private boolean boolean_weak;
+    private int exist_weak;
     //間違えやすい問題に登録されているか
-    //trueで登録されている
+    //1で登録されてるようになる
+
+    @Getter
+    @Setter
+    private long weak_id;
+    //間違えやすい単語として登録されている場合
+    //のWeakWordとしてのid
 
 
     public Word() {//普通のコンストラクタ　

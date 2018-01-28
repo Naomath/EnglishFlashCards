@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
+import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
@@ -67,7 +68,15 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         word.calculateProportion();
         if (word.getProportion() >= 30) {
             //誤答率30%以上で間違えやすい問題になる
-            word.setBoolean_weak(true);
+            word.setExist_weak(1);
+            WeakWord weak_word = new WeakWord(word.getId());
+            weak_word.save();
+            word.setWeak_id(weak_word.getId());
+            //ここで間違えやすい単語として登録を消す
+        }else if(word.getExist_weak() == 1){
+            word.setExist_weak(0);
+            WeakWord weak_word = WeakWord.findById(WeakWord.class, word.getWeak_id());
+            weak_word.delete();
         }
         if(mistake == 1){
             //もし間違えたなら間違えたとactivityに伝える

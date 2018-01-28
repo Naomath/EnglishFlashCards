@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.Fragment.AnswerFragment;
 import com.example.gotounaoto.myapplication.Fragment.FinishQuestionFragment;
@@ -35,7 +36,7 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
     //presented_itemsの何番目か
     //初期値は0
     int number_mistake;
-//間違えた回数
+    //間違えた回数
 
 
     @Override
@@ -120,6 +121,11 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
 
     public void settingPresentedItemsWeak() {
         //苦手な問題のセッティングをやる
+        List<WeakWord> weak_items = WeakWord.listAll(WeakWord.class);
+        for (WeakWord weak_item : weak_items) {
+            Word word_item = Word.findById(Word.class, weak_item.getWord_id());
+            presented_items.add(word_item);
+        }
     }
 
     public void settingFragment() {
