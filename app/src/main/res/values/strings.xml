@@ -19,4 +19,5 @@
         <item>表現</item>
     </string-array>
     <string name="textview_message3_finish">正解でした</string>
+    <string name="textview_explain_chart1">単語の正解率</string>
 </resources>
