@@ -1,5 +1,7 @@
 package com.example.gotounaoto.myapplication.Fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -66,7 +68,10 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         word.setNumber_mistake(number_mistake + mistake);
         word.setNumber_question(number_question++);
         word.calculateProportion();
-        if (word.getProportion() >= 30) {
+        SharedPreferences weak_preference = getActivity().getSharedPreferences("weak_percentage"
+                , Context.MODE_PRIVATE);
+        float weak_percentage = weak_preference.getFloat("percentage",30f);
+        if (word.getProportion() >= weak_percentage) {
             //誤答率30%以上で間違えやすい問題になる
             word.setExist_weak(1);
             WeakWord weak_word = new WeakWord(word.getId());

@@ -28,6 +28,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         setContentView(R.layout.activity_set_user);
         gettingUser();
         settingListener();
+        settingOtherInitial();
     }
 
     public void gettingUser() {
@@ -52,6 +53,14 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         editor_user.putBoolean("exist", true);
         editor_user.commit();
         intentToMain();
+    }
+
+    public void settingOtherInitial(){
+        //残りのやるべき設定の初期値を設定する
+        SharedPreferences weak_preference = getSharedPreferences("weak_percentage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor weak_editor = weak_preference.edit();
+        weak_editor.putFloat("percentage",30f);
+        weak_editor.commit();
     }
 
     public void settingListener() {

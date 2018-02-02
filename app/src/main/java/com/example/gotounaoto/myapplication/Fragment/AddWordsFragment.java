@@ -35,7 +35,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
 
     View view;
     SwipeMenuListView listView;
-    WordsAdapter adapetr;
+    WordsAdapter adapter;
     CustomDialogWordAddFragment dialog;
     AddWordActivity source;
     OnInputListener onInputListener;
@@ -81,7 +81,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                 String translated = data.getStringExtra("translated");
                 String part = data.getStringExtra("part");
                 Word word = new Word(original, translated, part);
-                adapetr.add(word);
+                adapter.add(word);
                 number_items++;
                 enableButton();
                 //アイテム数をプラス1しとく
@@ -110,13 +110,13 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
                     break;
                 case R.id.button_decide:
                     List<Word> wordList = new ArrayList<Word>();
-                    for (int i = 0, length = adapetr.getCount(); i < length; i++) {
-                        Word item = adapetr.getItem(i);
+                    for (int i = 0, length = adapter.getCount(); i < length; i++) {
+                        Word item = adapter.getItem(i);
                         wordList.add(item);
                     }
                     SugarRecord.saveInTx(wordList);
                     Word firstWord = wordList.get(0);
-                    Word lastWord = wordList.get(adapetr.getCount() - 1);
+                    Word lastWord = wordList.get(adapter.getCount() - 1);
                     BooksWords group = new BooksWords(title, firstWord.getId(), lastWord.getId());
                     group.setDate(MakeDateString.makeDateNow());
                     group.save();
@@ -143,8 +143,8 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
 
     public void settingListView() {
         listView = (SwipeMenuListView) view.findViewById(R.id.list_view);
-        adapetr = new WordsAdapter(getActivity(), R.layout.adapter_words);
-        listView.setAdapter(adapetr);
+        adapter = new WordsAdapter(getActivity(), R.layout.adapter_words);
+        listView.setAdapter(adapter);
         disableButton();
         //最初は無効化しとく
         number_items = 0;
@@ -169,8 +169,8 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Word item = (Word) adapetr.getItem(position);
-                        adapetr.remove(item);
+                        Word item = (Word) adapter.getItem(position);
+                        adapter.remove(item);
                         number_items--;
                         if (number_items == 0) {
                             disableButton();
