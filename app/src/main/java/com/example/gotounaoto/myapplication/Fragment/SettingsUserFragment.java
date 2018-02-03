@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogOneTextFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.SettingUserAdapter;
 import com.example.gotounaoto.myapplication.classes.TwoText;
@@ -40,24 +42,44 @@ public class SettingsUserFragment extends Fragment {
         return view;
     }
 
-    public void settingListView(){
+    public void settingListView() {
         //listviewの設定
-        listView = (ListView)view.findViewById(R.id.list_view);
+        listView = (ListView) view.findViewById(R.id.list_view);
         adapter = new SettingUserAdapter(getActivity(), R.layout.adapter_setting_user);
         listView.setAdapter(adapter);
         addItemList();
         //上のメソッドでadapterにitemsをセットする
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TwoText item = (TwoText) adapter.getItem(i);
+                int item_id = item.getId();
+                switch (item_id) {
+                    case 0:
+                        //ここでユーザー名を変える
+                        CustomDialogOneTextFragment dialogOneTextFragment = new CustomDialogOneTextFragment();
+                        Bundle savedInstanceState = new Bundle();
+                        savedInstanceState.putString("title", "User Name");
+                        dialogOneTextFragment.setArguments(savedInstanceState);
+                        dialogOneTextFragment.show(getFragmentManager(),"user_name");
+                        //この上のtagでどれにするか判別する
+                        break;
+                    case 1:
+                        break;
+                }
+            }
+        });
     }
 
-    public void addItemList(){
+    public void addItemList() {
         //listviewに要素を追加する
         List<TwoText> list_item = new ArrayList<>();
         SharedPreferences preferences_user = getActivity().getSharedPreferences("user"
                 , Context.MODE_PRIVATE);
-        TwoText item1 = new TwoText("ユーザー名", preferences_user.getString("name",null));
+        TwoText item1 = new TwoText("ユーザー名", preferences_user.getString("name", null), 0);
         list_item.add(item1);
         TwoText item2 = new TwoText("間違えやすい問題になる誤答率"
-                , String.valueOf(preferences_user.getFloat("percentage", 30f))+"%", 1);
+                , String.valueOf(preferences_user.getFloat("percentage", 30f)) + "%", 1);
         list_item.add(item2);
         adapter.addAll(list_item);
     }
