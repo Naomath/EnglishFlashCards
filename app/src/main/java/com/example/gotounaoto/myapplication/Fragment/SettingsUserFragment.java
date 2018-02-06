@@ -59,7 +59,7 @@ public class SettingsUserFragment extends Fragment {
                         //ここでユーザー名を変える
                         CustomDialogOneTextFragment dialogOneTextFragment = new CustomDialogOneTextFragment();
                         Bundle savedInstanceState = new Bundle();
-                        savedInstanceState.putString("title", "User Name");
+                        savedInstanceState.putInt("mode",0);
                         dialogOneTextFragment.setArguments(savedInstanceState);
                         dialogOneTextFragment.show(getFragmentManager(),"user_name");
                         //この上のtagでどれにするか判別する

@@ -73,6 +73,7 @@
                 android:background="@color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/know_button" />
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

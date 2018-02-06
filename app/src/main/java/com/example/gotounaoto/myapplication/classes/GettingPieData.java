@@ -45,6 +45,9 @@ public class GettingPieData {
             }
             number_all++;
         }
+        if(number_all == 0){
+            return null;
+        }
         float percentage_zero_twenty = number_zero_twenty / number_all;
         float percentage_twenty_forty = number_twenty_forty / number_all;
         float percentage_forty_sixty = number_forty_sixty / number_all;

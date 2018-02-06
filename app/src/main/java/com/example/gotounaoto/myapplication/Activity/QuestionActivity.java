@@ -138,13 +138,13 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
     public void changeFragment(int which) {
         switch (which) {
             case 0:
-                fragment = new QuestionFragment();
-                break;
-            case 1:
                 fragment = new AnswerFragment();
                 break;
-            case 2:
+            case 1:
                 fragment = new QuestionFragment();
+                break;
+            case 2:
+                fragment = new FinishQuestionFragment();
                 break;
         }
     }
