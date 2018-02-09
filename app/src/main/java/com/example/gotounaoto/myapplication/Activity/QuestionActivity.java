@@ -47,9 +47,9 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
         setContentView(R.layout.activity_question);
         gettingIntent();
         changeFragment(0);
+        changeFragment(1);
         settingFragment();
-        //流れ的には
-        //gettingIntent()-->settingPresentedToday() or settingPresentedWeak()
+        //流れ的には　        //gettingIntent()-->settingPresentedToday() or settingPresentedWeak()
     }
 
     @Override
@@ -129,7 +129,6 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
     }
 
     public void settingFragment() {
-        fragment = new QuestionFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relative, fragment);
         transaction.commit();
@@ -151,11 +150,11 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
 
     @Override
     public void sendChange(int which) {
-        if (which == 0) {
+        if (which == 1) {
             number_turn++;
             //一周した場合ということ
         }
-        if (presented_items.get(number_turn) == null) {
+        if (presented_items.size() == number_turn && which == 1) {
             //終わる処理をかく
             changeFragment(2);
             settingFragment();

@@ -27,12 +27,12 @@ public class Word extends SugarRecord{
 
     @Getter
     @Setter
-    private float number_question;
+    private int number_question;
     //この単語の出題数
 
     @Getter
     @Setter
-    private float number_mistake;
+    private int number_mistake;
     //この単語を間違えた回数
 
     @Getter
@@ -66,6 +66,11 @@ public class Word extends SugarRecord{
 
     public void calculateProportion(){
         //誤答率を計算する
-        proportion = number_mistake/number_question*100;
+        float question = new Integer(number_question).floatValue();
+        float mistake = new Integer(number_mistake).floatValue();
+        this.proportion = mistake/question*100;
+        if(this.number_mistake == 0){
+            this.proportion = 100f;
+        }
     }
 }

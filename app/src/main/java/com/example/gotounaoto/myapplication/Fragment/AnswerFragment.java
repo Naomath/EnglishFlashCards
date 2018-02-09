@@ -49,10 +49,12 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     }
 
     public void settingListener() {
+        view.findViewById(R.id.button_know).setOnClickListener(this);
+        view.findViewById(R.id.button_dont).setOnClickListener(this);
         onSendWordListener = (OnSendWordListener) getActivity();
         gettingWord();
         //ここでwordを取得する
-       onAnswerListener = (OnAnswerListener)getActivity();
+        onAnswerListener = (OnAnswerListener) getActivity();
     }
 
     public void settingTextView() {
@@ -61,16 +63,16 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         text_answer.setText(string_answer);
     }
 
-    public void settingWordProportion(float mistake) {
+    public void settingWordProportion(int mistake) {
         //出題された後のwordの誤答率
-        float number_mistake = word.getNumber_mistake();
-        float number_question = word.getNumber_question();
+        int number_mistake = word.getNumber_mistake();
+        int number_question = word.getNumber_question();
         word.setNumber_mistake(number_mistake + mistake);
         word.setNumber_question(number_question++);
         word.calculateProportion();
         SharedPreferences weak_preference = getActivity().getSharedPreferences("weak_percentage"
                 , Context.MODE_PRIVATE);
-        float weak_percentage = weak_preference.getFloat("percentage",30f);
+        float weak_percentage = weak_preference.getFloat("percentage", 30f);
         if (word.getProportion() >= weak_percentage) {
             //誤答率30%以上で間違えやすい問題になる
             word.setExist_weak(1);
@@ -78,22 +80,22 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
             weak_word.save();
             word.setWeak_id(weak_word.getId());
             //ここで間違えやすい単語として登録を消す
-        }else if(word.getExist_weak() == 1){
+        } else if (word.getExist_weak() == 1) {
             word.setExist_weak(0);
             WeakWord weak_word = WeakWord.findById(WeakWord.class, word.getWeak_id());
             weak_word.delete();
         }
-        if(mistake == 1){
+        if (mistake == 1) {
             //もし間違えたなら間違えたとactivityに伝える
             onAnswerListener.addMistakeNumber();
         }
         word.save();
     }
 
-    public void showedFinishFragment(){
+    public void showedFinishFragment() {
         //back_keyが押された時にdialogを表示する時に使う
         CustomDialogFinishFragment customDialogFinishFragment = new CustomDialogFinishFragment();
-        customDialogFinishFragment.show(getFragmentManager(),"finish");
+        customDialogFinishFragment.show(getFragmentManager(), "finish");
     }
 
 
@@ -103,20 +105,21 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
             switch (view.getId()) {
                 case R.id.button_know:
                     settingWordProportion(0);
-                    onAnswerListener.sendChange(0);
+                    onAnswerListener.sendChange(1);
                     break;
                 case R.id.button_dont:
                     settingWordProportion(1);
-                    onAnswerListener.sendChange(0);
+                    onAnswerListener.sendChange(1);
                     break;
 
             }
         }
     }
 
-    public interface OnAnswerListener{
+    public interface OnAnswerListener {
         //fragmentを変更するのを教えるために使うmethod。QuestionFragmentも持っている
         void sendChange(int which);
+
         //activityに間違えた時に実行して間違えた回数を増やすmethod
         void addMistakeNumber();
     }

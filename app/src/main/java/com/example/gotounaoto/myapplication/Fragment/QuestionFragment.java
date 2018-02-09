@@ -46,6 +46,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
     public void settingListener() {
         //リスナーの設定
+        view.findViewById(R.id.button_next).setOnClickListener(this);
         onSendWordListener = (OnSendWordListener) getActivity();
         gettingWord();
         onQuestionListener = (OnQuestionListener) getActivity();
@@ -70,7 +71,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_next:
-                    onQuestionListener.sendChange(1);
+                    onQuestionListener.sendChange(0);
                     //ここでフラグメント変更を通知
                     break;
             }

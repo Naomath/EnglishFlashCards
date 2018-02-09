@@ -71,6 +71,7 @@ public class FinishQuestionFragment extends Fragment implements View.OnClickList
     }
 
     public void settingListener() {
+        view.findViewById(R.id.button_go_home).setOnClickListener(this);
         onFinishQuestionListener = (OnFinishQuestionListener) getActivity();
         gettingNumbers();
     }

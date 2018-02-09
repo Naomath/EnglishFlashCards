@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             //piechartの設定
             PieChart pieChart = (PieChart) rootView.findViewById(R.id.pie_chart);
             List<Word> all_words = Word.listAll(Word.class);
-            List<String> messages = Arrays.asList(String.valueOf(all_words.size()), "門");
+            List<String> messages = Arrays.asList(String.valueOf(all_words.size()), "問");
             pieChart.setCenterText(MakeString.makeString(messages));
             PieData pieData = GettingPieData.gettingPieData1();
             pieChart.setData(pieData);
