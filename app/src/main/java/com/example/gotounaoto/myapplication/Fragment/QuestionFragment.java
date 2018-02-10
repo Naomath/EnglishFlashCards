@@ -80,7 +80,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
     public interface OnQuestionListener {
         //fragmentを変更するのを教えるために使うローカルインターフェイス。AnswerFragmentも持っている
-        public void sendChange(int which);
+        void sendChange(int which);
     }
 }
 

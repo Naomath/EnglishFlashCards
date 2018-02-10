@@ -19,7 +19,8 @@ import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordsActivity extends AppCompatActivity implements OnInputListener, OnDeleteListener{
+public class WordsActivity extends AppCompatActivity implements OnInputListener,
+        OnDeleteListener, WordsFragment.OnWordsListener{
 
     long book_id;
     BooksWords book;
@@ -118,4 +119,11 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         startActivity(intent);
     }
 
+    @Override
+    public void startStudy(long id) {
+        //ここで表示している単語帳をテストできるようにQuestionActivityに送る処理
+        Intent intent = new Intent(this, QuestionActivity.class);
+        intent.putExtra("book_id", book_id);
+        startActivity(intent);
+    }
 }

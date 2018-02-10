@@ -62,6 +62,9 @@ public class GettingPieData {
         List<PieEntry> entries = new ArrayList<>();
         List<String> labels = Arrays.asList("Terrible", "Bad", "Good", "Great", "Excellent");
         for (int i = 0; i < 5; i++) {
+            if(values.get(i)==0f){
+                continue;
+            }
             entries.add(new PieEntry(values.get(i), labels.get(i)));
         }
         PieDataSet pieDataSet = new PieDataSet(entries, "正答率");

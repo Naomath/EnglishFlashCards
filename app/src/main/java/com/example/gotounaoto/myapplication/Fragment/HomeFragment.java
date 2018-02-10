@@ -120,6 +120,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             List<Word> all_words = Word.listAll(Word.class);
             List<String> messages = Arrays.asList(String.valueOf(all_words.size()), "問");
             pieChart.setCenterText(MakeString.makeString(messages));
+            pieChart.setCenterTextSize(20f);
             PieData pieData = GettingPieData.gettingPieData1();
             pieChart.setData(pieData);
         }

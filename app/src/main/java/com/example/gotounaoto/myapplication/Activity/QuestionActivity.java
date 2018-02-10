@@ -46,7 +46,6 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
         //初期値を設定
         setContentView(R.layout.activity_question);
         gettingIntent();
-        changeFragment(0);
         changeFragment(1);
         settingFragment();
         //流れ的には　        //gettingIntent()-->settingPresentedToday() or settingPresentedWeak()
@@ -82,6 +81,9 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
             case 1:
                 settingPresentedItemsWeak();
                 break;
+            case 2:
+                settingPresentedItemsBook(intent);
+
         }
     }
 
@@ -126,6 +128,15 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
             Word word_item = Word.findById(Word.class, weak_item.getWord_id());
             presented_items.add(word_item);
         }
+    }
+
+    public void settingPresentedItemsBook(Intent intent){
+        //単語帳自体で問題を出す時
+        long book_id = intent.getLongExtra("book_id",0l);
+        BooksWords book = BooksWords.findById(BooksWords.class, book_id);
+        List<Word> resource = book.returnWords();
+        List<Word> list_word = new ArrayList<>();
+        //上のlistがディープコピーする先のlist
     }
 
     public void settingFragment() {

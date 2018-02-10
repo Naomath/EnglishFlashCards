@@ -34,6 +34,10 @@ public class BooksWords extends SugarRecord {
     @Setter
     private boolean done_upload;
 
+    @Getter
+    @Setter
+    private List<Word> list_words;
+
 
     public BooksWords() {
     }//普通のコンストラクタ

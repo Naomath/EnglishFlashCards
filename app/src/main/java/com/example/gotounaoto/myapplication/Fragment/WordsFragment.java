@@ -34,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordsFragment extends Fragment implements View.OnClickListener{
+public class WordsFragment extends Fragment implements View.OnClickListener {
 
     View view;
     BooksWords book;
@@ -42,6 +42,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
     WordsAdapter adapter;
     long book_id;
     CustomDialogWordAddFragment dialog;
+    OnWordsListener onWordsListener;
 
     public WordsFragment() {
     }
@@ -94,7 +95,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
                 CustomDialogDeleteFragment customDialogDeleteFragment = new CustomDialogDeleteFragment();
@@ -149,30 +150,37 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
         view.findViewById(R.id.button_upload).setOnClickListener(this);
         view.findViewById(R.id.button_study).setOnClickListener(this);
         view.findViewById(R.id.button_add).setOnClickListener(this);
+        onWordsListener = (OnWordsListener) getActivity();
     }
 
     public void sortWords() {
         book = BooksWords.findById(BooksWords.class, book_id);
         List<Word> source = book.returnWords();
         List<Word> words = new ArrayList<>();
-        for(Word item:source){
+        for (Word item : source) {
             words.add(item);
         }
         //そして最後に全部ぶっこむ
-       for(Word item:words){
+        for (Word item : words) {
             adapter.add(item);
-       }
+        }
+    }
+
+    public void study() {
+        //この単語帳を解く処理
+        onWordsListener.startStudy(book_id);
     }
 
     @Override
     public void onClick(View view) {
-        if(view != null){
-            switch(view.getId()){
+        if (view != null) {
+            switch (view.getId()) {
                 case R.id.button_upload:
                     uploadBook();
                     break;
                 case R.id.button_study:
-                        break;
+                    study();
+                    break;
                 case R.id.button_add:
                     addWord();
                     break;
@@ -181,27 +189,32 @@ public class WordsFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void uploadBook(){
+    public void uploadBook() {
         SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String user_id=  user_preferences.getString("id", "");
+        String user_id = user_preferences.getString("id", "");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference users_database = database.getReference("users");
         DatabaseReference books_database = database.getReference("books");
-        books_database.push().setValue(book);
-        users_database.child(user_id).push().setValue(book);
         book.setDone_upload(true);
         book.save();
+        book.setList_words(book.returnWords());
         //ここでbookがuploadされているというというboolean型を残す
+        books_database.push().setValue(book);
+        users_database.child(user_id).push().setValue(book);
         makeToast("アップロードが完了しました");
     }
 
-    public void makeToast(String message){
+    public void makeToast(String message) {
         Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public void addWord(){
+    public void addWord() {
         //wordを追加するメソッド
         dialog = new CustomDialogWordAddFragment();
-        dialog.show(getFragmentManager(),"add_word");
+        dialog.show(getFragmentManager(), "add_word");
+    }
+
+    public interface OnWordsListener {
+        void startStudy(long id);
     }
 }
