@@ -6,6 +6,7 @@ import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class GettingPieData {
         for (Word item : word_resource) {
             float proportion = item.getProportion();
             if (proportion >= 0.0 & proportion < 20.0) {
+                if (item.getNumber_question()==0){
+                    continue;
+                }
                 number_zero_twenty = number_zero_twenty + 1f;
             } else if (proportion >= 20.0 & proportion < 40.0) {
                 number_twenty_forty = number_twenty_forty + 1f;
@@ -56,7 +60,7 @@ public class GettingPieData {
         List<Float> values = Arrays.asList(percentage_zero_twenty, percentage_twenty_forty, percentage_forty_sixty,
                 percentage_sixty_eighty, percentage_eighty_hundred);
         List<PieEntry> entries = new ArrayList<>();
-        List<String> labels = Arrays.asList("0~20%", "20~40%", "40~60%", "60~80%", "Amazing");
+        List<String> labels = Arrays.asList("Terrible", "Bad", "Good", "Great", "Excellent");
         for (int i = 0; i < 5; i++) {
             entries.add(new PieEntry(values.get(i), labels.get(i)));
         }
@@ -64,7 +68,8 @@ public class GettingPieData {
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieDataSet.setDrawValues(true);
         PieData pieData = new PieData(pieDataSet);
-        pieData.setValueTextSize(12f);
+        pieData.setValueFormatter(new PercentFormatter());
+        pieData.setValueTextSize(10f);
         pieData.setValueTextColor(Color.WHITE);
         return pieData;
     }
