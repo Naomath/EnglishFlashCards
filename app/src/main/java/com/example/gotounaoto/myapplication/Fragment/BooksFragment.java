@@ -92,22 +92,22 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_books, menu);
-        menu.findItem(R.id.action_sort).setVisible(true);
         menu.findItem(R.id.action_search).setVisible(true);
-        settingSeachView(menu);
+        menu.findItem(R.id.action_sort).setVisible(true);
+        settingSearchView(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_search:
+                searchView.setIconified(false);
+                adapter.clear();
+                break;
             case R.id.action_sort:
                 dialog = new CustomDialogSortFragment();
                 dialog.setTargetFragment(this, 0);
                 dialog.show(getFragmentManager(), "sort");
-                break;
-            case R.id.action_search:
-                searchView.setIconified(false);
-                adapter.clear();
                 break;
         }
         return true;
@@ -140,7 +140,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         sortBooks(true, "");
     }
 
-    public void settingSeachView(Menu menu) {
+    public void settingSearchView(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -152,6 +152,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                sortBooks(true, s);
                 return false;
             }
         });

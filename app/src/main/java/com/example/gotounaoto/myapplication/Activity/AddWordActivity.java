@@ -28,6 +28,7 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
     public void sendFinish(boolean which) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("which_fragment", 1);
+        intent.putExtra("return", true);
         intent.putExtra("please_toast", which);
         intent.putExtra("message_toast","単語帳を登録しました");
         startActivity(intent);
@@ -93,6 +94,7 @@ public class AddWordActivity extends AppCompatActivity implements OnFinishListen
     public void goHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

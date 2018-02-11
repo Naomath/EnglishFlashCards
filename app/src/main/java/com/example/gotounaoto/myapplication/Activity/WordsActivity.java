@@ -116,6 +116,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         //homeに戻るメソッド
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("which_fragment", 1);
+        intent.putExtra("return",true);
         startActivity(intent);
     }
 
@@ -125,5 +126,6 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         Intent intent = new Intent(this, QuestionActivity.class);
         intent.putExtra("book_id", book_id);
         startActivity(intent);
+        finish();
     }
 }

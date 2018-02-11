@@ -14,14 +14,15 @@ import android.widget.Toast;
 import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
 import com.example.gotounaoto.myapplication.Fragment.BooksFragment;
 import com.example.gotounaoto.myapplication.Fragment.SettingsUserFragment;
-import com.example.gotounaoto.myapplication.Fragment.DownLoadFragment;
+import com.example.gotounaoto.myapplication.Fragment.DownloadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
-public class MainActivity extends AppCompatActivity implements OnIntentWordsListener{
+public class MainActivity extends AppCompatActivity implements OnIntentWordsListener {
 
     private Fragment fragment;
     private Toolbar toolbar;
+    private BottomNavigationView navigationView;
 
     @Override
     public void moveToWords(long id) {
@@ -60,12 +61,39 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int which_fragment = gettingIntent();
         setContentView(R.layout.activity_main);
+        int which_fragment = gettingIntent();
         settingBottomNavigation();
-        settingToolBarFirst(0);
-        judgmentFragment(which_fragment);
+        if (isReturn()) {
+            //戻ってきたなら
+            //他のactivityから
+            returnTime(which_fragment);
+        } else {
+            //戻ってきてないなら
+            settingToolBarFirst(which_fragment);
+            judgmentFragment(which_fragment);
+        }
+    }
 
+    public void returnTime(int which) {
+        //このactivityに戻って来た時の処理
+        settingToolBarFirst(which);
+        switch (which) {
+            case 0:
+                navigationView.setSelectedItemId(R.id.navigation_home);
+                break;
+            case 1:
+                navigationView.setSelectedItemId(R.id.navigation_cards);
+                break;
+            case 2:
+                navigationView.setSelectedItemId(R.id.navigation_share);
+                break;
+            case 3:
+                navigationView.setSelectedItemId(R.id.navigation_settings);
+                break;
+        }
+        //ここでnavigationViewが選択されたことにして、
+        //fragmentなどを切り替える
     }
 
     public int gettingIntent() {
@@ -78,9 +106,21 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         return which_fragment;
     }
 
+    public boolean isReturn() {
+        //このactivityに戻ってきたのか判断する
+        //戻ってきたならtrueを返す
+        //しかし戻ってきたことがintentにより明示される必要がある
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra("return", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public void settingBottomNavigation() {
-        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
     }
 
@@ -105,11 +145,11 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 break;
             case 1:
                 setTitle("Books");
-                toolbar.setNavigationIcon(R.drawable.ic_home_white_24dp);
+                toolbar.setNavigationIcon(R.drawable.flashcards_icon_white);
                 break;
             case 2:
-                setTitle("Share");
-                toolbar.setNavigationIcon(R.drawable.ic_share_white_24dp);
+                setTitle("Download");
+                toolbar.setNavigationIcon(R.drawable.ic_arrow_downward_white_24dp);
                 break;
             case 3:
                 setTitle("Settings");
@@ -123,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         Intent intent = new Intent(this, AddWordActivity.class);
         intent.putExtra("title", title);
         startActivity(intent);
+        finish();
     }
 
     public void judgmentFragment(int which) {
@@ -135,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 fragment = new BooksFragment();
                 break;
             case 2:
-                fragment = new DownLoadFragment();
+                fragment = new DownloadFragment();
                 break;
             case 3:
                 fragment = new SettingsUserFragment();

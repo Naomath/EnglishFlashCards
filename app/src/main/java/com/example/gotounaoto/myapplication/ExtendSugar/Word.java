@@ -11,7 +11,7 @@ import lombok.Setter;
  * Created by gotounaoto on 2017/12/19.
  */
 
-public class Word extends SugarRecord{
+public class Word extends SugarRecord {
 
     @Getter
     @Setter
@@ -58,18 +58,18 @@ public class Word extends SugarRecord{
     public Word() {//普通のコンストラクタ　
     }
 
-    public Word(String original, String translated, String part){
+    public Word(String original, String translated, String part) {
         this.original = original;
         this.translated = translated;
         this.part = part;
     }
 
-    public void calculateProportion(){
-        //誤答率を計算する
+    public void calculateProportion() {
+        //正答率を計算する
         float question = new Integer(number_question).floatValue();
         float mistake = new Integer(number_mistake).floatValue();
-        this.proportion = mistake/question*100;
-        if(this.number_mistake == 0){
+        this.proportion = 100f - mistake / question * 100;
+        if (this.number_mistake == 0) {
             this.proportion = 100f;
         }
     }

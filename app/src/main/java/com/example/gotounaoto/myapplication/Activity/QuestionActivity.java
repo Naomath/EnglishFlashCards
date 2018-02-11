@@ -135,8 +135,9 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
         long book_id = intent.getLongExtra("book_id",0l);
         BooksWords book = BooksWords.findById(BooksWords.class, book_id);
         List<Word> resource = book.returnWords();
-        List<Word> list_word = new ArrayList<>();
+        presented_items = new ArrayList<>(resource);
         //上のlistがディープコピーする先のlist
+        //こういう破壊的なコンストラクタがあったとは。。
     }
 
     public void settingFragment() {

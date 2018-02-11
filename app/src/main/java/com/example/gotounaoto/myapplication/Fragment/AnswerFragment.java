@@ -36,7 +36,6 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_answer, container, false);
         settingListener();
         settingTextView();
@@ -68,7 +67,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         int number_mistake = word.getNumber_mistake();
         int number_question = word.getNumber_question();
         word.setNumber_mistake(number_mistake + mistake);
-        word.setNumber_question(number_question++);
+        word.setNumber_question(number_question+1);
         word.calculateProportion();
         SharedPreferences weak_preference = getActivity().getSharedPreferences("weak_percentage"
                 , Context.MODE_PRIVATE);
