@@ -23,21 +23,25 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogDeleteFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.AddedWord;
-import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
+import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
+import com.example.gotounaoto.myapplication.classes.MakeString;
+import com.example.gotounaoto.myapplication.classes.SimplenessBook;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WordsFragment extends Fragment implements View.OnClickListener {
 
     View view;
-    BooksWords book;
+    Book book;
     SwipeMenuListView listView;
     WordsAdapter adapter;
     long book_id;
@@ -136,6 +140,11 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 switch (index) {
                     case 0:
                         Word item = (Word) adapter.getItem(position);
+                        if (item.getExist_weak() == 1) {
+                            //もし間違い問題として登録されている場合の処理
+                            WeakWord weakWord = WeakWord.findById(WeakWord.class, item.getWeak_id());
+                            weakWord.delete();
+                        }
                         item.delete();
                         adapter.remove(item);
                         break;
@@ -154,7 +163,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void sortWords() {
-        book = BooksWords.findById(BooksWords.class, book_id);
+        book = Book.findById(Book.class, book_id);
         List<Word> source = book.returnWords();
         List<Word> words = new ArrayList<>();
         for (Word item : source) {
@@ -176,7 +185,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_upload:
-                    uploadBook();
+                    upload();
                     break;
                 case R.id.button_study:
                     study();
@@ -189,19 +198,42 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void uploadBook() {
+    public void upload() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        SimplenessBook simplenessBook = returnSimplenessBooks();
+        uploadUser(database, simplenessBook);
+        uploadBook(database);
+        //流れとしてはsimplenessBookをgetしてユーザーをアップロードしてその後にbookをアップロードする
+        makeToast("アップロードが完了しました");
+    }
+
+    public void uploadUser(FirebaseDatabase database, SimplenessBook simplenessBook) {
+        //userにsimplenessBookのアップロード
+        //usersという枝に対して
         SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         String user_id = user_preferences.getString("id", "");
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference users_database = database.getReference("users");
+        DatabaseReference user_database = database.getReference("users");
+        user_database.child(user_id).push().setValue(simplenessBook);
+    }
+
+    public void uploadBook(FirebaseDatabase database) {
+        //bookのupload
+        //booksという枝に対して
         DatabaseReference books_database = database.getReference("books");
-        book.setDone_upload(true);
+        book.setDone_upload(1);
         book.save();
         book.setList_words(book.returnWords());
         //ここでbookがuploadされているというというboolean型を残す
         books_database.push().setValue(book);
-        users_database.child(user_id).push().setValue(book);
-        makeToast("アップロードが完了しました");
+    }
+
+    public SimplenessBook returnSimplenessBooks() {
+        SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        String user_name = user_preferences.getString("name", null);
+        String book_id_fireBase = MakeString.makeString(Arrays.asList(user_preferences.getString("id", null), String.valueOf(book.getId())));
+        //上の式で式でユーザーidの後ろにbookのidをつけた世界でただ一つのidが完成する
+        SimplenessBook simplenessBook = new SimplenessBook(book.getTitle(), user_name, book.getDate(),book_id_fireBase);
+        return simplenessBook;
     }
 
     public void makeToast(String message) {

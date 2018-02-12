@@ -12,7 +12,7 @@ import lombok.Setter;
  * Created by gotounaoto on 2017/12/22.
  */
 
-public class BooksWords extends SugarRecord {
+public class Book extends SugarRecord {
 
     @Getter
     @Setter
@@ -32,17 +32,23 @@ public class BooksWords extends SugarRecord {
 
     @Getter
     @Setter
-    private boolean done_upload;
+    private int done_upload;
+    //0なら保存されてない、1なら保存されている
 
     @Getter
     @Setter
     private List<Word> list_words;
 
+    @Getter
+    @Setter
+    private String upload_id;
+    //fireBaseで連携を取るためのid
 
-    public BooksWords() {
+
+    public Book() {
     }//普通のコンストラクタ
 
-    public BooksWords(String title, long first_id, long last_id){
+    public Book(String title, long first_id, long last_id){
         this.title = title;
         this.first_id = first_id;
         this.last_id = last_id;

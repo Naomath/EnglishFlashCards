@@ -1,7 +1,6 @@
 package com.example.gotounaoto.myapplication.Activity;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.Fragment.AnswerFragment;
@@ -87,11 +86,11 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
         }
     }
 
-    public List<BooksWords> gettingBooks(String date_string) {
+    public List<Book> gettingBooks(String date_string) {
         //今日の問題の単語たちを取得するときに使う
-        List<BooksWords> books = BooksWords.listAll(BooksWords.class);
-        List<BooksWords> returned_books = new ArrayList<>();
-        for (BooksWords item : books) {
+        List<Book> books = Book.listAll(Book.class);
+        List<Book> returned_books = new ArrayList<>();
+        for (Book item : books) {
             if (item.getDate().equals(date_string)) {
                 //もし日にちが同じものをここで選定している
                 returned_books.add(item);
@@ -110,8 +109,8 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
         string_dates.add(MakeDateString.makeDateOneMonthBefore());
         for (String item : string_dates) {
             //その日にちの単語帳を取得してそれから単語隊を取得してそっからwordsというlistに入れる
-            List<BooksWords> booksWord = gettingBooks(item);
-            for (BooksWords item2 : booksWord) {
+            List<Book> booksWord = gettingBooks(item);
+            for (Book item2 : booksWord) {
                 List<Word> items = item2.returnWords();
                 for (Word item3 : items) {
                     presented_items.add(item3);
@@ -133,7 +132,7 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
     public void settingPresentedItemsBook(Intent intent){
         //単語帳自体で問題を出す時
         long book_id = intent.getLongExtra("book_id",0l);
-        BooksWords book = BooksWords.findById(BooksWords.class, book_id);
+        Book book = Book.findById(Book.class, book_id);
         List<Word> resource = book.returnWords();
         presented_items = new ArrayList<>(resource);
         //上のlistがディープコピーする先のlist

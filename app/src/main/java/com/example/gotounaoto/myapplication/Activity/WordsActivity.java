@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.Fragment.WordsFragment;
 import com.example.gotounaoto.myapplication.R;
@@ -23,7 +23,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         OnDeleteListener, WordsFragment.OnWordsListener{
 
     long book_id;
-    BooksWords book;
+    Book book;
     List<Word> words;
 
     @Override
@@ -96,7 +96,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         //インテントの取得と設定
         Intent intent = getIntent();
         book_id = intent.getLongExtra("id", 0);
-        book = BooksWords.findById(BooksWords.class, book_id);
+        book = Book.findById(Book.class, book_id);
     }
 
     public void gettingWords() {

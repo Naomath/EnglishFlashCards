@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogAddFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogSortFragment;
-import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
@@ -131,7 +131,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                BooksWords item = (BooksWords) adapter.getItem(i);
+                Book item = (Book) adapter.getItem(i);
                 long id = item.getId();
                 OnIntentWordsListener listener = (OnIntentWordsListener) getActivity();
                 listener.moveToWords(id);
@@ -168,23 +168,23 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     public void sortBooks(boolean which, String source) {
         //リストをソートするの
         adapter.clear();
-        List<BooksWords> books = BooksWords.listAll(BooksWords.class);
+        List<Book> books = Book.listAll(Book.class);
         if (source.equals("")) {
             if (which) {
                 Collections.reverse(books);
                 //これだと新しい順
             }
-            for (BooksWords item : books) {
+            for (Book item : books) {
                 adapter.add(item);
             }
         } else {
-            List<BooksWords> booksShowed = new ArrayList<>();
-            for (BooksWords item : books) {
+            List<Book> booksShowed = new ArrayList<>();
+            for (Book item : books) {
                 if (item.getTitle().contains(source)) {
                     booksShowed.add(item);
                 }
             }
-            for (BooksWords item : booksShowed) {
+            for (Book item : booksShowed) {
                 adapter.add(item);
             }
         }

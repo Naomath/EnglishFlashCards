@@ -19,7 +19,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.gotounaoto.myapplication.Activity.AddWordActivity;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWordAddFragment;
-import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
@@ -104,26 +104,36 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_add:
-                    dialog = new CustomDialogWordAddFragment();
-                    dialog.setTargetFragment(this, 1);
-                    dialog.show(getFragmentManager(), "add_words");
+                    toAdd();
                     break;
                 case R.id.button_decide:
-                    List<Word> wordList = new ArrayList<Word>();
-                    for (int i = 0, length = adapter.getCount(); i < length; i++) {
-                        Word item = adapter.getItem(i);
-                        wordList.add(item);
-                    }
-                    SugarRecord.saveInTx(wordList);
-                    Word firstWord = wordList.get(0);
-                    Word lastWord = wordList.get(adapter.getCount() - 1);
-                    BooksWords group = new BooksWords(title, firstWord.getId(), lastWord.getId());
-                    group.setDate(MakeDateString.makeDateNow());
-                    group.save();
-                    onFinishListener.sendFinish(true);
+                   toDecide();
                     break;
             }
         }
+    }
+
+    public  void toAdd(){
+        //addボタンが押された時の処理
+        dialog = new CustomDialogWordAddFragment();
+        dialog.setTargetFragment(this, 1);
+        dialog.show(getFragmentManager(), "add_words");
+    }
+
+    public void toDecide(){
+        //decideボタンが押された時の処理
+        List<Word> wordList = new ArrayList<Word>();
+        for (int i = 0, length = adapter.getCount(); i < length; i++) {
+            Word item = adapter.getItem(i);
+            wordList.add(item);
+        }
+        SugarRecord.saveInTx(wordList);
+        Word firstWord = wordList.get(0);
+        Word lastWord = wordList.get(adapter.getCount() - 1);
+        Book group = new Book(title, firstWord.getId(), lastWord.getId());
+        group.setDate(MakeDateString.makeDateNow());
+        group.save();
+        onFinishListener.sendFinish(true);
     }
 
     public void gettingViews() {

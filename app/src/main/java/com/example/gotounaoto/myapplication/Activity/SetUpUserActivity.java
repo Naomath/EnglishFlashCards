@@ -12,9 +12,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
+import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.classes.GettingList;
 
 import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetUpUserActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
@@ -28,7 +34,8 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         setContentView(R.layout.activity_set_user);
         gettingUser();
         settingListener();
-        settingOtherInitial();
+        settingWeakPercentageInitial();
+        settingDefaultBookInitial();
     }
 
     public void gettingUser() {
@@ -42,8 +49,9 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         }
     }
 
-    public void settingUser() {
+    public void settingUserInitial() {
         //ユーザーの設定
+        //初期の
         String user_id = RandomStringUtils.randomAlphabetic(12);
         String user_name = edit_user_name.getText().toString();
         SharedPreferences user_preference = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -55,7 +63,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         intentToMain();
     }
 
-    public void settingOtherInitial(){
+    public void settingWeakPercentageInitial(){
         //残りのやるべき設定の初期値を設定する
         SharedPreferences weak_preference = getSharedPreferences("weak_percentage", Context.MODE_PRIVATE);
         SharedPreferences.Editor weak_editor = weak_preference.edit();
@@ -80,6 +88,17 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
             relative_error.setVisibility(View.VISIBLE);
             button_decide.setEnabled(false);
         }
+    }
+
+    public void settingDefaultBookInitial(){
+        //最初のデフォルトとして入れておく単語帳の設定
+        List<Word> default_words = new ArrayList<>(GettingList.gettingDefaultBook());
+        for (Word item:default_words){
+            item.save();
+        }
+        Book default_book = new Book("重要な動詞", default_words.get(0).getId()
+                , default_words.get(default_words.size()-1).getId());
+        default_book.save();
     }
 
     public void intentToMain() {
@@ -114,7 +133,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_decide:
-                    settingUser();
+                    settingUserInitial();
                     break;
             }
         }

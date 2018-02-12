@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.BooksWords;
+import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 
 /**
  * Created by gotounaoto on 2018/01/03.
  */
 
-public class BooksAdapter extends ArrayAdapter<BooksWords>{
+public class BooksAdapter extends ArrayAdapter<Book>{
     Context context;
     LayoutInflater layoutInflater;
     int resource;
@@ -39,7 +39,7 @@ public class BooksAdapter extends ArrayAdapter<BooksWords>{
         } else {
             view_set_up = ((BooksAdapter.ViewSetUp) convertView.getTag());
         }
-        BooksWords item = getItem(position);
+        Book item = getItem(position);
         if (item != null) {;
             String title = item.getTitle();
             String calendar = item.getDate();
