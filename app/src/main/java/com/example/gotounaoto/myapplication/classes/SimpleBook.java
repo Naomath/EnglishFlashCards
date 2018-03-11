@@ -7,7 +7,7 @@ import lombok.Setter;
  * Created by gotounaoto on 2018/02/12.
  */
 
-public class SimplenessBook {
+public class SimpleBook {
     //this class for Book in Fire Base
     //this class is simple Book
 
@@ -31,11 +31,11 @@ public class SimplenessBook {
     private String fireBase_id;
     //this simpleness book's book path
 
-    public SimplenessBook() {
+    public SimpleBook() {
         //empty constructor
     }
 
-    public SimplenessBook(String title, String user_name, String date, String fireBase_id) {
+    public SimpleBook(String title, String user_name, String date, String fireBase_id) {
         this.title = title;
         this.user_name = user_name;
         this.date = date;

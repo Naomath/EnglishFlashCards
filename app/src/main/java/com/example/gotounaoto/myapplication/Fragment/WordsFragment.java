@@ -29,7 +29,7 @@ import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
 import com.example.gotounaoto.myapplication.classes.MakeString;
-import com.example.gotounaoto.myapplication.classes.SimplenessBook;
+import com.example.gotounaoto.myapplication.classes.SimpleBook;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -200,40 +200,27 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
 
     public void upload() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        SimplenessBook simplenessBook = returnSimplenessBooks();
-        uploadUser(database, simplenessBook);
-        uploadBook(database);
-        //流れとしてはsimplenessBookをgetしてユーザーをアップロードしてその後にbookをアップロードする
+        DatabaseReference user_database = database.getReference("users");
+        SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        uploadName(user_database, user_preferences);
+        uploadBook(user_database, user_preferences);
         makeToast("アップロードが完了しました");
     }
 
-    public void uploadUser(FirebaseDatabase database, SimplenessBook simplenessBook) {
-        //userにsimplenessBookのアップロード
-        //usersという枝に対して
-        SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String user_id = user_preferences.getString("id", "");
-        DatabaseReference user_database = database.getReference("users");
-        user_database.child(user_id).push().setValue(simplenessBook);
-    }
-
-    public void uploadBook(FirebaseDatabase database) {
-        //bookのupload
-        //booksという枝に対して
-        DatabaseReference books_database = database.getReference("books");
-        book.setDone_upload(1);
-        book.save();
-        book.setList_words(book.returnWords());
-        //ここでbookがuploadされているというというboolean型を残す
-        books_database.push().setValue(book);
-    }
-
-    public SimplenessBook returnSimplenessBooks() {
-        SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+    public void uploadName(DatabaseReference user_database, SharedPreferences user_preferences) {
+        //名前をアップデート(アップロード？)する
         String user_name = user_preferences.getString("name", null);
-        String book_id_fireBase = MakeString.makeString(Arrays.asList(user_preferences.getString("id", null), String.valueOf(book.getId())));
-        //上の式で式でユーザーidの後ろにbookのidをつけた世界でただ一つのidが完成する
-        SimplenessBook simplenessBook = new SimplenessBook(book.getTitle(), user_name, book.getDate(),book_id_fireBase);
-        return simplenessBook;
+        //データベースで使うためのユーザーネーム
+        String user_id = user_preferences.getString("id", "");
+        //データベースで使うためのユーザーid
+        user_database.child(user_id).child("name").setValue(user_name);
+    }
+
+    public void uploadBook(DatabaseReference user_database, SharedPreferences user_preferences) {
+        //bookをアップロードする
+        String user_id = user_preferences.getString("id", "");
+        //データベースで使うためのユーザーid
+        user_database.child(user_id).child("books").push().setValue(book);
     }
 
     public void makeToast(String message) {

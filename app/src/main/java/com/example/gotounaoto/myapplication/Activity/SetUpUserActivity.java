@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -32,13 +33,27 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_user);
-        gettingUser();
-        settingListener();
-        settingWeakPercentageInitial();
-        settingDefaultBookInitial();
+        if(gettingUser()){
+            //初期処理が二度行われないようにここでif文を作ってる
+            settingListener();
+            settingWeakPercentageInitial();
+            settingDefaultBookInitial();
+        }
     }
 
-    public void gettingUser() {
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 戻るボタンの処理
+            moveTaskToBack(true);
+            //アプリの終了
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean gettingUser() {
         //ユーザーが初めてかどうか確認する
         exist_preference = getSharedPreferences("user", Context.MODE_PRIVATE);
         boolean user_exist = exist_preference.getBoolean("exist", false);
@@ -46,6 +61,11 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         if (user_exist) {
             intentToMain();
             //もしすでにあるとわかったらmainactivityにいく
+            return false;
+            //初期処理をしないようにする
+        }else {
+            return true;
+            //初期処理をするようにする
         }
     }
 

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -75,6 +76,18 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 戻るボタンの処理
+            moveTaskToBack(true);
+            //アプリの終了
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void returnTime(int which) {
         //このactivityに戻って来た時の処理
         settingToolBarFirst(which);
@@ -117,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
             return false;
         }
     }
-
 
     public void settingBottomNavigation() {
         navigationView = (BottomNavigationView) findViewById(R.id.navigation);
@@ -192,5 +204,4 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
             Toast.makeText(this, message, Toast.LENGTH_SHORT);
         }
     }
-
 }

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogOneTextFragment;
+import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogWeakPercentageFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.SettingUserAdapter;
 import com.example.gotounaoto.myapplication.classes.TwoText;
@@ -56,19 +57,31 @@ public class SettingsUserFragment extends Fragment {
                 int item_id = item.getId();
                 switch (item_id) {
                     case 0:
-                        //ここでユーザー名を変える
-                        CustomDialogOneTextFragment dialogOneTextFragment = new CustomDialogOneTextFragment();
-                        Bundle savedInstanceState = new Bundle();
-                        savedInstanceState.putInt("mode",0);
-                        dialogOneTextFragment.setArguments(savedInstanceState);
-                        dialogOneTextFragment.show(getFragmentManager(),"user_name");
-                        //この上のtagでどれにするか判別する
+                        case0();
                         break;
                     case 1:
+                        case1();
                         break;
                 }
             }
         });
+    }
+
+    public void case0(){
+        //listviewでcase0の時の処理
+        //ここでユーザー名を変える
+        CustomDialogOneTextFragment dialogOneTextFragment = new CustomDialogOneTextFragment();
+        Bundle savedInstanceState = new Bundle();
+        savedInstanceState.putInt("mode",0);
+        dialogOneTextFragment.setArguments(savedInstanceState);
+        dialogOneTextFragment.show(getFragmentManager(),"user_name");
+        //この上のtagでどれにするか判別する
+    }
+
+    public void case1(){
+        //間違えやすい問題のパーセンテージを変える
+        CustomDialogWeakPercentageFragment dialogWeakPercentageFragment = new CustomDialogWeakPercentageFragment();
+        dialogWeakPercentageFragment.show(getFragmentManager(), "weak_percentage");
     }
 
     public void addItemList() {
