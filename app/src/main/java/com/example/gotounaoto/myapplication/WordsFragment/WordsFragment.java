@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.Fragment;
+package com.example.gotounaoto.myapplication.WordsFragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,14 +28,12 @@ import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
-import com.example.gotounaoto.myapplication.classes.MakeString;
-import com.example.gotounaoto.myapplication.classes.SimpleBook;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WordsFragment extends Fragment implements View.OnClickListener {
@@ -162,6 +160,15 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         onWordsListener = (OnWordsListener) getActivity();
     }
 
+    public void settingBookForUpload(){
+        //uploadする前に単語を入れたりdone_uploadを変えたりとちょっといじる
+        book.setDone_upload(0);
+        //ここで0を入れることによりアップロードした
+        book.save();
+        book.setList_words(book.returnWords());
+        //上で単語を入れている。.save()させてないのはリストは保存できなから
+    }
+
     public void sortWords() {
         book = Book.findById(Book.class, book_id);
         List<Word> source = book.returnWords();
@@ -202,25 +209,46 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference user_database = database.getReference("users");
         SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        settingBookForUpload();
         uploadName(user_database, user_preferences);
-        uploadBook(user_database, user_preferences);
-        makeToast("アップロードが完了しました");
+        //uploadName()の処理が終わってからuploadBook()を呼び出すようになっている
     }
 
-    public void uploadName(DatabaseReference user_database, SharedPreferences user_preferences) {
+    public void uploadName(final DatabaseReference user_database, final SharedPreferences user_preferences) {
         //名前をアップデート(アップロード？)する
         String user_name = user_preferences.getString("name", null);
         //データベースで使うためのユーザーネーム
         String user_id = user_preferences.getString("id", "");
         //データベースで使うためのユーザーid
-        user_database.child(user_id).child("name").setValue(user_name);
+        //keyがuseridになっている
+        user_database.child(user_id).child("name").setValue(user_name, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //サーバーにcommitした時に呼び出される
+                if (databaseError != null) {
+                    makeToast("アップロードに失敗しました。再試行してください。");
+                } else {
+                   uploadBook(user_database, user_preferences);
+                }
+            }
+        });
     }
 
     public void uploadBook(DatabaseReference user_database, SharedPreferences user_preferences) {
         //bookをアップロードする
         String user_id = user_preferences.getString("id", "");
         //データベースで使うためのユーザーid
-        user_database.child(user_id).child("books").push().setValue(book);
+        user_database.child(user_id).child("books").push().setValue(book, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //サーバーにcommitした時に呼び出される
+                if (databaseError != null) {
+                    makeToast("アップロードに失敗しました。再試行してください。");
+                } else {
+                    makeToast("アップロードしました。");
+                }
+            }
+        });
     }
 
     public void makeToast(String message) {

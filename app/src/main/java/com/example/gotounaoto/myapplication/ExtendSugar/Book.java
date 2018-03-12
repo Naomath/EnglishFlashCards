@@ -33,16 +33,27 @@ public class Book extends SugarRecord {
     @Getter
     @Setter
     private int done_upload;
-    //0なら保存されてない、1なら保存されている
+    //1ならアップロードされてない、0ならアップロードされている
 
     @Getter
     @Setter
     private List<Word> list_words;
+    //アップロードの時のためにここに全てのワードを入れる
 
     @Getter
     @Setter
     private String upload_id;
     //fireBaseで連携を取るためのid
+
+    @Getter
+    @Setter
+    private int download_time;
+    //ダウンロードされた回数を記録するためのやつ
+
+    @Getter
+    @Setter
+    private String user_name;
+    //作成者の名前
 
 
     public Book() {

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gotounaoto.myapplication.Fragment.DownloadFragment">
+    tools:context="com.example.gotounaoto.myapplication.MainFragment.DownloadFragment">
 
     <ListView
         android:id="@+id/list_view"

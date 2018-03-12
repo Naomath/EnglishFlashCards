@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.Fragment;
+package com.example.gotounaoto.myapplication.QuestionFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -12,10 +12,10 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.gotounaoto.myapplication.Fragment.HomeFragment;
-import com.example.gotounaoto.myapplication.Fragment.BooksFragment;
-import com.example.gotounaoto.myapplication.Fragment.SettingsUserFragment;
-import com.example.gotounaoto.myapplication.Fragment.DownloadFragment;
+import com.example.gotounaoto.myapplication.MainFragment.HomeFragment;
+import com.example.gotounaoto.myapplication.MainFragment.BooksFragment;
+import com.example.gotounaoto.myapplication.MainFragment.SettingsUserFragment;
+import com.example.gotounaoto.myapplication.MainFragment.DownloadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 

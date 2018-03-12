@@ -2,18 +2,14 @@ package com.example.gotounaoto.myapplication.Activity;
 
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogFinishFragment;
-import com.example.gotounaoto.myapplication.Fragment.AddWordsFragment;
+import com.example.gotounaoto.myapplication.WordsFragment.AddWordsFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;

@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.Fragment;
+package com.example.gotounaoto.myapplication.MainFragment;
 
 import android.content.Intent;
 import android.graphics.Color;

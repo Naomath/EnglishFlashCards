@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
-import com.example.gotounaoto.myapplication.Fragment.WordsFragment;
+import com.example.gotounaoto.myapplication.WordsFragment.WordsFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnDeleteListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
