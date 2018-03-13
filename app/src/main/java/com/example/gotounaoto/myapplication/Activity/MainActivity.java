@@ -65,15 +65,8 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         setContentView(R.layout.activity_main);
         int which_fragment = gettingIntent();
         settingBottomNavigation();
-        if (isReturn()) {
-            //戻ってきたなら
-            //他のactivityから
-            returnTime(which_fragment);
-        } else {
-            //戻ってきてないなら
-            settingToolBarFirst(which_fragment);
-            judgmentFragment(which_fragment);
-        }
+        pushBottomButton(which_fragment);
+        //ここでbottomnavigationをpushする処理をすることでfragmentなども全て切り替えている
     }
 
     @Override
@@ -88,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         }
     }
 
-    public void returnTime(int which) {
+    public void pushBottomButton(int which) {
         //このactivityに戻って来た時の処理
         settingToolBarFirst(which);
         switch (which) {
@@ -117,18 +110,6 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         String message_toast = intent.getStringExtra("message_toast");
         makeToast(which_toast, message_toast);
         return which_fragment;
-    }
-
-    public boolean isReturn() {
-        //このactivityに戻ってきたのか判断する
-        //戻ってきたならtrueを返す
-        //しかし戻ってきたことがintentにより明示される必要がある
-        Intent intent = getIntent();
-        if (intent.getBooleanExtra("return", false)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public void settingBottomNavigation() {

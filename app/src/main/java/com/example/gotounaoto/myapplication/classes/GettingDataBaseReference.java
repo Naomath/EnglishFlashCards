@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class GettingDataBaseReference {
     public static DatabaseReference gettingUserReference() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("simple_books");
+        DatabaseReference reference = database.getReference("users");
         return reference;
     }
 }

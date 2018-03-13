@@ -1,5 +1,6 @@
 package com.example.gotounaoto.myapplication.MainFragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -54,12 +55,14 @@ public class DownloadFragment extends Fragment {
         inflater.inflate(R.menu.menu_books, menu);
         menu.findItem(R.id.action_search).setVisible(true);
         settingSearchView(menu);
+        searchBooks(null);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
+                actionSearch();
                 break;
         }
         return true;
@@ -73,8 +76,9 @@ public class DownloadFragment extends Fragment {
 
     public void settingSearchView(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_search);
-        searchView.setIconified(false);
         searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setIconifiedByDefault(true);
+        searchView.setSubmitButtonEnabled(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -97,6 +101,7 @@ public class DownloadFragment extends Fragment {
                 return false;
             }
         });
+
     }
 
     public void settingListView() {
@@ -105,22 +110,46 @@ public class DownloadFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    public void searchBooks(String hint_message){
+    public void searchBooks(String keyword){
         //bookをサーチする
-        GettingDataBaseReference.gettingUserReference().orderByChild("title").limitToLast(20).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Book item = snapshot.getValue(Book.class);
-                    adapter.add(item);
+        final ProgressDialog progressDialog = new ProgressDialog(this.getActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+        if(keyword != null){
+            //つまりこの時が検索する時
+            GettingDataBaseReference.gettingUserReference().orderByChild("title").equalTo(keyword).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Book item = snapshot.getValue(Book.class);
+                        adapter.add(item);
+                        progressDialog.dismiss();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }else {
+            //この時が最初に上位のものを読み込む時
+            GettingDataBaseReference.gettingUserReference().orderByChild("download_time").limitToLast(20).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Book item = snapshot.getValue(Book.class);
+                        adapter.add(item);
+                        progressDialog.dismiss();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
 }
