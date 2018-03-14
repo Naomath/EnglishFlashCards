@@ -17,6 +17,7 @@ import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
 import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
+import com.example.gotounaoto.myapplication.classes.ShowProgressDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -108,25 +109,24 @@ public class DownloadFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    public void searchBooksHigherDownloaded(){
+    public void searchBooksHigherDownloaded() {
         //ダウンロード数Top20を検索する時
-        
+        ShowProgressDialog showProgressDialog = new ShowProgressDialog(this.getActivity());
+        showProgressDialog.show();
+        for (Book item : FirebaseProcessing.searchBooksHigherDownloaded()) {
+            adapter.add(item);
+        }
+        showProgressDialog.dismiss();
     }
 
     public void searchBooksByKeyword(String keyword) {
+        ShowProgressDialog showProgressDialog = new ShowProgressDialog(this.getActivity());
+        showProgressDialog.show();
         //キーワードありで検索する時
-
+        for (Book item : FirebaseProcessing.searchBooksByKeyword(keyword)) {
+            adapter.add(item);
+        }
+        showProgressDialog.dismiss();
     }
-
-    public ProgressDialog makeProgressDialog(){
-        //プログレスダイアログを作り表示する
-        ProgressDialog progressDialog = new ProgressDialog(this.getActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
-        return progressDialog;
-        //ここでリターンする理由としては受け渡し先で、表示をやめさせるため
-    }
-
 
 }

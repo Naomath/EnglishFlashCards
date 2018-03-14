@@ -1,6 +1,10 @@
 package com.example.gotounaoto.myapplication.classes;
 
+import android.app.Fragment;
+import android.widget.ArrayAdapter;
+
 import com.example.gotounaoto.myapplication.ExtendSugar.Book;
+import com.example.gotounaoto.myapplication.MainFragment.DownloadFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +50,7 @@ public class FirebaseProcessing {
         return user_ids;
     }
 
-    public static List<Book> searchBooksByKeyword(String keyword) {
+    public static List<Book> searchBooksByKeyword(String keyword, DownloadFragment fragment) {
         //キーワードありで探す
         final List<Book> books = new ArrayList<>();
         for (String user_id : gettingUserIds()) {
@@ -68,16 +72,17 @@ public class FirebaseProcessing {
         return books;
     }
 
-    public static List<Book> searchBooksHigherDownloaded() {
+    public static List<Book> searchBooksHigherDownloaded(DownloadFragment fragment) {
         //ダウンロード数が多いTop20を取得する
         final List<Book> books = new ArrayList<>();
         for (String user_id : gettingUserIds()) {
             gettingUserReference().child(user_id).child("books").child("download_time").limitToLast(20).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Book item = snapshot.getValue(Book.class);
                         books.add(item);
+                        DownloadFragment fragment = new DownloadFragment();
                     }
                 }
 

@@ -46,7 +46,9 @@ public class BooksAdapter extends ArrayAdapter<Book>{
             String user = item.getUser_name();
             view_set_up.title.setText(title);
             view_set_up.calendar.setText(calendar);
-            view_set_up.user.setText(user);
+            if(user != null){
+                view_set_up.user.setText(user);
+            }
         }
         return convertView;
     }
