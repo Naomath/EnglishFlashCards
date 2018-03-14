@@ -13,17 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.gotounaoto.myapplication.DialogFragment.CustomDialogSortFragment;
 import com.example.gotounaoto.myapplication.ExtendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
-import com.example.gotounaoto.myapplication.classes.GettingDataBaseReference;
-import com.example.gotounaoto.myapplication.classes.SimpleBook;
+import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class DownloadFragment extends Fragment {
 
@@ -55,7 +53,7 @@ public class DownloadFragment extends Fragment {
         inflater.inflate(R.menu.menu_books, menu);
         menu.findItem(R.id.action_search).setVisible(true);
         settingSearchView(menu);
-        searchBooks(null);
+        searchBooksHigherDownloaded();
     }
 
     @Override
@@ -68,7 +66,7 @@ public class DownloadFragment extends Fragment {
         return true;
     }
 
-    public void actionSearch(){
+    public void actionSearch() {
         //searchviewのiconが押された時の処理
         adapter.clear();
         //ここでadapterをクリアにする
@@ -82,7 +80,7 @@ public class DownloadFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                searchBooks(s);
+                searchBooksByKeyword(s);
                 return false;
             }
 
@@ -110,46 +108,25 @@ public class DownloadFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    public void searchBooks(String keyword){
-        //bookをサーチする
-        final ProgressDialog progressDialog = new ProgressDialog(this.getActivity());
+    public void searchBooksHigherDownloaded(){
+        //ダウンロード数Top20を検索する時
+        
+    }
+
+    public void searchBooksByKeyword(String keyword) {
+        //キーワードありで検索する時
+
+    }
+
+    public ProgressDialog makeProgressDialog(){
+        //プログレスダイアログを作り表示する
+        ProgressDialog progressDialog = new ProgressDialog(this.getActivity());
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(true);
         progressDialog.show();
-        if(keyword != null){
-            //つまりこの時が検索する時
-            GettingDataBaseReference.gettingUserReference().orderByChild("title").equalTo(keyword).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Book item = snapshot.getValue(Book.class);
-                        adapter.add(item);
-                        progressDialog.dismiss();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }else {
-            //この時が最初に上位のものを読み込む時
-            GettingDataBaseReference.gettingUserReference().orderByChild("download_time").limitToLast(20).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Book item = snapshot.getValue(Book.class);
-                        adapter.add(item);
-                        progressDialog.dismiss();
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
+        return progressDialog;
+        //ここでリターンする理由としては受け渡し先で、表示をやめさせるため
     }
+
 
 }
