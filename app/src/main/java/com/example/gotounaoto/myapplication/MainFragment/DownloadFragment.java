@@ -18,13 +18,10 @@ import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
 import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.classes.ShowProgressDialog;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DownloadFragment extends Fragment {
+public class DownloadFragment extends Fragment implements FirebaseProcessing.OnAddItemListener {
 
     View view;
     SearchView searchView;
@@ -32,6 +29,11 @@ public class DownloadFragment extends Fragment {
 
     public DownloadFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void addItem(Book item) {
+        adapter.add(item);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class DownloadFragment extends Fragment {
         inflater.inflate(R.menu.menu_books, menu);
         menu.findItem(R.id.action_search).setVisible(true);
         settingSearchView(menu);
-        searchBooksHigherDownloaded();
+        searchBooksHigher();
     }
 
     @Override
@@ -65,6 +67,11 @@ public class DownloadFragment extends Fragment {
                 break;
         }
         return true;
+    }
+
+    public void addBook(Book item) {
+        //bookをadapterに追加する
+        adapter.add(item);
     }
 
     public void actionSearch() {
@@ -81,7 +88,7 @@ public class DownloadFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                searchBooksByKeyword(s);
+                searchBooksKeyword(s);
                 return false;
             }
 
@@ -109,24 +116,15 @@ public class DownloadFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    public void searchBooksHigherDownloaded() {
+    public void searchBooksHigher() {
         //ダウンロード数Top20を検索する時
-        ShowProgressDialog showProgressDialog = new ShowProgressDialog(this.getActivity());
-        showProgressDialog.show();
-        for (Book item : FirebaseProcessing.searchBooksHigherDownloaded()) {
-            adapter.add(item);
-        }
-        showProgressDialog.dismiss();
+        FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
+        firebaseProcessing.startSearchHigher();
     }
 
-    public void searchBooksByKeyword(String keyword) {
-        ShowProgressDialog showProgressDialog = new ShowProgressDialog(this.getActivity());
-        showProgressDialog.show();
-        //キーワードありで検索する時
-        for (Book item : FirebaseProcessing.searchBooksByKeyword(keyword)) {
-            adapter.add(item);
-        }
-        showProgressDialog.dismiss();
+    public void searchBooksKeyword(String keyword) {
+       //キーワードで検索する時
+        FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
+        firebaseProcessing.startSearchKeyword(keyword);
     }
-
 }

@@ -28,6 +28,7 @@ import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
+import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     long book_id;
     CustomDialogWordAddFragment dialog;
     OnWordsListener onWordsListener;
+    public static final String error_message = "アップロードに失敗しました。もう一回してください。";
 
     public WordsFragment() {
     }
@@ -160,7 +162,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         onWordsListener = (OnWordsListener) getActivity();
     }
 
-    public void settingBookForUpload(){
+    public void settingBookForUpload() {
         //uploadする前に単語を入れたりdone_uploadを変えたりとちょっといじる
         book.setDone_upload(0);
         //ここで0を入れることによりアップロードした
@@ -206,49 +208,63 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void upload() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference user_database = database.getReference("users");
         SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         settingBookForUpload();
-        uploadName(user_database, user_preferences);
+        uploadName(user_preferences);
         //uploadName()の処理が終わってからuploadBook()を呼び出すようになっている
     }
 
-    public void uploadName(final DatabaseReference user_database, final SharedPreferences user_preferences) {
+    public void uploadName(final SharedPreferences user_preferences) {
         //名前をアップデート(アップロード？)する
         String user_name = user_preferences.getString("name", null);
         //データベースで使うためのユーザーネーム
         String user_id = user_preferences.getString("id", "");
         //データベースで使うためのユーザーid
         //keyがuseridになっている
-        user_database.child(user_id).child("name").setValue(user_name, new DatabaseReference.CompletionListener() {
+        FirebaseProcessing.gettingUserReference().child(user_id).child("name").setValue(user_name, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //サーバーにcommitした時に呼び出される
                 if (databaseError != null) {
-                    makeToast("アップロードに失敗しました。再試行してください。");
+                    makeToast(error_message);
                 } else {
-                   uploadBook(user_database, user_preferences);
+                    uploadBook(user_preferences);
                 }
             }
         });
     }
 
-    public void uploadBook(DatabaseReference user_database, SharedPreferences user_preferences) {
+    public void uploadBook(SharedPreferences user_preferences) {
         //bookをアップロードする
         String user_id = user_preferences.getString("id", "");
         //データベースで使うためのユーザーid
-        user_database.child(user_id).child("books").push().setValue(book, new DatabaseReference.CompletionListener() {
+        final String[] book_key = new String[1];
+        //bookをuserのほうにパスだ保存するため
+        //bookのkey
+        //配列にしないとしたのメソッドからアクセスできない。finalをつけなければいけないので
+        FirebaseProcessing.gettingBookReference().push().setValue(book, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //サーバーにcommitした時に呼び出される
                 if (databaseError != null) {
-                    makeToast("アップロードに失敗しました。再試行してください。");
+                    makeToast(error_message);
+                } else {
+                    book_key[0] = databaseReference.getKey();
+                }
+            }
+        });
+        FirebaseProcessing.gettingUserReference().child(user_id).child("book_paths").setValue(book_key[0], new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //サーバーにcommitした時に呼び出される
+                if (databaseError != null) {
+                    makeToast(error_message);
                 } else {
                     makeToast("アップロードしました。");
                 }
             }
         });
+
     }
 
     public void makeToast(String message) {

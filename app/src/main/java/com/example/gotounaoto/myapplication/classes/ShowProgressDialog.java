@@ -13,6 +13,8 @@ public class ShowProgressDialog {
 
     Context context;
 
+    public ShowProgressDialog(){}
+
     public ShowProgressDialog(Context context) {
         this.context = context;
     }

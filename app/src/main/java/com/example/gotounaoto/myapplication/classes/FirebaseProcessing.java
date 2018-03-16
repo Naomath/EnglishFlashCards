@@ -21,6 +21,19 @@ import java.util.List;
 public class FirebaseProcessing {
     //firebaseに関する処理をここに書く
 
+    OnAddItemListener onAddItemListener;
+
+    String keyword;
+    //searchに使うキーワード
+
+    public FirebaseProcessing() {
+        //empty constructor
+    }
+
+    public FirebaseProcessing(OnAddItemListener onAddItemListener) {
+        this.onAddItemListener = onAddItemListener;
+    }
+
     public static DatabaseReference gettingUserReference() {
         //"users"のリファレンスを取得する
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -28,17 +41,33 @@ public class FirebaseProcessing {
         return reference;
     }
 
-    public static List<String> gettingUserIds() {
-        //firebase常にuserのidを取得してくる
-        final List<String> user_ids = new ArrayList<>();
-        //これはreturnするidの箱
-        gettingUserReference().addValueEventListener(new ValueEventListener() {
+    public static DatabaseReference gettingBookReference(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("books");
+        return reference;
+    }
+
+    public void judgmentSearch(int which) {
+        //どっちのsearchをするのか判断する
+        switch (which) {
+            case 0:
+                searchBooksHigherDownloaded();
+                break;
+            case 1:
+                searchBooksByKeyword();
+                break;
+        }
+    }
+
+
+    public void searchBooksHigherDownloaded() {
+        //ダウンロード数が多いTop20を取得する
+        gettingBookReference().orderByChild("download_time").limitToLast(20).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String user_id = snapshot.getKey();
-                    //useridはkeyの言葉になっているから
-                    user_ids.add(user_id);
+                    Book item = snapshot.getValue(Book.class);
+                    onAddItemListener.addItem(item);
                 }
             }
 
@@ -47,19 +76,17 @@ public class FirebaseProcessing {
 
             }
         });
-        return user_ids;
     }
 
-    public static List<Book> searchBooksByKeyword(String keyword, DownloadFragment fragment) {
+
+    public void searchBooksByKeyword() {
         //キーワードありで探す
-        final List<Book> books = new ArrayList<>();
-        for (String user_id : gettingUserIds()) {
-            gettingUserReference().child(user_id).child("books").child("title").equalTo(keyword).addValueEventListener(new ValueEventListener() {
+            gettingBookReference().orderByChild("title").equalTo(keyword).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Book item = snapshot.getValue(Book.class);
-                        books.add(item);
+                        onAddItemListener.addItem(item);
                     }
                 }
 
@@ -68,30 +95,21 @@ public class FirebaseProcessing {
 
                 }
             });
-        }
-        return books;
     }
 
-    public static List<Book> searchBooksHigherDownloaded(DownloadFragment fragment) {
-        //ダウンロード数が多いTop20を取得する
-        final List<Book> books = new ArrayList<>();
-        for (String user_id : gettingUserIds()) {
-            gettingUserReference().child(user_id).child("books").child("download_time").limitToLast(20).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Book item = snapshot.getValue(Book.class);
-                        books.add(item);
-                        DownloadFragment fragment = new DownloadFragment();
-                    }
-                }
+    public void startSearchHigher() {
+        //Highersearchをする時に呼ぶメソッド
+        judgmentSearch(0);
+    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+    public void startSearchKeyword(String keyword) {
+        judgmentSearch(1);
+        this.keyword = keyword;
+    }
 
-                }
-            });
-        }
-        return books;
+    public interface OnAddItemListener {
+        //adapterにitemを入れるためのインターフェイス
+        void addItem(Book item);
     }
 }
+
