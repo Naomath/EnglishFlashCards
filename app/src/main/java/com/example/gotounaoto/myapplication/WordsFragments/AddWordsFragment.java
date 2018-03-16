@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.WordsFragment;
+package com.example.gotounaoto.myapplication.WordsFragments;
 
 import android.app.Activity;
 import android.content.Intent;

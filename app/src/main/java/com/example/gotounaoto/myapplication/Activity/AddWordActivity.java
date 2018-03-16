@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.example.gotounaoto.myapplication.WordsFragment.AddWordsFragment;
+import com.example.gotounaoto.myapplication.WordsFragments.AddWordsFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;

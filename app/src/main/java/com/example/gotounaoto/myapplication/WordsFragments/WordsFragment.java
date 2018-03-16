@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.WordsFragment;
+package com.example.gotounaoto.myapplication.WordsFragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,11 +29,11 @@ import com.example.gotounaoto.myapplication.ExtendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.ExtendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
+import com.example.gotounaoto.myapplication.classes.CallSharedPreference;
 import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,17 +209,16 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void upload() {
-        SharedPreferences user_preferences = this.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         settingBookForUpload();
-        uploadName(user_preferences);
-        //uploadName()の処理が終わってからuploadBook()を呼び出すようになっている
+        uploadName();
+        //順番としてはuploadName->uploadBook->uploadBookPathとなる
     }
 
-    public void uploadName(final SharedPreferences user_preferences) {
+    public void uploadName() {
         //名前をアップデート(アップロード？)する
-        String user_name = user_preferences.getString("name", null);
+        String user_name = CallSharedPreference.callUserName(this.getActivity());
         //データベースで使うためのユーザーネーム
-        String user_id = user_preferences.getString("id", "");
+        String user_id = CallSharedPreference.callUserId(this.getActivity());
         //データベースで使うためのユーザーid
         //keyがuseridになっている
         FirebaseProcessing.gettingUserReference().child(user_id).child("name").setValue(user_name, new DatabaseReference.CompletionListener() {
@@ -228,18 +228,16 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 if (databaseError != null) {
                     makeToast(error_message);
                 } else {
-                    uploadBook(user_preferences);
+                    uploadBook();
                 }
             }
         });
     }
 
-    public void uploadBook(SharedPreferences user_preferences) {
+    public void uploadBook() {
         //bookをアップロードする
-        String user_id = user_preferences.getString("id", "");
-        //データベースで使うためのユーザーid
         final String[] book_key = new String[1];
-        //bookをuserのほうにパスだ保存するため
+        //bookをuserのほうにパスを保存するため
         //bookのkey
         //配列にしないとしたのメソッドからアクセスできない。finalをつけなければいけないので
         FirebaseProcessing.gettingBookReference().push().setValue(book, new DatabaseReference.CompletionListener() {
@@ -250,10 +248,17 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                     makeToast(error_message);
                 } else {
                     book_key[0] = databaseReference.getKey();
+                    uploadBookPath(book_key[0]);
                 }
             }
         });
-        FirebaseProcessing.gettingUserReference().child(user_id).child("book_paths").setValue(book_key[0], new DatabaseReference.CompletionListener() {
+    }
+
+    public void uploadBookPath(String book_key) {
+        //userのところにbookのpath(key)を追加する
+        String user_id = CallSharedPreference.callUserId(this.getActivity());
+        //データベースで使うためのユーザーid
+        FirebaseProcessing.gettingUserReference().child(user_id).child("book_paths").push().setValue(book_key, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //サーバーにcommitした時に呼び出される
@@ -264,7 +269,6 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
     }
 
     public void makeToast(String message) {
