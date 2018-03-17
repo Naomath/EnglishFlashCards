@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.Word;
+import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 
 /**

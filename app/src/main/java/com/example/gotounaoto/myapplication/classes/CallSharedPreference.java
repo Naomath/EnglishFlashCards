@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 
 public class CallSharedPreference {
-
+    //SharedPreferenceについての処理が書いてある
 
     public static SharedPreferences callUserPreference(Context context){
         //userというプリファレンスを呼び出して返す

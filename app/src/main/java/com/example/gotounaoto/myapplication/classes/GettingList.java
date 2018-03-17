@@ -1,6 +1,6 @@
 package com.example.gotounaoto.myapplication.classes;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.Word;
+import com.example.gotounaoto.myapplication.extendSugar.Word;
 
 import java.util.ArrayList;
 import java.util.List;

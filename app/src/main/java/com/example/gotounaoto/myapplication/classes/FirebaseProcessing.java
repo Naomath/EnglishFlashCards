@@ -1,18 +1,11 @@
 package com.example.gotounaoto.myapplication.classes;
 
-import android.app.Fragment;
-import android.widget.ArrayAdapter;
-
-import com.example.gotounaoto.myapplication.ExtendSugar.Book;
-import com.example.gotounaoto.myapplication.MainFragment.DownloadFragment;
+import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gotounaoto on 2018/03/12.

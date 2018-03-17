@@ -1,6 +1,6 @@
 package com.example.gotounaoto.myapplication.interfaces;
 
-import com.example.gotounaoto.myapplication.ExtendSugar.Word;
+import com.example.gotounaoto.myapplication.extendSugar.Word;
 
 import java.util.List;
 
