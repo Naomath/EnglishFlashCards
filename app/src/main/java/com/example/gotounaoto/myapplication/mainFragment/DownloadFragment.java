@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.extendSugar.Book;
@@ -22,6 +23,7 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
     View view;
     SearchView searchView;
     BooksAdapter adapter;
+    OnDownloadFragmentListener onDownloadFragmentListener;
 
     public DownloadFragment() {
         // Required empty public constructor
@@ -52,6 +54,7 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         inflater.inflate(R.menu.menu_books, menu);
         menu.findItem(R.id.action_search).setVisible(true);
         settingSearchView(menu);
+        settingListener();
         searchBooksHigher();
     }
 
@@ -65,15 +68,15 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         return true;
     }
 
-    public void addBook(Book item) {
-        //bookをadapterに追加する
-        adapter.add(item);
-    }
-
     public void actionSearch() {
         //searchviewのiconが押された時の処理
         adapter.clear();
         //ここでadapterをクリアにする
+    }
+
+    public void intentToInformation(Book item){
+        //DownloadActivityに遷移するためのメソッド
+        onDownloadFragmentListener.intentToInformation(item);
     }
 
     public void settingSearchView(Menu menu) {
@@ -81,6 +84,24 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setIconifiedByDefault(true);
         searchView.setSubmitButtonEnabled(false);
+    }
+
+    public void settingListView() {
+        ListView listView = (ListView) view.findViewById(R.id.list_view);
+        adapter = new BooksAdapter(getActivity(), R.layout.adapter_download_books);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Book item = (Book) adapter.getItem(i);
+                intentToInformation(item);
+            }
+        });
+    }
+
+    public void settingListener(){
+        //いろんなリスナーの設定をする
+        //まずはsearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -99,17 +120,19 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-
+                searchBooksHigher();
                 return false;
             }
         });
+        searchView.setOnClickListener(new SearchView.OnClickListener(){
 
-    }
-
-    public void settingListView() {
-        ListView listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new BooksAdapter(getActivity(), R.layout.adapter_download_books);
-        listView.setAdapter(adapter);
+            @Override
+            public void onClick(View view) {
+                adapter.clear();
+            }
+        });
+        //次はこのフラグメントのリスナー
+        onDownloadFragmentListener = (OnDownloadFragmentListener) getActivity();
     }
 
     public void searchBooksHigher() {
@@ -124,5 +147,10 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         adapter.clear();
         FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
         firebaseProcessing.startSearchKeyword(keyword);
+    }
+
+    public interface OnDownloadFragmentListener{
+        void intentToInformation(Book item);
+        //DownloadActivityに遷移するためのプログラム
     }
 }

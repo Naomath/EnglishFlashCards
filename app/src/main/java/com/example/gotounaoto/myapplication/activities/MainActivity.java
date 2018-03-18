@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.activity;
+package com.example.gotounaoto.myapplication.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.gotounaoto.myapplication.classes.IntentProcessing;
+import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.mainFragment.HomeFragment;
 import com.example.gotounaoto.myapplication.mainFragment.BooksFragment;
 import com.example.gotounaoto.myapplication.mainFragment.SettingsUserFragment;
@@ -19,7 +21,8 @@ import com.example.gotounaoto.myapplication.mainFragment.DownloadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
-public class MainActivity extends AppCompatActivity implements OnIntentWordsListener {
+public class MainActivity extends AppCompatActivity implements OnIntentWordsListener
+        , DownloadFragment.OnDownloadFragmentListener {
 
     private Fragment fragment;
     private Toolbar toolbar;
@@ -31,6 +34,12 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         Intent intent = new Intent(this, WordsActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+    }
+
+    @Override
+    public void intentToInformation(Book item) {
+        //ダウンロードしたいBookを選択した後のためのDownloadActivityに移動する処理
+        IntentProcessing.fromMainToDownload(this, item.getBook_path());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener

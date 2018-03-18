@@ -1,6 +1,8 @@
 package com.example.gotounaoto.myapplication.classes;
 
+import com.example.gotounaoto.myapplication.DownloadFragment.DlBookInformationFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
+import com.example.gotounaoto.myapplication.mainFragment.DownloadFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,8 +18,13 @@ public class FirebaseProcessing {
 
     OnAddItemListener onAddItemListener;
 
+    OnDlBookInformationListener onDlBookInformationListener;
+
     String keyword;
     //searchに使うキーワード
+
+    String book_path;
+    //searchに使うfirebaseでもpath
 
     public FirebaseProcessing() {
         //empty constructor
@@ -27,6 +34,10 @@ public class FirebaseProcessing {
         this.onAddItemListener = onAddItemListener;
     }
 
+    public FirebaseProcessing(OnDlBookInformationListener onDlBookInformationListener){
+       this.onDlBookInformationListener = onDlBookInformationListener;
+    }
+
     public static DatabaseReference gettingUserReference() {
         //"users"のリファレンスを取得する
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -34,22 +45,10 @@ public class FirebaseProcessing {
         return reference;
     }
 
-    public static DatabaseReference gettingBookReference(){
+    public static DatabaseReference gettingBookReference() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("books");
         return reference;
-    }
-
-    public void judgmentSearch(int which) {
-        //どっちのsearchをするのか判断する
-        switch (which) {
-            case 0:
-                searchBooksHigherDownloaded();
-                break;
-            case 1:
-                searchBooksByKeyword();
-                break;
-        }
     }
 
 
@@ -60,6 +59,7 @@ public class FirebaseProcessing {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Book item = snapshot.getValue(Book.class);
+                    item.setBook_path(snapshot.getKey());
                     onAddItemListener.addItem(item);
                 }
             }
@@ -74,35 +74,61 @@ public class FirebaseProcessing {
 
     public void searchBooksByKeyword() {
         //キーワードありで探す
-            gettingBookReference().orderByChild("title").equalTo(keyword).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Book item = snapshot.getValue(Book.class);
-                        onAddItemListener.addItem(item);
-                    }
+        gettingBookReference().orderByChild("title").startAt(keyword).endAt(keyword+"\uf8ff").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Book item = snapshot.getValue(Book.class);
+                    item.setBook_path(snapshot.getKey());
+                    onAddItemListener.addItem(item);
                 }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
+    }
+
+    public void searchBookByBookPath() {
+        //book_pathで探す
+        gettingBookReference().child(book_path).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Book item = dataSnapshot.getValue(Book.class);
+               onDlBookInformationListener.showItem(item);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void startSearchHigher() {
         //Highersearchをする時に呼ぶメソッド
-        judgmentSearch(0);
+        searchBooksHigherDownloaded();
     }
 
     public void startSearchKeyword(String keyword) {
-        judgmentSearch(1);
         this.keyword = keyword;
+        searchBooksByKeyword();
+    }
+
+    public void startSearchPath(String book_path) {
+        this.book_path = book_path;
+        searchBookByBookPath();
     }
 
     public interface OnAddItemListener {
         //adapterにitemを入れるためのインターフェイス
         void addItem(Book item);
+    }
+
+    public interface OnDlBookInformationListener {
+        void showItem(Book item);
     }
 }
 

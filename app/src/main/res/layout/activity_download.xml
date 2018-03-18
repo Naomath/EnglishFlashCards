@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.gotounaoto.myapplication.activities.MainActivity">
+    tools:context="com.example.gotounaoto.myapplication.activities.DownloadActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -15,20 +15,10 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:titleTextColor="@color/white" />
-
+    
     <RelativeLayout
         android:id="@+id/relative"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:animateLayoutChanges="true" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:itemBackground="@color/colorTheme"
-        app:menu="@menu/bottom_navigation" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

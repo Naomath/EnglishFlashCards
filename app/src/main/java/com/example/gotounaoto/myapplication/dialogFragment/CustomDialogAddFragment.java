@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.example.gotounaoto.myapplication.activity.MainActivity;
+import com.example.gotounaoto.myapplication.activities.MainActivity;
 import com.example.gotounaoto.myapplication.R;
 
 public class CustomDialogAddFragment extends DialogFragment implements View.OnClickListener {

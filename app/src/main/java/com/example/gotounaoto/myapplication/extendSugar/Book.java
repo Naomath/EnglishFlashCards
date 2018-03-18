@@ -33,7 +33,7 @@ public class Book extends SugarRecord {
     @Getter
     @Setter
     private int done_upload;
-    //1ならアップロードされてない、0ならアップロードされている
+    //1ならアップロードされてない、0ならアップロードされている、2ならダウンロードしたもの
 
     @Getter
     @Setter
@@ -54,6 +54,11 @@ public class Book extends SugarRecord {
     @Setter
     private String user_name;
     //作成者の名前
+
+    @Getter
+    @Setter
+    private String book_path;
+    //firebaseでもpath（key）
 
 
     public Book() {

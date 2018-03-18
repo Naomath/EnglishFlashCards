@@ -16,7 +16,7 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.example.gotounaoto.myapplication.activity.AddWordActivity;
+import com.example.gotounaoto.myapplication.activities.AddWordActivity;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Book;

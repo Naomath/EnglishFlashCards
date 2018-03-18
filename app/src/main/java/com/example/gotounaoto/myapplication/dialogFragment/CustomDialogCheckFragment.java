@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.gotounaoto.myapplication.activity.QuestionActivity;
+import com.example.gotounaoto.myapplication.activities.QuestionActivity;
 import com.example.gotounaoto.myapplication.R;
 
 public class CustomDialogCheckFragment extends DialogFragment implements View.OnClickListener {

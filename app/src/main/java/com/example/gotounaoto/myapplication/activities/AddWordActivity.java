@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.activity;
+package com.example.gotounaoto.myapplication.activities;
 
 
 import android.content.Intent;
