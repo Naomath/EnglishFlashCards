@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogOneTextFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWeakPercentageFragment;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.adapters.SettingUserAdapter;
+import com.example.gotounaoto.myapplication.adapters.InformationAdapter;
 import com.example.gotounaoto.myapplication.classes.TwoText;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class SettingsUserFragment extends Fragment {
 
     View view;
     ListView listView;
-    SettingUserAdapter adapter;
+    InformationAdapter adapter;
 
     public SettingsUserFragment() {
         // Required empty public constructor
@@ -46,7 +46,7 @@ public class SettingsUserFragment extends Fragment {
     public void settingListView() {
         //listviewの設定
         listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new SettingUserAdapter(getActivity(), R.layout.adapter_setting_user);
+        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information, 25);
         listView.setAdapter(adapter);
         addItemList();
         //上のメソッドでadapterにitemsをセットする
