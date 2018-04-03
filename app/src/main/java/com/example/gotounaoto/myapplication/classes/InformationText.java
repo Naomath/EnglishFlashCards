@@ -1,9 +1,11 @@
 package com.example.gotounaoto.myapplication.classes;
 
+import com.example.gotounaoto.myapplication.adapters.InformationAdapter;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class TwoText {
+public class InformationText {
 
     //SettingUserAdapterで使う
 
@@ -20,15 +22,21 @@ public class TwoText {
     private int id;
     //adapterから取得したときのidを示すためのやつ
 
-    public TwoText(String first_text, String second_text) {
-        this.first_text = first_text;
-        this.second_text = second_text;
-    }
+    @Getter
+    @Setter
+    private float text_size;
 
-    public TwoText(String first_text, String second_text, int id){
+    public InformationText(String first_text, String second_text, int id, float text_size){
         this.first_text = first_text;
         this.second_text = second_text;
         this.id = id;
+        this.text_size = text_size;
+    }
+
+    public InformationText(String first_text, String second_text, float text_size){
+        this.first_text = first_text;
+        this.second_text = second_text;
+        this.text_size = text_size;
     }
 
 }

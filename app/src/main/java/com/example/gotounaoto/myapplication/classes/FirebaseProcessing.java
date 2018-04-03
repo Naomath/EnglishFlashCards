@@ -1,8 +1,6 @@
 package com.example.gotounaoto.myapplication.classes;
 
-import com.example.gotounaoto.myapplication.DownloadFragment.DlBookInformationFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
-import com.example.gotounaoto.myapplication.mainFragment.DownloadFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,7 +95,7 @@ public class FirebaseProcessing {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Book item = dataSnapshot.getValue(Book.class);
-               onDlBookInformationListener.showItem(item);
+                onDlBookInformationListener.returnItem(item);
             }
 
             @Override
@@ -128,7 +126,7 @@ public class FirebaseProcessing {
     }
 
     public interface OnDlBookInformationListener {
-        void showItem(Book item);
+        void returnItem(Book item);
     }
 }
 

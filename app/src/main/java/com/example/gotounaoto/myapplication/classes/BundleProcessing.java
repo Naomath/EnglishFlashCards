@@ -1,9 +1,8 @@
 package com.example.gotounaoto.myapplication.classes;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
-import com.example.gotounaoto.myapplication.DownloadFragment.DlBookInformationFragment;
+import com.example.gotounaoto.myapplication.downloadFragment.DlBookInformationFragment;
 
 /**
  * Created by gotounaoto on 2018/03/18.

@@ -206,9 +206,13 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void upload() {
-        settingBookForUpload();
-        uploadName();
-        //順番としてはuploadName->uploadBook->uploadBookPathとなる
+        if (book.getDone_upload() == 2) {
+            makeToast("この単語帳はダウンロードしたものなので、アップロードできません。");
+        } else {
+            settingBookForUpload();
+            uploadName();
+            //順番としてはuploadName->uploadBook->uploadBookPathとなる
+        }
     }
 
     public void uploadName() {

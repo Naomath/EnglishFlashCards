@@ -7,13 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.example.gotounaoto.myapplication.DownloadFragment.DlBookInformationFragment;
+import com.example.gotounaoto.myapplication.downloadFragment.DlBookInformationFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.classes.BundleProcessing;
 import com.example.gotounaoto.myapplication.classes.IntentProcessing;
-import com.example.gotounaoto.myapplication.wordsFragments.AddWordsFragment;
 
-public class DownloadActivity extends AppCompatActivity {
+public class DownloadActivity extends AppCompatActivity implements DlBookInformationFragment.OnFinishListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +22,12 @@ public class DownloadActivity extends AppCompatActivity {
         settingFragment(book_path);
         settingToolbar();
     }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -35,12 +40,12 @@ public class DownloadActivity extends AppCompatActivity {
         }
     }
 
-    public String gettingIntent(){
+    public String gettingIntent() {
         //前のactivityから伝えられたbook_pathをゲットしてリターンする
         return IntentProcessing.fromMainInDownload(this);
     }
 
-    public void settingFragment(String book_path){
+    public void settingFragment(String book_path) {
         DlBookInformationFragment fragment = new DlBookInformationFragment();
         fragment.setArguments(BundleProcessing.toDlBookInformationFrInDownload(book_path));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -60,4 +65,5 @@ public class DownloadActivity extends AppCompatActivity {
         });
         setTitle("Download");
     }
+
 }

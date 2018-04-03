@@ -10,25 +10,24 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.TwoText;
+import com.example.gotounaoto.myapplication.classes.InformationText;
 
 /**
  * Created by gotounaoto on 2018/02/02.
  */
 
-public class InformationAdapter extends ArrayAdapter<TwoText> {
+public class InformationAdapter extends ArrayAdapter<InformationText> {
+
     Context context;
     LayoutInflater layoutInflater;
     int resource;
-    float text_size;
 
-    public InformationAdapter(@NonNull Context context, int resource, float text_size) {
+    public InformationAdapter(@NonNull Context context, int resource) {
         //コンストラクタ
         super(context, resource);
         this.context = context;
         this.layoutInflater = LayoutInflater.from(this.context);
         this.resource = resource;
-        this.text_size = text_size;
     }
 
     @Override
@@ -40,11 +39,11 @@ public class InformationAdapter extends ArrayAdapter<TwoText> {
             convertView.setTag(view_set_up);
         } else {
             view_set_up = ((InformationAdapter.ViewSetUp) convertView.getTag());
-            TwoText item = getItem(position);
+            InformationText item = getItem(position);
             view_set_up.text_title.setText(item.getFirst_text());
             view_set_up.text_sub_title.setText(item.getSecond_text());
-            view_set_up.text_sub_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, text_size);
-            //ここでtext_sizeを変えている
+            view_set_up.text_sub_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, item.getText_size());
+            //上のコードでテキストビューのサイズを設定
         }
 
         return convertView;
@@ -56,8 +55,8 @@ public class InformationAdapter extends ArrayAdapter<TwoText> {
         TextView text_sub_title;
 
         public ViewSetUp(View view) {
-            text_title = (TextView)view.findViewById(R.id.text_title);
-            text_sub_title = (TextView)view.findViewById(R.id.text_sub_title);
+            text_title = (TextView) view.findViewById(R.id.text_title);
+            text_sub_title = (TextView) view.findViewById(R.id.text_sub_title);
         }
     }
 }

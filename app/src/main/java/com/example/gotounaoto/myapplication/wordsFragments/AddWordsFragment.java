@@ -122,7 +122,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
 
     public void toDecide(){
         //decideボタンが押された時の処理
-        List<Word> wordList = new ArrayList<Word>();
+        List<Word> wordList = new ArrayList<>();
         for (int i = 0, length = adapter.getCount(); i < length; i++) {
             Word item = adapter.getItem(i);
             wordList.add(item);
@@ -130,8 +130,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
         SugarRecord.saveInTx(wordList);
         Word firstWord = wordList.get(0);
         Word lastWord = wordList.get(adapter.getCount() - 1);
-        Book group = new Book(title, firstWord.getId(), lastWord.getId());
-        group.setDate(MakeDateString.makeDateNow());
+        Book group = new Book(title, firstWord.getId(), lastWord.getId(),MakeDateString.makeDateNow());
         group.save();
         onFinishListener.sendFinish(true);
     }

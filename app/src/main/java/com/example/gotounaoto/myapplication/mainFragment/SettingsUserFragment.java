@@ -14,7 +14,7 @@ import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogOneTextFr
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWeakPercentageFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.InformationAdapter;
-import com.example.gotounaoto.myapplication.classes.TwoText;
+import com.example.gotounaoto.myapplication.classes.InformationText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,14 +46,14 @@ public class SettingsUserFragment extends Fragment {
     public void settingListView() {
         //listviewの設定
         listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information, 25);
+        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information);
         listView.setAdapter(adapter);
         addItemList();
         //上のメソッドでadapterにitemsをセットする
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TwoText item = (TwoText) adapter.getItem(i);
+                InformationText item = (InformationText) adapter.getItem(i);
                 int item_id = item.getId();
                 switch (item_id) {
                     case 0:
@@ -86,13 +86,13 @@ public class SettingsUserFragment extends Fragment {
 
     public void addItemList() {
         //listviewに要素を追加する
-        List<TwoText> list_item = new ArrayList<>();
+        List<InformationText> list_item = new ArrayList<>();
         SharedPreferences preferences_user = getActivity().getSharedPreferences("user"
                 , Context.MODE_PRIVATE);
-        TwoText item1 = new TwoText("ユーザー名", preferences_user.getString("name", null), 0);
+        InformationText item1 = new InformationText("ユーザー名", preferences_user.getString("name", null), 0, 25f);
         list_item.add(item1);
-        TwoText item2 = new TwoText("間違えやすい問題になる誤答率"
-                , String.valueOf(preferences_user.getFloat("percentage", 30f)) + "%", 1);
+        InformationText item2 = new InformationText("間違えやすい問題になる誤答率"
+                , String.valueOf(preferences_user.getFloat("percentage", 30f)) + "%", 1,25f);
         list_item.add(item2);
         adapter.addAll(list_item);
     }

@@ -1,5 +1,6 @@
 package com.example.gotounaoto.myapplication.extendSugar;
 
+import com.example.gotounaoto.myapplication.classes.MakeDateString;
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class Book extends SugarRecord {
     @Getter
     @Setter
     private int done_upload;
-    //1ならアップロードされてない、0ならアップロードされている、2ならダウンロードしたもの
+    //1ならアップロードされてない、0ならアップロードを自分でしたもの、2ならダウンロードしたもの（つまり他人のもの）
 
     @Getter
     @Setter
@@ -60,14 +61,21 @@ public class Book extends SugarRecord {
     private String book_path;
     //firebaseでもpath（key）
 
+    @Getter
+    @Setter
+    private String message;
+    //firebaseであげるときに必要なやつ
+    //その単語帳の説明
+
 
     public Book() {
     }//普通のコンストラクタ
 
-    public Book(String title, long first_id, long last_id){
+    public Book(String title, long first_id, long last_id, String date){
         this.title = title;
         this.first_id = first_id;
         this.last_id = last_id;
+        this.date = date;
     }
 
     public List<Word> returnWords(){
@@ -90,5 +98,15 @@ public class Book extends SugarRecord {
             }
         }
         return words;
+    }
+
+    public List<String> returnListOriginal() {
+        //単語の英語の方だけをリストにして返す
+        List<Word> words = returnWords();
+        List<String> originals = new ArrayList<>();
+        for(Word item:words){
+            originals.add(item.getOriginal());
+        }
+        return originals;
     }
 }
