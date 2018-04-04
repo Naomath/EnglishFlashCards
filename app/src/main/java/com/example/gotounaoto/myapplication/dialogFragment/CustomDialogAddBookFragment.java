@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.gotounaoto.myapplication.activities.MainActivity;
 import com.example.gotounaoto.myapplication.R;
 
-public class CustomDialogAddFragment extends DialogFragment implements View.OnClickListener {
+public class CustomDialogAddBookFragment extends DialogFragment implements View.OnClickListener {
 
     Dialog dialog;
     Button decide;
@@ -28,7 +28,7 @@ public class CustomDialogAddFragment extends DialogFragment implements View.OnCl
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.fragment_custom_dialog_add);
+        dialog.setContentView(R.layout.fragment_custom_dialog_add_book);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         decide = (Button) dialog.findViewById(R.id.decide_button);
         decide.setOnClickListener(this);

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gotounaoto.myapplication.dialogFragment.CustomDialogAddFragment">
+    tools:context="com.example.gotounaoto.myapplication.dialogFragment.CustomDialogAddBookFragment">
 
     <LinearLayout
         android:layout_width="300dp"
@@ -22,31 +22,25 @@
             android:background="@drawable/background_dialog_title"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Add!"
+            android:text="説明"
             android:textColor="#ffffff"
             android:textSize="18dp" />
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:lineSpacingExtra="6dp"
-            android:text="追加する単語帳の名前は？"
-            android:textColor="#757575"
-            android:textSize="16sp" />
-
         <EditText
-            android:id="@+id/edit_title"
+            android:id="@+id/edit_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:hint="単語帳の説明を入力してください。"
+            android:textSize="13dp"
+            android:layout_weight="5"
             android:inputType="text" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:layout_marginTop="20dp">
 
             <Button
@@ -58,10 +52,10 @@
                 android:textColor="@android:color/white" />
 
             <RelativeLayout
-                android:layout_width="90dp"
                 android:id="@+id/relative_error"
+                android:layout_width="90dp"
                 android:layout_height="50dp"
-                android:background="@drawable/background_dialog_error_button"/>
+                android:background="@drawable/background_dialog_error_button" />
         </RelativeLayout>
 
     </LinearLayout>

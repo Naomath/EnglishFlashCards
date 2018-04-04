@@ -24,8 +24,8 @@ public class DownloadActivity extends AppCompatActivity implements DlBookInforma
     }
 
     @Override
-    public void finishActivity() {
-       IntentProcessing.backToMain(this);
+    public void finishActivity(String message) {
+        IntentProcessing.backToMainWithMessage(this, message, 1);
     }
 
 

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogCheckFragment;
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogCheckSolveFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.classes.GettingPieData;
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.check_button:
-                    CustomDialogCheckFragment dialogCheckFragment = new CustomDialogCheckFragment();
+                    CustomDialogCheckSolveFragment dialogCheckFragment = new CustomDialogCheckSolveFragment();
                     dialogCheckFragment.show(getFragmentManager(), "check");
                     break;
 

@@ -1,7 +1,5 @@
 package com.example.gotounaoto.myapplication.mainFragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.classes.CallSharedPreference;
-import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogOneTextFragment;
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogInputMessageFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWeakPercentageFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.InformationAdapter;
@@ -71,7 +69,7 @@ public class SettingsUserFragment extends Fragment {
     public void case0(){
         //listviewでcase0の時の処理
         //ここでユーザー名を変える
-        CustomDialogOneTextFragment dialogOneTextFragment = new CustomDialogOneTextFragment();
+        CustomDialogInputMessageFragment dialogOneTextFragment = new CustomDialogInputMessageFragment();
         Bundle savedInstanceState = new Bundle();
         savedInstanceState.putInt("mode",0);
         dialogOneTextFragment.setArguments(savedInstanceState);

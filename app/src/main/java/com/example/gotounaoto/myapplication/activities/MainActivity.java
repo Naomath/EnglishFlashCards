@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         Intent intent = getIntent();
         int which_fragment = intent.getIntExtra("which_fragment", 0);
         boolean which_toast = intent.getBooleanExtra("please_toast", false);
-        String message_toast = intent.getStringExtra("message_toast");
+        String message_toast = intent.getStringExtra("message");
         makeToast(which_toast, message_toast);
         return which_fragment;
     }

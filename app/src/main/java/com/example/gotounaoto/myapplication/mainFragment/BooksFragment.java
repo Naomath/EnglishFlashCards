@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogAddFragment;
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogAddBookFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogSortFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
@@ -67,23 +67,25 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 0:
-                if (resultCode != Activity.RESULT_OK) {
+        if (requestCode == Activity.RESULT_OK) {
+            switch (resultCode) {
+                case 0:
+                    if (resultCode != Activity.RESULT_OK) {
+                        return;
+                    }
+                    //新しい順に
+                    sortBooks(true, "");
+                    dialog.dismiss();
                     return;
-                }
-                //新しい順に
-                sortBooks(true, "");
-                dialog.dismiss();
-                return;
-            case 1:
-                if (resultCode != Activity.RESULT_OK) {
+                case 1:
+                    if (resultCode != Activity.RESULT_OK) {
+                        return;
+                    }
+                    //古い順に
+                    sortBooks(false, "");
+                    dialog.dismiss();
                     return;
-                }
-                //古い順に
-                sortBooks(false, "");
-                dialog.dismiss();
-                return;
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -114,7 +116,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     }
 
     public void makeDialog() {
-        CustomDialogAddFragment dialogAddFragment = new CustomDialogAddFragment();
+        CustomDialogAddBookFragment dialogAddFragment = new CustomDialogAddBookFragment();
         dialogAddFragment.show(getFragmentManager(), "add");
     }
 

@@ -27,6 +27,7 @@ public class CustomDialogSortFragment extends DialogFragment implements View.OnC
     }
 
 
+
     public CustomDialogSortFragment() {
     }
 
@@ -74,6 +75,6 @@ public class CustomDialogSortFragment extends DialogFragment implements View.OnC
     public void submitToTargetFragment(int which){
         Fragment target = getTargetFragment();
         Intent intent = new Intent();
-        target.onActivityResult(which, Activity.RESULT_OK, intent);
+        target.onActivityResult(Activity.RESULT_OK,which, intent);
     }
 }

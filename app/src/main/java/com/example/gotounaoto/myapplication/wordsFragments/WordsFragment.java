@@ -18,7 +18,10 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.example.gotounaoto.myapplication.classes.BundleProcessing;
+import com.example.gotounaoto.myapplication.classes.IntentProcessing;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogDeleteFragment;
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogInputMessageFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.extendSugar.AddedWord;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
@@ -43,6 +46,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     WordsAdapter adapter;
     long book_id;
     CustomDialogWordAddFragment dialog;
+    CustomDialogInputMessageFragment dialogInputMessageFragment;
     OnWordsListener onWordsListener;
     public static final String error_message = "アップロードに失敗しました。もう一回してください。";
 
@@ -52,29 +56,6 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 1:
-                if (resultCode != Activity.RESULT_OK) {
-                    return;
-                }
-                String original = data.getStringExtra("original");
-                String translated = data.getStringExtra("translated");
-                String part = data.getStringExtra("part");
-                Word word = new Word(original, translated, part);
-                word.save();
-                long id_word = word.getId();
-                AddedWord addedWord = new AddedWord(original, translated, part, book_id, id_word);
-                addedWord.save();
-                dialog.dismiss();
-                sortWords();
-                return;
-
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -97,6 +78,31 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Activity.RESULT_OK) {
+            switch (resultCode) {
+                case 0:
+                    book.setMessage(IntentProcessing.fromMessageDialogInWords(data));
+                    dialogInputMessageFragment.dismiss();
+                    return;
+                case 1:
+                    String original = data.getStringExtra("original");
+                    String translated = data.getStringExtra("translated");
+                    String part = data.getStringExtra("part");
+                    Word word = new Word(original, translated, part);
+                    word.save();
+                    long id_word = word.getId();
+                    AddedWord addedWord = new AddedWord(original, translated, part, book_id, id_word);
+                    addedWord.save();
+                    dialog.dismiss();
+                    sortWords();
+                    return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
@@ -105,6 +111,24 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.button_upload:
+                    showMessageDialog();
+                    break;
+                case R.id.button_study:
+                    study();
+                    break;
+                case R.id.button_add:
+                    addWord();
+                    break;
+
+            }
+        }
     }
 
 
@@ -187,31 +211,29 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         onWordsListener.startStudy(book_id);
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view != null) {
-            switch (view.getId()) {
-                case R.id.button_upload:
-                    upload();
-                    break;
-                case R.id.button_study:
-                    study();
-                    break;
-                case R.id.button_add:
-                    addWord();
-                    break;
-
-            }
-        }
+    public void showMessageDialog() {
+        dialogInputMessageFragment = new CustomDialogInputMessageFragment();
+        dialogInputMessageFragment.setArguments(BundleProcessing.toMessageDialog(book));
+        dialogInputMessageFragment.setTargetFragment(this, Activity.RESULT_OK);
+        dialogInputMessageFragment.show(getFragmentManager(), "message");
     }
 
     public void upload() {
-        if (book.getDone_upload() == 2) {
-            makeToast("この単語帳はダウンロードしたものなので、アップロードできません。");
-        } else {
-            settingBookForUpload();
-            uploadName();
-            //順番としてはuploadName->uploadBook->uploadBookPathとなる
+        switch (book.getDone_upload()) {
+            case 0:
+                //まだアップロードしていないもの
+                settingBookForUpload();
+                uploadName();
+                //順番としてはuploadName->uploadBook->uploadBookPathとなる
+                //                                |->saveBookKey
+                break;
+            case 1:
+                //もうアップロードしてあるものよってアップデートすることになる
+                break;
+            case 2:
+                //ダウンロードしたもの。よって自分でアップロードすることはできない
+                makeToast("この単語帳はダウンロードしたものなので、アップロードできません。");
+                break;
         }
     }
 
@@ -259,6 +281,8 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         //userのところにbookのpath(key)を追加する
         String user_id = CallSharedPreference.callUserId(this.getActivity());
         //データベースで使うためのユーザーid
+        saveBookKey(book_key);
+        //ここで自分のbookにpathを保存する
         FirebaseProcessing.gettingUserReference().child(user_id).child("book_paths").push().setValue(book_key, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -270,6 +294,11 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    public void saveBookKey(String book_path) {
+        //bookのfirebase上でのkeyを保存する
+        book.setBook_path(book_path);
     }
 
     public void makeToast(String message) {

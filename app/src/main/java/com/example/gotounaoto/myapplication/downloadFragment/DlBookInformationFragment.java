@@ -78,11 +78,11 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         information.add(new InformationText("タイトル", item.getTitle(), 25f));
         information.add(new InformationText("作成者", item.getUser_name(), 25f));
         information.add(new InformationText("作成日", item.getDate(), 25f));
-        information.add(new InformationText("ダウンロード回数", String.valueOf(item.getDownload_time()), 25f));
+        information.add(new InformationText("ダウンロード回数", String.valueOf(item.getDownload_time()) + "回", 25f));
         information.add(new InformationText("説明", item.getMessage(), 18f));
-        information.add(new InformationText("単語数", String.valueOf(item.getList_words()), 25f));
-   //     information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
-        for(InformationText item:information){
+        information.add(new InformationText("単語数", String.valueOf(item.getList_words().size()), 25f));
+        information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
+        for (InformationText item : information) {
             adapter.add(item);
         }
     }
@@ -95,7 +95,7 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         item.setLast_id(list_words.get(list_words.size() - 1).getId());
         item.setDone_upload(2);
         item.save();
-        onFinishListener.finishActivity();
+        onFinishListener.finishActivity("ダウンロードを完了しました。");
         addDownloadedTime();
     }
 
@@ -121,8 +121,6 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
     }
 
     public interface OnFinishListener {
-        void finishActivity();
+        void finishActivity(String message);
     }
-
-
 }

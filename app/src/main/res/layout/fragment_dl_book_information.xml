@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginTop="16dp">
 
         <Button
             android:id="@+id/button_download"
@@ -32,7 +33,7 @@
             android:background="@drawable/button_add_words"
             android:drawableTop="@drawable/ic_arrow_downward_white_48dp"
             android:gravity="center"
-            android:text="dowload"
+            android:text="download"
             android:textColor="@color/white"
             android:textSize="12dp" />
     </LinearLayout>

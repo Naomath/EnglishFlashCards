@@ -13,14 +13,14 @@ import android.view.WindowManager;
 import com.example.gotounaoto.myapplication.activities.QuestionActivity;
 import com.example.gotounaoto.myapplication.R;
 
-public class CustomDialogCheckFragment extends DialogFragment implements View.OnClickListener {
+public class CustomDialogCheckSolveFragment extends DialogFragment implements View.OnClickListener {
 
     @Override
     public Dialog onCreateDialog(Bundle saveInstanceState) {
         Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.fragment_custom_dialog_check);
+        dialog.setContentView(R.layout.fragment_custom_dialog_check_solve);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.findViewById(R.id.today_button).setOnClickListener(this);
         dialog.findViewById(R.id.weak_button).setOnClickListener(this);
