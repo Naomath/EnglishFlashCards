@@ -27,4 +27,9 @@ public class CallSharedPreference {
         String user_name = callUserPreference(context).getString("name", null);
         return user_name;
     }
+
+    public static float callWeakPercentage(Context context){
+        //間違えやすい問題のボーダーのパーセンテージ
+        return callUserPreference(context).getFloat("percentage", 30f);
+    }
 }

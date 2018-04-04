@@ -196,6 +196,7 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
     public void intentToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

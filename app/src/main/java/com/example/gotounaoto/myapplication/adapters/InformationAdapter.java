@@ -39,13 +39,12 @@ public class InformationAdapter extends ArrayAdapter<InformationText> {
             convertView.setTag(view_set_up);
         } else {
             view_set_up = ((InformationAdapter.ViewSetUp) convertView.getTag());
-            InformationText item = getItem(position);
-            view_set_up.text_title.setText(item.getFirst_text());
-            view_set_up.text_sub_title.setText(item.getSecond_text());
-            view_set_up.text_sub_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, item.getText_size());
-            //上のコードでテキストビューのサイズを設定
         }
-
+        InformationText item = getItem(position);
+        view_set_up.text_title.setText(item.getFirst_text());
+        view_set_up.text_sub_title.setText(item.getSecond_text());
+        view_set_up.text_sub_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, item.getText_size());
+        //上のコードでテキストビューのサイズを設定
         return convertView;
     }
 

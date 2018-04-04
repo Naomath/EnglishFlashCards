@@ -17,6 +17,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.gotounaoto.myapplication.activities.AddWordActivity;
+import com.example.gotounaoto.myapplication.classes.CallSharedPreference;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogFinishFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWordAddFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
@@ -131,6 +132,7 @@ public class AddWordsFragment extends Fragment implements View.OnClickListener {
         Word firstWord = wordList.get(0);
         Word lastWord = wordList.get(adapter.getCount() - 1);
         Book group = new Book(title, firstWord.getId(), lastWord.getId(),MakeDateString.makeDateNow());
+        group.setUser_name(CallSharedPreference.callUserName(getActivity()));
         group.save();
         onFinishListener.sendFinish(true);
     }

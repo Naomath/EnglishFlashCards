@@ -25,9 +25,9 @@
             android:textSize="25dip"
             android:textColor="@color/colorPrimary"
             android:text="Naomath"
-            app:trimExpandedText="詳細"
-            app:trimCollapsedText="閉じる"
-            app:trimLength="55"
+            app:trimExpandedText="show more"
+            app:trimCollapsedText="show less"
+            app:trimLength="40"
             app:trimMode="trimModeLength"/>
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.gotounaoto.myapplication.classes.CallSharedPreference;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogOneTextFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWeakPercentageFragment;
 import com.example.gotounaoto.myapplication.R;
@@ -87,14 +88,13 @@ public class SettingsUserFragment extends Fragment {
     public void addItemList() {
         //listviewに要素を追加する
         List<InformationText> list_item = new ArrayList<>();
-        SharedPreferences preferences_user = getActivity().getSharedPreferences("user"
-                , Context.MODE_PRIVATE);
-        InformationText item1 = new InformationText("ユーザー名", preferences_user.getString("name", null), 0, 25f);
+        InformationText item1 = new InformationText("ユーザー名", CallSharedPreference.callUserName(getActivity()), 0, 25f);
         list_item.add(item1);
         InformationText item2 = new InformationText("間違えやすい問題になる誤答率"
-                , String.valueOf(preferences_user.getFloat("percentage", 30f)) + "%", 1,25f);
+                , String.valueOf(CallSharedPreference.callWeakPercentage(getActivity())) + "%", 1,25f);
         list_item.add(item2);
-        adapter.addAll(list_item);
+        adapter.add(item1);
+        adapter.add(item2);
     }
 
 }

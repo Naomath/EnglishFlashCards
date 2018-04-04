@@ -118,6 +118,7 @@ public class WordsActivity extends AppCompatActivity implements OnInputListener,
         intent.putExtra("which_fragment", 1);
         intent.putExtra("return",true);
         startActivity(intent);
+        finish();
     }
 
     @Override
