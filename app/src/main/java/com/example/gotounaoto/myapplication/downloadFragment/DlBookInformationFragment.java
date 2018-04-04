@@ -80,8 +80,8 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         information.add(new InformationText("作成日", item.getDate(), 25f));
         information.add(new InformationText("ダウンロード回数", String.valueOf(item.getDownload_time()), 25f));
         information.add(new InformationText("説明", item.getMessage(), 18f));
-        information.add(new InformationText("単語数", String.valueOf(item.getList_words()), 25f));
-   //     information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
+        information.add(new InformationText("単語数", String.valueOf(item.getList_words().size()), 25f));
+        information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
         for(InformationText item:information){
             adapter.add(item);
         }
