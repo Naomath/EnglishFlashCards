@@ -25,7 +25,8 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
     View view;
     InformationAdapter adapter;
     Book item;
-    OnFinishListener onFinishListener;
+    DlBookInformationFragment.OnFinishListener onFinishListener;
+    String book_path;
 
     public DlBookInformationFragment() {
         // Required empty public constructor
@@ -65,6 +66,12 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         }
     }
 
+    public void addDownloadedTime() {
+        //ダウンロードされた回数を追加する
+        FirebaseProcessing firebaseProcessing = new FirebaseProcessing();
+        firebaseProcessing.startAddDownloadedTime(book_path);
+    }
+
     public void addInformation() {
         //アイテムを追加する
         List<InformationText> information = new ArrayList<>();
@@ -74,7 +81,10 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         information.add(new InformationText("ダウンロード回数", String.valueOf(item.getDownload_time()), 25f));
         information.add(new InformationText("説明", item.getMessage(), 18f));
         information.add(new InformationText("単語数", String.valueOf(item.getList_words()), 25f));
-        information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(), 5), 20f));
+        information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
+        for(InformationText item:information){
+            adapter.add(item);
+        }
     }
 
     public void download() {
@@ -82,14 +92,16 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         List<Word> list_words = item.getList_words();
         SugarRecord.saveInTx(list_words);
         item.setFirst_id(list_words.get(0).getId());
-        item.setLast_id(list_words.get(list_words.size()-1).getId());
+        item.setLast_id(list_words.get(list_words.size() - 1).getId());
         item.setDone_upload(2);
         item.save();
         onFinishListener.finishActivity();
+        addDownloadedTime();
     }
 
     public void gettingBook(String book_path) {
         //押されたbookをゲットする
+        this.book_path = book_path;
         FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
         firebaseProcessing.startSearchPath(book_path);
     }
@@ -97,7 +109,7 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
     public void settingListener() {
         //リスナーの設定
         view.findViewById(R.id.button_download).setOnClickListener(this);
-        onFinishListener = (OnFinishListener)getActivity();
+        onFinishListener = (OnFinishListener) getActivity();
     }
 
     public void settingListView() {
@@ -107,7 +119,7 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         listView.setAdapter(adapter);
     }
 
-    public interface OnFinishListener{
+    public interface OnFinishListener {
         void finishActivity();
     }
 

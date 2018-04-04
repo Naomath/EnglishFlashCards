@@ -100,9 +100,19 @@ public class Book extends SugarRecord {
         return words;
     }
 
-    public List<String> returnListOriginal() {
+    public List<String> returnListOriginal(int mode) {
         //単語の英語の方だけをリストにして返す
-        List<Word> words = returnWords();
+        List<Word> words = new ArrayList<>();
+        switch (mode){
+            case 0:
+                words = returnWords();
+                //このアプリ内で、firebaesが絡まないとき
+                break;
+            case 1:
+                words = list_words;
+                // firebaseからとってきたのを処理するとき
+                break;
+        }
         List<String> originals = new ArrayList<>();
         for(Word item:words){
             originals.add(item.getOriginal());

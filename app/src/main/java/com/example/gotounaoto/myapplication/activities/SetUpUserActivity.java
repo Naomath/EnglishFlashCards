@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.gotounaoto.myapplication.classes.MakeDateString;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
@@ -117,7 +118,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
             item.save();
         }
         Book default_book = new Book("重要な動詞", default_words.get(0).getId()
-                , default_words.get(default_words.size()-1).getId());
+                , default_words.get(default_words.size()-1).getId(), MakeDateString.makeDateNow());
         default_book.save();
     }
 

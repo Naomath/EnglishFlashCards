@@ -32,8 +32,8 @@ public class FirebaseProcessing {
         this.onAddItemListener = onAddItemListener;
     }
 
-    public FirebaseProcessing(OnDlBookInformationListener onDlBookInformationListener){
-       this.onDlBookInformationListener = onDlBookInformationListener;
+    public FirebaseProcessing(OnDlBookInformationListener onDlBookInformationListener) {
+        this.onDlBookInformationListener = onDlBookInformationListener;
     }
 
     public static DatabaseReference gettingUserReference() {
@@ -72,7 +72,7 @@ public class FirebaseProcessing {
 
     public void searchBooksByKeyword() {
         //キーワードありで探す
-        gettingBookReference().orderByChild("title").startAt(keyword).endAt(keyword+"\uf8ff").addValueEventListener(new ValueEventListener() {
+        gettingBookReference().orderByChild("title").startAt(keyword).endAt(keyword + "\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -105,6 +105,27 @@ public class FirebaseProcessing {
         });
     }
 
+    public void gettingDownloadedTime() {
+        //ダウンロードされた回数を取得して流す
+        gettingBookReference().child(book_path).child("download_time").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int time = dataSnapshot.getValue(Integer.class);
+                addDownloadTime(time);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addDownloadTime(int time){
+        //ダウンロードした回数を追加する
+        gettingBookReference().child(book_path).child("download_time").setValue(++time);
+    }
+
     public void startSearchHigher() {
         //Highersearchをする時に呼ぶメソッド
         searchBooksHigherDownloaded();
@@ -118,6 +139,12 @@ public class FirebaseProcessing {
     public void startSearchPath(String book_path) {
         this.book_path = book_path;
         searchBookByBookPath();
+    }
+
+    public void startAddDownloadedTime(String book_path) {
+        this.book_path = book_path;
+        gettingDownloadedTime();
+        //流れ的にはgettingDownloadTime()->addDownloadTime()
     }
 
     public interface OnAddItemListener {

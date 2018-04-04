@@ -1,5 +1,7 @@
 package com.example.gotounaoto.myapplication.classes;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ public class MakeString {
         return returned;
     }
 
+    @NonNull
     public static String makeStringWithComma(List<String> items, int number){
         //受け取ったのを文字列にする
         //リストの中からいくつとって文字列にするのかは、引数のnumberの数だけにする
