@@ -27,7 +27,7 @@ public class MakeString {
         StringBuffer stringBuffer = new StringBuffer();
         for(int i = 0;i<number;i++){
             stringBuffer.append(items.get(i));
-            if(!(--i==number)){
+            if(i != number - 1){
                 stringBuffer.append(",");
                 //ここで最後の単語の後にはカンマが入らないようにしている
             }
