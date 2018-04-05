@@ -15,7 +15,7 @@ import com.example.gotounaoto.myapplication.questionFragment.AnswerFragment;
 import com.example.gotounaoto.myapplication.questionFragment.FinishQuestionFragment;
 import com.example.gotounaoto.myapplication.questionFragment.QuestionFragment;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.MakeDateString;
+import com.example.gotounaoto.myapplication.processings.MakeDateString;
 import com.example.gotounaoto.myapplication.interfaces.OnFinishListener;
 import com.example.gotounaoto.myapplication.interfaces.OnSendWordListener;
 

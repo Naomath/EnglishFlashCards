@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.example.gotounaoto.myapplication.classes.MakeDateString;
+import com.example.gotounaoto.myapplication.processings.MakeDateString;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.GettingList;
+import com.example.gotounaoto.myapplication.processings.GettingList;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

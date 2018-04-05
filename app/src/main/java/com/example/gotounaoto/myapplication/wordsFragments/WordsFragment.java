@@ -18,8 +18,9 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.example.gotounaoto.myapplication.classes.BundleProcessing;
-import com.example.gotounaoto.myapplication.classes.IntentProcessing;
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogOneButtonFragment;
+import com.example.gotounaoto.myapplication.processings.BundleProcessing;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogDeleteFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogInputMessageFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWordAddFragment;
@@ -29,8 +30,8 @@ import com.example.gotounaoto.myapplication.extendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
-import com.example.gotounaoto.myapplication.classes.CallSharedPreference;
-import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
+import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
+import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +48,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     long book_id;
     CustomDialogWordAddFragment dialog;
     CustomDialogInputMessageFragment dialogInputMessageFragment;
+    CustomDialogOneButtonFragment dialogOneButtonFragment;
     OnWordsListener onWordsListener;
     public static final String error_message = "アップロードに失敗しました。もう一回してください。";
 
@@ -79,23 +81,23 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Activity.RESULT_OK) {
-            switch (resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case 0:
-                    book.setMessage(IntentProcessing.fromMessageDialogInWords(data));
-                    dialogInputMessageFragment.dismiss();
+                    //アップロードの時のメッセージが帰ってきた後の処理
+                    saveMessage(data, 0);
                     return;
                 case 1:
-                    String original = data.getStringExtra("original");
-                    String translated = data.getStringExtra("translated");
-                    String part = data.getStringExtra("part");
-                    Word word = new Word(original, translated, part);
-                    word.save();
-                    long id_word = word.getId();
-                    AddedWord addedWord = new AddedWord(original, translated, part, book_id, id_word);
-                    addedWord.save();
-                    dialog.dismiss();
-                    sortWords();
+                    //単語を新たに追加する
+                    addWord(data);
+                    return;
+                case 2:
+                    //アップデートの時の処理
+                    showMessageDialog(3);
+                    return;
+                case 3:
+                    //アップデートの時の処理でmessageが帰ってきた後の処理
+                    saveMessage(data, 1);
                     return;
             }
         }
@@ -118,13 +120,13 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.button_upload:
-                    showMessageDialog();
+                    judgeDoneUpload();
                     break;
                 case R.id.button_study:
                     study();
                     break;
                 case R.id.button_add:
-                    addWord();
+                    showWordAddDialog();
                     break;
 
             }
@@ -184,11 +186,10 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         onWordsListener = (OnWordsListener) getActivity();
     }
 
-    public void settingBookForUpload() {
+    public void settingBookBeforeUpload() {
         //uploadする前に単語を入れたりdone_uploadを変えたりとちょっといじる
-        book.setDone_upload(0);
-        //ここで0を入れることによりアップロードした
-        book.save();
+        book.setDone_upload(2);
+        //上のによりfirebase上でアップロードしたことにする
         book.setList_words(book.returnWords());
         //上で単語を入れている。.save()させてないのはリストは保存できなから
     }
@@ -211,24 +212,39 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         onWordsListener.startStudy(book_id);
     }
 
-    public void showMessageDialog() {
+    public void showWordAddDialog() {
+        //wordを追加するdialogを表示するメソッド
+        dialog = new CustomDialogWordAddFragment();
+        dialog.show(getFragmentManager(), "add_word");
+    }
+
+    public void showMessageDialog(int mode) {
+        //このmodeはアップデートかアップロードかの違い
+        //modeはそのままrequestCodeに反映される
         dialogInputMessageFragment = new CustomDialogInputMessageFragment();
-        dialogInputMessageFragment.setArguments(BundleProcessing.toMessageDialog(book));
+        dialogInputMessageFragment.setArguments(BundleProcessing.toMessageDialog(book, mode));
         dialogInputMessageFragment.setTargetFragment(this, Activity.RESULT_OK);
         dialogInputMessageFragment.show(getFragmentManager(), "message");
     }
 
-    public void upload() {
+    public void showOneBtnDialog() {
+        dialogOneButtonFragment = new CustomDialogOneButtonFragment();
+        dialogOneButtonFragment.setArguments(BundleProcessing.toOneBtnDialog("確認", "この単語帳はすでにアップロードされているので、" +
+                "アップデートをすることになりますが,いいですか？", 2));
+        dialogOneButtonFragment.setTargetFragment(this, Activity.RESULT_OK);
+        dialogOneButtonFragment.show(getFragmentManager(), "check");
+    }
+
+    public void judgeDoneUpload() {
+        //どのタイプのアップロードなのか判別する
         switch (book.getDone_upload()) {
             case 0:
                 //まだアップロードしていないもの
-                settingBookForUpload();
-                uploadName();
-                //順番としてはuploadName->uploadBook->uploadBookPathとなる
-                //                                |->saveBookKey
+                showMessageDialog(0);
                 break;
             case 1:
                 //もうアップロードしてあるものよってアップデートすることになる
+                showOneBtnDialog();
                 break;
             case 2:
                 //ダウンロードしたもの。よって自分でアップロードすることはできない
@@ -237,7 +253,16 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void uploadName() {
+    public void upload() {
+        //saveMessageから流れてやってくる
+        settingBookBeforeUpload();
+        uploadName(0);
+        //順番としてはuploadName->uploadBook->uploadBookPathとなる
+        //                                |->saveBookKey
+    }
+
+    public void uploadName(final int mode) {
+        //modeが0でupload, modeが1でupdate
         //名前をアップデート(アップロード？)する
         String user_name = CallSharedPreference.callUserName(this.getActivity());
         //データベースで使うためのユーザーネーム
@@ -251,7 +276,14 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 if (databaseError != null) {
                     makeToast(error_message);
                 } else {
-                    uploadBook();
+                    switch (mode){
+                        case 0:
+                            uploadBook();
+                            break;
+                        case 1:
+                            updateBook();
+                            break;
+                    }
                 }
             }
         });
@@ -277,6 +309,26 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    public void updateBook(){
+        //bookをupdateする
+        final String [] book_key = new String[1];
+        //bookをuserのほうにパスを保存するため
+        //bookのkey
+        //配列にしないとしたのメソッドからアクセスできない。finalをつけなければいけないので
+        FirebaseProcessing.gettingUserReference().child(book.getBook_path()).setValue(book, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //サーバーにcommitした時に呼び出される
+                if (databaseError != null) {
+                    makeToast(error_message);
+                } else {
+                    book_key[0] = databaseReference.getKey();
+                    updateBookPath(book_key[0]);
+                }
+            }
+        });
+    }
+
     public void uploadBookPath(String book_key) {
         //userのところにbookのpath(key)を追加する
         String user_id = CallSharedPreference.callUserId(this.getActivity());
@@ -296,19 +348,57 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    public void updateBookPath(String book_key){
+
+    }
+
+    public void update() {
+        //具体的なupdateの処理
+        //saveMessage()から流れてやってくる
+        settingBookBeforeUpload();
+        uploadName(1);
+        //順番としてはuploadName->updateBook->updateBookPathとなる
+        //                                |->saveBookKey
+    }
+
     public void saveBookKey(String book_path) {
         //bookのfirebase上でのkeyを保存する
+        book.setDone_upload(1);
         book.setBook_path(book_path);
+        book.save();
+    }
+
+    public void saveMessage(Intent data, int mode) {
+        //bookのmessageを実際に保存するメソッド
+        //modeが0ならupload(), 1ならupdate()
+        book.setMessage(IntentProcessing.fromMessageDialogInWords(data));
+        dialogInputMessageFragment.dismiss();
+        switch (mode) {
+            case 0:
+                upload();
+                break;
+            case 1:
+                update();
+                break;
+        }
+    }
+
+    public void addWord(Intent data) {
+        //実際に単語を追加するメソッド
+        String original = data.getStringExtra("original");
+        String translated = data.getStringExtra("translated");
+        String part = data.getStringExtra("part");
+        Word word = new Word(original, translated, part);
+        word.save();
+        long id_word = word.getId();
+        AddedWord addedWord = new AddedWord(original, translated, part, book_id, id_word);
+        addedWord.save();
+        dialog.dismiss();
+        sortWords();
     }
 
     public void makeToast(String message) {
         Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    public void addWord() {
-        //wordを追加するメソッド
-        dialog = new CustomDialogWordAddFragment();
-        dialog.show(getFragmentManager(), "add_word");
     }
 
     public interface OnWordsListener {

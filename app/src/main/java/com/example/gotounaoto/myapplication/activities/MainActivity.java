@@ -12,7 +12,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.gotounaoto.myapplication.classes.IntentProcessing;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.mainFragment.HomeFragment;
 import com.example.gotounaoto.myapplication.mainFragment.BooksFragment;

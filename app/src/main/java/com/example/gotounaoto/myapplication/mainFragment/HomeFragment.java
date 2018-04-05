@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogCheckSolveFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.GettingPieData;
-import com.example.gotounaoto.myapplication.classes.MakeString;
+import com.example.gotounaoto.myapplication.processings.GettingPieData;
+import com.example.gotounaoto.myapplication.processings.MakeString;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 

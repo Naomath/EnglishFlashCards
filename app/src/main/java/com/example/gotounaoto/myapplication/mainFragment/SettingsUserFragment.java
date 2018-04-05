@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.gotounaoto.myapplication.classes.CallSharedPreference;
+import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogInputMessageFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogWeakPercentageFragment;
 import com.example.gotounaoto.myapplication.R;

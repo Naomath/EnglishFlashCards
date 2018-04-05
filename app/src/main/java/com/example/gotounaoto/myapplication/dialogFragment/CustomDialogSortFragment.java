@@ -38,7 +38,6 @@ public class CustomDialogSortFragment extends DialogFragment implements View.OnC
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = new Dialog(getActivity());
         settingDialog();
         settingListener();
         return dialog;
@@ -60,6 +59,7 @@ public class CustomDialogSortFragment extends DialogFragment implements View.OnC
 
     public void settingDialog() {
         //ダイアログの詳細設定
+        dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         dialog.setContentView(R.layout.fragment_custom_dialog_sort);

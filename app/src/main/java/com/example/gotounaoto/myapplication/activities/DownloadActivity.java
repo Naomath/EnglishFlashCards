@@ -9,8 +9,8 @@ import android.view.View;
 
 import com.example.gotounaoto.myapplication.downloadFragment.DlBookInformationFragment;
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.BundleProcessing;
-import com.example.gotounaoto.myapplication.classes.IntentProcessing;
+import com.example.gotounaoto.myapplication.processings.BundleProcessing;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 
 public class DownloadActivity extends AppCompatActivity implements DlBookInformationFragment.OnFinishListener {
 

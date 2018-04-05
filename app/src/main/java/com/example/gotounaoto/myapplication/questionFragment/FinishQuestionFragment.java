@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.MakeString;
+import com.example.gotounaoto.myapplication.processings.MakeString;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.example.gotounaoto.myapplication.extendSugar;
 
-import com.example.gotounaoto.myapplication.classes.MakeDateString;
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class Book extends SugarRecord {
     @Getter
     @Setter
     private int done_upload;
-    //1ならアップロードされてない、0ならアップロードを自分でしたもの、2ならダウンロードしたもの（つまり他人のもの）
+    //0ならアップロードしてない、1ならアップロードを自分でしたもの、2ならダウンロードしたもの（つまり他人のもの）
 
     @Getter
     @Setter

@@ -9,10 +9,9 @@ import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.InformationAdapter;
-import com.example.gotounaoto.myapplication.classes.BundleProcessing;
-import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
+import com.example.gotounaoto.myapplication.processings.BundleProcessing;
+import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.classes.InformationText;
-import com.example.gotounaoto.myapplication.classes.MakeString;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.orm.SugarRecord;
@@ -95,7 +94,7 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         item.setLast_id(list_words.get(list_words.size() - 1).getId());
         item.setDone_upload(2);
         item.save();
-        onFinishListener.finishActivity();
+        onFinishListener.finishActivity("ダウンロードが終了しました。");
         addDownloadedTime();
     }
 
@@ -121,7 +120,7 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
     }
 
     public interface OnFinishListener {
-        void finishActivity();
+        void finishActivity(String message);
     }
 
 

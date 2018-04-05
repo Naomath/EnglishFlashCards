@@ -16,7 +16,7 @@ import android.widget.ListView;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
-import com.example.gotounaoto.myapplication.classes.FirebaseProcessing;
+import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 
 public class DownloadFragment extends Fragment implements FirebaseProcessing.OnAddItemListener {
 

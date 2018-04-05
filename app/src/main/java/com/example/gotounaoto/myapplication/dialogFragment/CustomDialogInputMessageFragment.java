@@ -2,7 +2,6 @@ package com.example.gotounaoto.myapplication.dialogFragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,9 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,16 +17,18 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.example.gotounaoto.myapplication.R;
-import com.example.gotounaoto.myapplication.classes.BundleProcessing;
-import com.example.gotounaoto.myapplication.classes.IntentProcessing;
+import com.example.gotounaoto.myapplication.classes.TextsAndNumbers;
+import com.example.gotounaoto.myapplication.processings.BundleProcessing;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 
-public class CustomDialogInputMessageFragment extends DialogFragment implements View.OnClickListener {
+public class CustomDialogInputMessageFragment extends DialogFragment implements View.OnClickListener{
     //一つのテキストを入力するダイアログ
 
     Dialog dialog;
     Button button;
     RelativeLayout error_layout;
     EditText edit_text;
+    TextsAndNumbers item;
 
     public CustomDialogInputMessageFragment() {
     }
@@ -37,6 +36,7 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gettingBundle();
         settingDialog();
         settingButton();
         settingEditText();
@@ -55,10 +55,16 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
         }
     }
 
-    public void decide(){
+    public void decide() {
         //buttonが押された時の処理
         Fragment target = getTargetFragment();
-        target.onActivityResult(Activity.RESULT_OK,0, IntentProcessing.fromMessageDialogToWords(edit_text.getText().toString()));
+        target.onActivityResult(item.getNumbers().get(0), Activity.RESULT_OK
+                , IntentProcessing.fromMessageDialogToWords(edit_text.getText().toString()));
+    }
+
+    public void gettingBundle() {
+        //送られてきたbundleを取得する
+        item = BundleProcessing.inMessageDialog(this);
     }
 
     public void settingButton() {
@@ -68,15 +74,18 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
     }
 
     public void settingDialog() {
+        dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.fragment_custom_dialog_add_book);
+        dialog.setContentView(R.layout.fragment_custom_dialog_input_message);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     public void settingEditText() {
         edit_text = (EditText) dialog.findViewById(R.id.edit_message);
-        edit_text.setText(BundleProcessing.inMessageDialog(this));
+        if (item.getTexts().get(0) != null) {
+            edit_text.setText(item.getTexts().get(0));
+        }
         edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

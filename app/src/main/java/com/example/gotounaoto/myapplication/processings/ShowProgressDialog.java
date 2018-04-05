@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.classes;
+package com.example.gotounaoto.myapplication.processings;
 
 import android.app.ProgressDialog;
 import android.content.Context;
