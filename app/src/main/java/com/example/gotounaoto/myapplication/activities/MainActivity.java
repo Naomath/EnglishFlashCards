@@ -12,12 +12,13 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.gotounaoto.myapplication.mainFragment.ShareFragment;
 import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.mainFragment.HomeFragment;
 import com.example.gotounaoto.myapplication.mainFragment.BooksFragment;
 import com.example.gotounaoto.myapplication.mainFragment.SettingsUserFragment;
-import com.example.gotounaoto.myapplication.mainFragment.DownloadFragment;
+import com.example.gotounaoto.myapplication.shareFragment.DownloadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 toolbar.setNavigationIcon(R.drawable.flashcards_icon_white);
                 break;
             case 2:
-                setTitle("Download");
+                setTitle("Share");
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_downward_white_24dp);
                 break;
             case 3:
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 fragment = new BooksFragment();
                 break;
             case 2:
-                fragment = new DownloadFragment();
+                fragment = new ShareFragment();
                 break;
             case 3:
                 fragment = new SettingsUserFragment();

@@ -1,4 +1,4 @@
-package com.example.gotounaoto.myapplication.mainFragment;
+package com.example.gotounaoto.myapplication.shareFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +27,11 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
 
     public DownloadFragment() {
         // Required empty public constructor
+    }
+
+    public static DownloadFragment newInstance(){
+        DownloadFragment fragment = new DownloadFragment();
+        return fragment;
     }
 
     @Override

@@ -83,9 +83,6 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
 
     public void settingEditText() {
         edit_text = (EditText) dialog.findViewById(R.id.edit_message);
-        if (item.getTexts().get(0) != null) {
-            edit_text.setText(item.getTexts().get(0));
-        }
         edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

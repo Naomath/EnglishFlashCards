@@ -1,5 +1,6 @@
 package com.example.gotounaoto.myapplication.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class DownloadActivity extends AppCompatActivity implements DlBookInforma
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 戻るボタンの処理
-            finish();
+            backActivity();
             return true;
         } else {
             return false;
@@ -60,10 +61,14 @@ public class DownloadActivity extends AppCompatActivity implements DlBookInforma
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                backActivity();
             }
         });
         setTitle("Download");
+    }
+
+    public void backActivity(){
+        IntentProcessing.backToMain(this, 2);
     }
 
 }
