@@ -93,6 +93,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                     return;
                 case 2:
                     //アップデートの時の処理
+                    dialogOneButtonFragment.dismiss();
                     showMessageDialog(3);
                     return;
                 case 3:
@@ -215,6 +216,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     public void showWordAddDialog() {
         //wordを追加するdialogを表示するメソッド
         dialog = new CustomDialogWordAddFragment();
+        dialog.setTargetFragment(this, Activity.RESULT_OK);
         dialog.show(getFragmentManager(), "add_word");
     }
 
@@ -276,7 +278,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 if (databaseError != null) {
                     makeToast(error_message);
                 } else {
-                    switch (mode){
+                    switch (mode) {
                         case 0:
                             uploadBook();
                             break;
@@ -309,21 +311,20 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public void updateBook(){
+    public void updateBook() {
         //bookをupdateする
-        final String [] book_key = new String[1];
+        final String[] book_key = new String[1];
         //bookをuserのほうにパスを保存するため
         //bookのkey
         //配列にしないとしたのメソッドからアクセスできない。finalをつけなければいけないので
-        FirebaseProcessing.gettingUserReference().child(book.getBook_path()).setValue(book, new DatabaseReference.CompletionListener() {
+        FirebaseProcessing.gettingBookReference().child(book.getBook_path()).setValue(book, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //サーバーにcommitした時に呼び出される
                 if (databaseError != null) {
                     makeToast(error_message);
                 } else {
-                    book_key[0] = databaseReference.getKey();
-                    updateBookPath(book_key[0]);
+                   makeToast("アップデートに成功しました。");
                 }
             }
         });
@@ -348,17 +349,14 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public void updateBookPath(String book_key){
-
-    }
-
     public void update() {
         //具体的なupdateの処理
         //saveMessage()から流れてやってくる
         settingBookBeforeUpload();
         uploadName(1);
-        //順番としてはuploadName->updateBook->updateBookPathとなる
+        //順番としてはuploadName->updateBook->
         //                                |->saveBookKey
+        //pathは変わらないので心配する必要なし
     }
 
     public void saveBookKey(String book_path) {
