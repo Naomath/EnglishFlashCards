@@ -1,7 +1,5 @@
 package com.example.gotounaoto.myapplication.shareFragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,12 +64,10 @@ public class AboutMeFragment extends Fragment {
             TextView uploaded_text = (TextView)view.findViewById(R.id.text_uploaded);
             uploaded_text.setVisibility(View.INVISIBLE);
         }
-        if(number_downloaded==0){
-            TextView downloaded_text = (TextView)view.findViewById(R.id.text_downloaded);
+        if(number_downloaded==0) {
+            TextView downloaded_text = (TextView) view.findViewById(R.id.text_downloaded);
             downloaded_text.setVisibility(View.INVISIBLE);
         }
-
-
     }
 
     public void settingThisView(LayoutInflater inflater, ViewGroup container) {

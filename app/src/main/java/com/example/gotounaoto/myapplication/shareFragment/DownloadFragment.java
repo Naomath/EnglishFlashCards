@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
@@ -143,6 +144,7 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
     public void searchBooksHigher() {
         //ダウンロード数Top20を検索する時
         adapter.clear();
+        visibleTextView();
         FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
         firebaseProcessing.startSearchHigher();
     }
@@ -150,8 +152,21 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
     public void searchBooksKeyword(String keyword) {
        //キーワードで検索する時
         adapter.clear();
+        invisibleTextView();
         FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
         firebaseProcessing.startSearchKeyword(keyword);
+    }
+
+    public void visibleTextView(){
+        //TextViewを可視化する
+        TextView textView = (TextView)view.findViewById(R.id.text_popular);
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    public void invisibleTextView(){
+        //textviewを見えなくする
+        TextView textView = (TextView)view.findViewById(R.id.text_popular);
+        textView.setVisibility(View.INVISIBLE);
     }
 
     public interface OnDownloadFragmentListener{
