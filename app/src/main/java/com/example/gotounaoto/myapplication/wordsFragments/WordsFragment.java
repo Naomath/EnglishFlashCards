@@ -369,7 +369,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     public void saveMessage(Intent data, int mode) {
         //bookのmessageを実際に保存するメソッド
         //modeが0ならupload(), 1ならupdate()
-        book.setMessage(IntentProcessing.fromMessageDialogInWords(data));
+        book.setMessage(IntentProcessing.fromMessageDialogInAnyFragment(data));
         dialogInputMessageFragment.dismiss();
         switch (mode) {
             case 0:

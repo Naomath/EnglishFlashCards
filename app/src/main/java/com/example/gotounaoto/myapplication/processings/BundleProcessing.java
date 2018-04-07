@@ -1,16 +1,14 @@
 package com.example.gotounaoto.myapplication.processings;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Message;
 
 import com.example.gotounaoto.myapplication.classes.TextsAndNumbers;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogInputMessageFragment;
 import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogOneButtonFragment;
-import com.example.gotounaoto.myapplication.downloadFragment.DlBookInformationFragment;
+import com.example.gotounaoto.myapplication.downloadFragment.DLBookInformationFragment;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
+import com.example.gotounaoto.myapplication.shareFragment.ULBookInformationFragment;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class BundleProcessing {
         return bundle;
     }
 
-    public static String inDlBookInformationFrInDownload(DlBookInformationFragment fragment) {
+    public static String inDlBookInformationFrInDownload(DLBookInformationFragment fragment) {
         //DlBookInformationFrで渡されて来たbundleを取得する
         Bundle bundle = fragment.getArguments();
         return bundle.getString("book_path");
@@ -67,4 +65,23 @@ public class BundleProcessing {
         TextsAndNumbers item = new TextsAndNumbers(texts, numbers);
         return item;
     }
+
+    public static Bundle toULBookInformationFr(TextsAndNumbers data) {
+        //ULBookInformationFragmentに対するbundle
+        Bundle bundle = new Bundle();
+        bundle.putString("message", data.getTexts().get(1));
+        //上の要素が1になっているところに注意!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        bundle.putString("id", data.getTexts().get(2));
+        bundle.putInt("download_time", data.getNumbers().get(0));
+        return bundle;
+    }
+
+    public static TextsAndNumbers inULBookInformationFr(ULBookInformationFragment fragment) {
+        Bundle bundle = fragment.getArguments();
+        List<String> texts = Arrays.asList(bundle.getString("message"), bundle.getString("id"));
+        List<Integer> numbers = Arrays.asList(bundle.getInt("download_time"));
+        TextsAndNumbers data = new TextsAndNumbers(texts, numbers);
+        return data;
+    }
+
 }

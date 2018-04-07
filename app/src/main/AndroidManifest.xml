@@ -37,7 +37,8 @@
         <activity android:name=".activities.WordsActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.QuestionActivity" />
-        <activity android:name=".activities.DownloadActivity"></activity>
+        <activity android:name=".activities.DLBookInformationActivity" />
+        <activity android:name=".activities.ULBookInformationActivity"></activity>
     </application>
 
 </manifest>

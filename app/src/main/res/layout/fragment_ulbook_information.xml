@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7">
+        android:layout_weight="2">
 
         <com.example.gotounaoto.myapplication.classes.NonScrollListView
             android:id="@+id/list_view"
@@ -20,20 +20,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
 
         <Button
-            android:id="@+id/button_download"
+            android:id="@+id/button_delete"
             android:layout_width="180dp"
             android:layout_height="65dp"
             android:layout_gravity="center"
             android:background="@drawable/button_add_words"
-            android:drawableTop="@drawable/ic_arrow_downward_white_48dp"
+            android:drawableTop="@drawable/ic_delete_white_48dp"
             android:gravity="center"
-            android:text="download"
+            android:text="アップロード取り消し"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <Button
+            android:id="@+id/button_edit"
+            android:layout_width="180dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_add_words"
+            android:drawableTop="@drawable/ic_edit_white_48dp"
+            android:gravity="center"
+            android:text="説明書き直し"
             android:textColor="@color/white"
             android:textSize="12dp" />
     </LinearLayout>

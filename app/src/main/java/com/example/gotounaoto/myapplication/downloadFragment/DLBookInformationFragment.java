@@ -14,20 +14,21 @@ import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.classes.InformationText;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
+import com.example.gotounaoto.myapplication.processings.MakeString;
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DlBookInformationFragment extends Fragment implements FirebaseProcessing.OnDlBookInformationListener, View.OnClickListener {
+public class DLBookInformationFragment extends Fragment implements FirebaseProcessing.OnReturnItemListener, View.OnClickListener {
 
     View view;
     InformationAdapter adapter;
     Book item;
-    DlBookInformationFragment.OnFinishListener onFinishListener;
+    DLBookInformationFragment.OnFinishListener onFinishListener;
     String book_path;
 
-    public DlBookInformationFragment() {
+    public DLBookInformationFragment() {
         // Required empty public constructor
     }
 
@@ -79,11 +80,9 @@ public class DlBookInformationFragment extends Fragment implements FirebaseProce
         information.add(new InformationText("作成日", item.getDate(), 25f));
         information.add(new InformationText("ダウンロード回数", String.valueOf(item.getDownload_time()), 25f));
         information.add(new InformationText("説明", item.getMessage(), 18f));
-        information.add(new InformationText("単語数", String.valueOf(item.getList_words()), 25f));
-   //     information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
-        for(InformationText item:information){
-            adapter.add(item);
-        }
+        information.add(new InformationText("単語数", String.valueOf(item.getList_words().size()), 25f));
+        information.add(new InformationText("単語例", MakeString.makeStringWithComma(item.returnListOriginal(1), 5), 20f));
+        adapter.addAll(information);
     }
 
     public void download() {

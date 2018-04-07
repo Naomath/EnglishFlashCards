@@ -1,6 +1,5 @@
 package com.example.gotounaoto.myapplication.activities;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,17 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.example.gotounaoto.myapplication.downloadFragment.DlBookInformationFragment;
+import com.example.gotounaoto.myapplication.downloadFragment.DLBookInformationFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.processings.BundleProcessing;
 import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 
-public class DownloadActivity extends AppCompatActivity implements DlBookInformationFragment.OnFinishListener {
+public class DLBookInformationActivity extends AppCompatActivity implements DLBookInformationFragment.OnFinishListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_download);
+        setContentView(R.layout.activity_information);
         String book_path = gettingIntent();
         settingFragment(book_path);
         settingToolbar();
@@ -26,7 +25,7 @@ public class DownloadActivity extends AppCompatActivity implements DlBookInforma
 
     @Override
     public void finishActivity(String message) {
-        IntentProcessing.backToMainWithMessage(this, message, 1);
+        backActivity();
     }
 
 
@@ -47,7 +46,7 @@ public class DownloadActivity extends AppCompatActivity implements DlBookInforma
     }
 
     public void settingFragment(String book_path) {
-        DlBookInformationFragment fragment = new DlBookInformationFragment();
+        DLBookInformationFragment fragment = new DLBookInformationFragment();
         fragment.setArguments(BundleProcessing.toDlBookInformationFrInDownload(book_path));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relative, fragment);

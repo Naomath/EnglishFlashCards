@@ -1,11 +1,16 @@
 package com.example.gotounaoto.myapplication.processings;
 
+import android.app.Activity;
+
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gotounaoto on 2018/03/12.
@@ -16,7 +21,7 @@ public class FirebaseProcessing {
 
     OnAddItemListener onAddItemListener;
 
-    OnDlBookInformationListener onDlBookInformationListener;
+    OnReturnItemListener onReturnItemListener;
 
     String keyword;
     //searchに使うキーワード
@@ -32,8 +37,12 @@ public class FirebaseProcessing {
         this.onAddItemListener = onAddItemListener;
     }
 
-    public FirebaseProcessing(OnDlBookInformationListener onDlBookInformationListener) {
-        this.onDlBookInformationListener = onDlBookInformationListener;
+    public FirebaseProcessing(OnReturnItemListener onReturnItemListener) {
+        this.onReturnItemListener = onReturnItemListener;
+    }
+
+    public static void deleteBook(String book_path) {
+        gettingBookReference().child(book_path).removeValue();
     }
 
     public static DatabaseReference gettingUserReference() {
@@ -47,6 +56,27 @@ public class FirebaseProcessing {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("books");
         return reference;
+    }
+
+    public static void gettingULBook(final Book book, final OnReturnItemListener onReturnItemListener) {
+        //このメソッドでアプリないで管理できてない、ダウンロードの回数を取得してきてセットする
+        final List<String> message = new ArrayList<>(1);
+        final List<Integer> download_time = new ArrayList<>(1);
+        gettingBookReference().child(book.getBook_path()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Book item = dataSnapshot.getValue(Book.class);
+                message.add(item.getMessage());
+                download_time.add(item.getDownload_time());
+                book.setDownload_time(download_time.get(0));
+                onReturnItemListener.returnItem(book);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -95,7 +125,7 @@ public class FirebaseProcessing {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Book item = dataSnapshot.getValue(Book.class);
-                onDlBookInformationListener.returnItem(item);
+                onReturnItemListener.returnItem(item);
             }
 
             @Override
@@ -121,9 +151,13 @@ public class FirebaseProcessing {
         });
     }
 
-    public void addDownloadTime(int time){
+    public void addDownloadTime(int time) {
         //ダウンロードした回数を追加する
-        gettingBookReference().child(book_path).child("download_time").setValue(++time);
+        gettingBookReference().child(book_path).child("download_time").setValue(time + 1);
+    }
+
+    public static void updateMessage(String book_path, String message) {
+        gettingUserReference().child(book_path).child("message").setValue(message);
     }
 
     public void startSearchHigher() {
@@ -152,8 +186,9 @@ public class FirebaseProcessing {
         void addItem(Book item);
     }
 
-    public interface OnDlBookInformationListener {
+    public interface OnReturnItemListener {
         void returnItem(Book item);
     }
+
 }
 

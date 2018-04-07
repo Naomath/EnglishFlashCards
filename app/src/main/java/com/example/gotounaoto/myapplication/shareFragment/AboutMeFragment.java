@@ -5,16 +5,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
+import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 
 import java.util.List;
 
-public class AboutMeFragment extends Fragment {
+public class AboutMeFragment extends Fragment implements FirebaseProcessing.OnReturnItemListener {
 
     View view;
     BooksAdapter uploaded_adapter;
@@ -60,14 +63,22 @@ public class AboutMeFragment extends Fragment {
                     break;
             }
         }
-        if(number_uploaded==0){
-            TextView uploaded_text = (TextView)view.findViewById(R.id.text_uploaded);
+        if (number_uploaded == 0) {
+            TextView uploaded_text = (TextView) view.findViewById(R.id.text_uploaded);
             uploaded_text.setVisibility(View.INVISIBLE);
         }
-        if(number_downloaded==0) {
+        if (number_downloaded == 0) {
             TextView downloaded_text = (TextView) view.findViewById(R.id.text_downloaded);
             downloaded_text.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void clickItem(Book item) {
+        //list_viewのitemがクリックされた時の処理
+        FirebaseProcessing.OnReturnItemListener onReturnItemListener = (FirebaseProcessing.OnReturnItemListener)this;
+        FirebaseProcessing.gettingULBook(item, onReturnItemListener);
+        //ここでactivityが遷移する
+        //このあとreturnItemで処理が行われる
     }
 
     public void settingThisView(LayoutInflater inflater, ViewGroup container) {
@@ -81,5 +92,18 @@ public class AboutMeFragment extends Fragment {
         downloaded_adapter = new BooksAdapter(getActivity(), R.layout.adapter_books);
         uploaded_list.setAdapter(uploaded_adapter);
         downloaded_list.setAdapter(downloaded_adapter);
+        uploaded_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Book item = (Book) uploaded_adapter.getItem(i);
+                clickItem(item);
+            }
+        });
+    }
+
+    @Override
+    public void returnItem(Book item) {
+        //これはfirebaseの奴が流れてきた時の処理
+        IntentProcessing.fromAboutMeToUlInformation(getActivity(), item);
     }
 }

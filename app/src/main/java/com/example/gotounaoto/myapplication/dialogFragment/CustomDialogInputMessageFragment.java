@@ -21,7 +21,7 @@ import com.example.gotounaoto.myapplication.classes.TextsAndNumbers;
 import com.example.gotounaoto.myapplication.processings.BundleProcessing;
 import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 
-public class CustomDialogInputMessageFragment extends DialogFragment implements View.OnClickListener{
+public class CustomDialogInputMessageFragment extends DialogFragment implements View.OnClickListener {
     //一つのテキストを入力するダイアログ
 
     Dialog dialog;
@@ -59,7 +59,7 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
         //buttonが押された時の処理
         Fragment target = getTargetFragment();
         target.onActivityResult(item.getNumbers().get(0), Activity.RESULT_OK
-                , IntentProcessing.fromMessageDialogToWords(edit_text.getText().toString()));
+                , IntentProcessing.fromMessageDialog(edit_text.getText().toString()));
     }
 
     public void gettingBundle() {
@@ -70,7 +70,7 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
     public void settingButton() {
         button = (Button) dialog.findViewById(R.id.decide_button);
         button.setOnClickListener(this);
-        button.setEnabled(false);
+        disableButton();
     }
 
     public void settingDialog() {
@@ -83,6 +83,11 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
 
     public void settingEditText() {
         edit_text = (EditText) dialog.findViewById(R.id.edit_message);
+        String message = item.getTexts().get(0);
+        if (message != null) {
+            edit_text.setText(message);
+            enableButton();
+        }
         edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

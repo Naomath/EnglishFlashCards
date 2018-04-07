@@ -28,6 +28,7 @@ public class CustomDialogOneButtonFragment extends DialogFragment implements Vie
 
     Dialog dialog;
     int requestCode;
+    TextsAndNumbers data;
 
     public CustomDialogOneButtonFragment() {
         // Required empty public constructor
@@ -36,6 +37,7 @@ public class CustomDialogOneButtonFragment extends DialogFragment implements Vie
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gettingBundle();
         settingDialog();
         settingButton();
         settingTextView();
@@ -59,6 +61,10 @@ public class CustomDialogOneButtonFragment extends DialogFragment implements Vie
         target.onActivityResult(requestCode, Activity.RESULT_OK, null);
     }
 
+    public void gettingBundle(){
+        data = BundleProcessing.inOneBtnDialog(this);
+    }
+
     public void settingDialog() {
         //ダイアログの詳細設定
         dialog = new Dialog(getActivity());
@@ -76,13 +82,11 @@ public class CustomDialogOneButtonFragment extends DialogFragment implements Vie
 
     public void settingTextView(){
         //textViewの設定
-        TextsAndNumbers item = BundleProcessing.inOneBtnDialog(this);
-        //textViewに表示する言葉が入っているリスト
         TextView title = (TextView)dialog.findViewById(R.id.title);
-        title.setText(item.getTexts().get(0));
+        title.setText(data.getTexts().get(0));
         TextView message = (TextView)dialog.findViewById(R.id.message);
-        message.setText(item.getTexts().get(1));
+        message.setText(data.getTexts().get(1));
         //ここから下で呼び出し元のfragmentに返すrequestCodeの設定を行う
-        this.requestCode = item.getNumbers().get(0);
+        this.requestCode = data.getNumbers().get(0);
     }
 }
