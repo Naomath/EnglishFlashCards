@@ -18,13 +18,13 @@ import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
 import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 
 public class DownloadFragment extends Fragment implements FirebaseProcessing.OnAddItemListener {
 
     View view;
     SearchView searchView;
     BooksAdapter adapter;
-    OnDownloadFragmentListener onDownloadFragmentListener;
 
     public DownloadFragment() {
         // Required empty public constructor
@@ -82,7 +82,7 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
 
     public void intentToInformation(Book item){
         //DownloadActivityに遷移するためのメソッド
-        onDownloadFragmentListener.intentToInformation(item);
+        IntentProcessing.fromMainToDownload(getActivity(), item.getBook_path());
     }
 
     public void settingSearchView(Menu menu) {
@@ -137,8 +137,6 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
                 adapter.clear();
             }
         });
-        //次はこのフラグメントのリスナー
-        onDownloadFragmentListener = (OnDownloadFragmentListener) getActivity();
     }
 
     public void searchBooksHigher() {
@@ -169,8 +167,4 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         textView.setVisibility(View.INVISIBLE);
     }
 
-    public interface OnDownloadFragmentListener{
-        void intentToInformation(Book item);
-        //DownloadActivityに遷移するためのプログラム
-    }
 }

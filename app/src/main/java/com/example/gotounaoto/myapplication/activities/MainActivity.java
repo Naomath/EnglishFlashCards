@@ -22,8 +22,7 @@ import com.example.gotounaoto.myapplication.shareFragment.DownloadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
-public class MainActivity extends AppCompatActivity implements OnIntentWordsListener
-        , DownloadFragment.OnDownloadFragmentListener {
+public class MainActivity extends AppCompatActivity implements OnIntentWordsListener {
 
     private Fragment fragment;
     private Toolbar toolbar;
@@ -37,11 +36,6 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         startActivity(intent);
     }
 
-    @Override
-    public void intentToInformation(Book item) {
-        //ダウンロードしたいBookを選択した後のためのDownloadActivityに移動する処理
-        IntentProcessing.fromMainToDownload(this, item.getBook_path());
-    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -192,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
     public void makeToast(boolean which, String message) {
         //トーストを作るメソッド
         if (which) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
 }

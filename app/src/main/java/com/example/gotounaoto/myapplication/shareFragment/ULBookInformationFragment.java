@@ -60,13 +60,14 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Activity.RESULT_OK) {
-            switch (resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case 0:
                     if (resultCode != Activity.RESULT_OK) {
                         return;
                     }
                     //firebaseからデータを消去する時の処理
+                    checkDialog.dismiss();
                     delete();
                     return;
                 case 1:
@@ -74,6 +75,7 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
                         return;
                     }
                     //『説明』を書き直す時の処理
+                    editDialog.dismiss();
                     updateMessage(data);
                     return;
             }
@@ -144,6 +146,7 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
         //firebaseから取り消すのかテェックするダイアログを表示するメソッド
         checkDialog = new CustomDialogOneButtonFragment();
         checkDialog.setArguments(BundleProcessing.toOneBtnDialog("取り消し？", "アップロードを取り消しますか？", 0));
+        checkDialog.setTargetFragment(this, Activity.RESULT_OK);
         checkDialog.show(getFragmentManager(), "delete");
     }
 
@@ -153,6 +156,7 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
         Book item = new Book();
         item.setMessage(data.getTexts().get(0));
         editDialog.setArguments(BundleProcessing.toMessageDialog(item, 1));
+        editDialog.setTargetFragment(this, Activity.RESULT_OK);
         editDialog.show(getFragmentManager(), "edit");
     }
 

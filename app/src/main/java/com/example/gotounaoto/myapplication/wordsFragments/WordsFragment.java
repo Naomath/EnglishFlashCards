@@ -324,7 +324,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 if (databaseError != null) {
                     makeToast(error_message);
                 } else {
-                   makeToast("アップデートに成功しました。");
+                    makeToast("アップデートに成功しました。");
                 }
             }
         });

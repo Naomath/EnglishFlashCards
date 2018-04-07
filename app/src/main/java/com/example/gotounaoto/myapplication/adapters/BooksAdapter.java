@@ -40,15 +40,11 @@ public class BooksAdapter extends ArrayAdapter<Book>{
             view_set_up = ((BooksAdapter.ViewSetUp) convertView.getTag());
         }
         Book item = getItem(position);
-        if (item != null) {;
+        if (item != null) {
             String title = item.getTitle();
             String calendar = item.getDate();
-            String user = item.getUser_name();
             view_set_up.title.setText(title);
             view_set_up.calendar.setText(calendar);
-            if(user != null){
-                view_set_up.user.setText(user);
-            }
         }
         return convertView;
     }
@@ -57,12 +53,9 @@ public class BooksAdapter extends ArrayAdapter<Book>{
 
         TextView title;
         TextView calendar;
-        TextView user;
-
         public ViewSetUp(View view) {
             title = (TextView)view.findViewById(R.id.title_text);
             calendar = (TextView)view.findViewById(R.id.calendar_text);
-            user = (TextView)view.findViewById(R.id.user_text);
         }
     }
 }

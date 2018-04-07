@@ -68,7 +68,7 @@ public class ULBookInformationActivity extends AppCompatActivity implements ULBo
     }
 
     public void backActivity() {
-        IntentProcessing.backToMain(this, 3);
+        IntentProcessing.backToMain(this, 2);
     }
 
     public void backActivityWithMessage(String message) {

@@ -38,9 +38,9 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
         super.onCreate(savedInstanceState);
         gettingBundle();
         settingDialog();
+        settingRelativeLayout();
         settingButton();
         settingEditText();
-        settingRelativeLayout();
         return dialog;
     }
 
