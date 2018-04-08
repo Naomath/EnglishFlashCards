@@ -28,6 +28,11 @@ public class SettingsUserFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static SettingsUserFragment newInstance(){
+        SettingsUserFragment fragment = new SettingsUserFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

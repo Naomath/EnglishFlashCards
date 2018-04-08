@@ -21,4 +21,7 @@
     <string name="textview_message3_finish">正解でした</string>
     <string name="textview_explain_chart1">単語の正解率</string>
     <string name="upload_error">アップロードに失敗しました。もう一回してください。</string>
+    <string name="title_activity_tutorial_main">TutorialMainActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

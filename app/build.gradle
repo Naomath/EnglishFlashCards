@@ -40,5 +40,6 @@ dependencies {
     compile 'com.google.firebase:firebase-database:11.0.4'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     compile 'com.borjabravo:readmoretextview:2.1.0'
+    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
 }
 apply plugin: 'com.google.gms.google-services'

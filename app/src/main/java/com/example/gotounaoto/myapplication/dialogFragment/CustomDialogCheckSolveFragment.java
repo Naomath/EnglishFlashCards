@@ -39,7 +39,7 @@ public class CustomDialogCheckSolveFragment extends DialogFragment implements Vi
                     break;
                 case R.id.weak_button:
                     Intent intent_weak = new Intent(getActivity(), QuestionActivity.class);
-                    intent_weak.putExtra("which_course", 0);
+                    intent_weak.putExtra("which_course", 1);
                     startActivity(intent_weak);
                     dismiss();
                     break;

@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 case R.id.navigation_settings:
                     which = 3;
                     break;
-
             }
             judgmentFragment(which);
             return true;

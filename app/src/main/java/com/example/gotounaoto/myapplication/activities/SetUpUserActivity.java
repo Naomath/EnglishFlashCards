@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.processings.MakeDateString;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
@@ -34,7 +35,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_user);
-        if(gettingUser()){
+        if (gettingUser()) {
             //初期処理が二度行われないようにここでif文を作ってる
             settingListener();
             settingWeakPercentageInitial();
@@ -64,7 +65,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
             //もしすでにあるとわかったらmainactivityにいく
             return false;
             //初期処理をしないようにする
-        }else {
+        } else {
             return true;
             //初期処理をするようにする
         }
@@ -84,11 +85,11 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         intentToMain();
     }
 
-    public void settingWeakPercentageInitial(){
+    public void settingWeakPercentageInitial() {
         //残りのやるべき設定の初期値を設定する
         SharedPreferences weak_preference = getSharedPreferences("weak_percentage", Context.MODE_PRIVATE);
         SharedPreferences.Editor weak_editor = weak_preference.edit();
-        weak_editor.putFloat("percentage",30f);
+        weak_editor.putFloat("percentage", 30f);
         weak_editor.commit();
     }
 
@@ -111,22 +112,20 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         }
     }
 
-    public void settingDefaultBookInitial(){
+    public void settingDefaultBookInitial() {
         //最初のデフォルトとして入れておく単語帳の設定
         List<Word> default_words = new ArrayList<>(GettingList.gettingDefaultBook());
-        for (Word item:default_words){
+        for (Word item : default_words) {
             item.save();
         }
         Book default_book = new Book("重要な動詞", default_words.get(0).getId()
-                , default_words.get(default_words.size()-1).getId(), MakeDateString.makeDateNow());
+                , default_words.get(default_words.size() - 1).getId(), MakeDateString.makeDateNow());
         default_book.save();
     }
 
     public void intentToMain() {
-        //mainactivityに行く
-        Intent intent = new Intent(SetUpUserActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        //tutorialmainActivityにいく
+        IntentProcessing.backToTutorialMain(this);
     }
 
     @Override

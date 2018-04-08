@@ -8,8 +8,8 @@ import com.example.gotounaoto.myapplication.activities.MainActivity;
 import com.example.gotounaoto.myapplication.activities.ULBookInformationActivity;
 import com.example.gotounaoto.myapplication.classes.TextsAndNumbers;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
+import com.example.gotounaoto.myapplication.tutorialActivity.TutorialMainActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +28,25 @@ public class IntentProcessing {
 
     public static void backToMainWithMessage(Activity activity, String message, int which_fragment) {
         Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra("which_fragment", which_fragment);
+        intent.putExtra("please_toast", true);
+        intent.putExtra("message", message);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+    public static void backToTutorialMain(Activity activity) {
+        Intent intent = new Intent(activity, TutorialMainActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static int inTutorialMain(Activity activity){
+        Intent intent = activity.getIntent();
+        return intent.getIntExtra("which_fragment", 0);
+    }
+
+    public static void backToTutorialMainWithMessage(Activity activity, String message, int which_fragment) {
+        Intent intent = new Intent(activity, TutorialMainActivity.class);
         intent.putExtra("which_fragment", which_fragment);
         intent.putExtra("please_toast", true);
         intent.putExtra("message", message);
