@@ -20,8 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
 import com.example.gotounaoto.myapplication.shareFragment.AboutMeFragment;
 import com.example.gotounaoto.myapplication.shareFragment.DownloadFragment;
+import com.github.amlcurran.showcaseview.ShowcaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,11 @@ public class ShareFragment extends Fragment {
 
     public ShareFragment() {
         // Required empty public constructor
+    }
+
+    public static ShareFragment newInstance() {
+        ShareFragment fragment = new ShareFragment();
+        return fragment;
     }
 
     @Override
@@ -56,8 +63,13 @@ public class ShareFragment extends Fragment {
     public void settingViewPagerAndAdapter() {
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), getActivity());
-        viewPagerAdapter.addFragment(AboutMeFragment.newInstance());
-        viewPagerAdapter.addFragment(DownloadFragment.newInstance());
+        if (CallSharedPreference.callTutorialMainStep(getActivity()) == 4) {
+            viewPagerAdapter.addFragment(DownloadFragment.newInstance());
+            viewPagerAdapter.addFragment(AboutMeFragment.newInstance());
+        } else {
+            viewPagerAdapter.addFragment(AboutMeFragment.newInstance());
+            viewPagerAdapter.addFragment(DownloadFragment.newInstance());
+        }
         viewPager.setAdapter(viewPagerAdapter);
     }
 

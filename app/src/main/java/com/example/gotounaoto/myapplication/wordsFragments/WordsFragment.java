@@ -33,6 +33,8 @@ import com.example.gotounaoto.myapplication.adapters.WordsAdapter;
 import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
 import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.interfaces.OnInputListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
@@ -45,6 +47,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     Book book;
     SwipeMenuListView listView;
     WordsAdapter adapter;
+    ShowcaseView showcaseView;
     long book_id;
     CustomDialogWordAddFragment dialog;
     CustomDialogInputMessageFragment dialogInputMessageFragment;
@@ -70,6 +73,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         settingSwipeMenu();
         settingListener();
         sortWords();
+        settingShowcaseView();
         return view;
     }
 
@@ -193,6 +197,22 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         //上のによりfirebase上でアップロードしたことにする
         book.setList_words(book.returnWords());
         //上で単語を入れている。.save()させてないのはリストは保存できなから
+    }
+
+    public void settingShowcaseView() {
+        if (CallSharedPreference.callTutorialMainStep(getActivity()) == 3) {
+            showcaseView = new ShowcaseView.Builder(getActivity())
+                    .setTarget(new ViewTarget(view.findViewById(R.id.button_upload)))
+                    .setContentTitle("単語帳のアップロード")
+                    .setContentText("アップロードボタンを押して、単語帳の説明を書き込んでからアップロードしてください。")
+                    .withMaterialShowcase()
+                    .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
+                    .build();
+            showcaseView.hideButton();
+            view.findViewById(R.id.button_study).setClickable(false);
+            view.findViewById(R.id.button_add).setClickable(false);
+            //ここでクリックできないようにしている
+        }
     }
 
     public void sortWords() {
@@ -347,6 +367,10 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+        if (CallSharedPreference.callTutorialMainStep(getActivity()) == 3) {
+            CallSharedPreference.addTutorialMainStep(getActivity());
+            IntentProcessing.backToTutorialMainWithMessage(getActivity(), "アップロードしました。", 2);
+        }
     }
 
     public void update() {

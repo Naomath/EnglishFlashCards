@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogAddBookFragment;
 import com.example.gotounaoto.myapplication.mainFragment.ShareFragment;
 import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
@@ -22,7 +23,8 @@ import com.example.gotounaoto.myapplication.shareFragment.DownloadFragment;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.interfaces.OnIntentWordsListener;
 
-public class MainActivity extends AppCompatActivity implements OnIntentWordsListener {
+public class MainActivity extends AppCompatActivity implements OnIntentWordsListener
+        ,CustomDialogAddBookFragment.OnReturnTitleListener {
 
     private Fragment fragment;
     private Toolbar toolbar;
@@ -34,6 +36,15 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
         Intent intent = new Intent(this, WordsActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+    }
+
+    @Override
+    public void returnTitle(String title){
+        //インターフェイスの
+        Intent intent = new Intent(this, AddWordActivity.class);
+        intent.putExtra("title", title);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -152,14 +163,6 @@ public class MainActivity extends AppCompatActivity implements OnIntentWordsList
                 toolbar.setNavigationIcon(R.drawable.ic_settings_white_24dp);
                 break;
         }
-    }
-
-    public void intentBooks(String title) {
-        //ダイアログの後にintentする処理
-        Intent intent = new Intent(this, AddWordActivity.class);
-        intent.putExtra("title", title);
-        startActivity(intent);
-        finish();
     }
 
     public void judgmentFragment(int which) {

@@ -11,6 +11,8 @@ import android.view.KeyEvent;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.WeakWord;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
+import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
+import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.questionFragment.AnswerFragment;
 import com.example.gotounaoto.myapplication.questionFragment.FinishQuestionFragment;
 import com.example.gotounaoto.myapplication.questionFragment.QuestionFragment;
@@ -129,9 +131,9 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
         }
     }
 
-    public void settingPresentedItemsBook(Intent intent){
+    public void settingPresentedItemsBook(Intent intent) {
         //単語帳自体で問題を出す時
-        long book_id = intent.getLongExtra("book_id",0l);
+        long book_id = intent.getLongExtra("book_id", 0l);
         Book book = Book.findById(Book.class, book_id);
         List<Word> resource = book.returnWords();
         presented_items = new ArrayList<>(resource);
@@ -194,9 +196,14 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
 
     @Override
     public void intentToMain() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        if (CallSharedPreference.callTutorialMainStep(this) != 2) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            CallSharedPreference.addTutorialMainStep(this);
+            IntentProcessing.backToTutorialMain(this);
+        }
     }
 
     @Override

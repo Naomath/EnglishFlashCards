@@ -41,7 +41,8 @@
         <activity android:name=".activities.ULBookInformationActivity" />
         <activity
             android:name=".tutorialActivity.TutorialMainActivity"
-            android:label="@string/title_activity_tutorial_main"></activity>
+            android:label="@string/title_activity_tutorial_main" />
+        <activity android:name=".tutorialActivity.TutorialAddWordsActivity"></activity>
     </application>
 
 </manifest>

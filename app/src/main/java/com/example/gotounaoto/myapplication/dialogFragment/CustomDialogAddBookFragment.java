@@ -33,7 +33,7 @@ public class CustomDialogAddBookFragment extends DialogFragment implements View.
         decide = (Button) dialog.findViewById(R.id.decide_button);
         decide.setOnClickListener(this);
         decide.setEnabled(false);
-        error = (RelativeLayout)dialog.findViewById(R.id.relative_error);
+        error = (RelativeLayout) dialog.findViewById(R.id.relative_error);
         watchEdit();
         return dialog;
     }
@@ -45,8 +45,8 @@ public class CustomDialogAddBookFragment extends DialogFragment implements View.
                 case R.id.decide_button:
                     EditText editText = (EditText) dialog.findViewById(R.id.edit_title);
                     String title = editText.getText().toString();
-                    MainActivity activity = (MainActivity) getActivity();
-                    activity.intentBooks(title);
+                    OnReturnTitleListener onReturnTitleListener = (OnReturnTitleListener) getActivity();
+                    onReturnTitleListener.returnTitle(title);
                     break;
             }
         }
@@ -84,5 +84,9 @@ public class CustomDialogAddBookFragment extends DialogFragment implements View.
         //ボタンの無効化
         decide.setEnabled(false);
         error.setVisibility(View.VISIBLE);
+    }
+
+    public interface OnReturnTitleListener {
+        void returnTitle(String title);
     }
 }

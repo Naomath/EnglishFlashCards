@@ -1,6 +1,5 @@
 package com.example.gotounaoto.myapplication.tutorialActivity;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,19 +7,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
+import com.example.gotounaoto.myapplication.dialogFragment.CustomDialogAddBookFragment;
 import com.example.gotounaoto.myapplication.mainFragment.SettingsUserFragment;
+import com.example.gotounaoto.myapplication.mainFragment.ShareFragment;
 import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
 import com.example.gotounaoto.myapplication.processings.IntentProcessing;
 import com.example.gotounaoto.myapplication.tutorialFragment.TutorialBooksFragment;
 import com.example.gotounaoto.myapplication.tutorialFragment.TutorialHomeFragment;
-import com.example.gotounaoto.myapplication.tutorialFragment.TutorialShareFragment;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
-public class TutorialMainActivity extends AppCompatActivity {
+public class TutorialMainActivity extends AppCompatActivity implements CustomDialogAddBookFragment.OnReturnTitleListener {
 
     int number_step;
     int which_fragment;
@@ -52,6 +51,12 @@ public class TutorialMainActivity extends AppCompatActivity {
     };
 
     @Override
+    public void returnTitle(String title) {
+        //インターフェイスの
+        IntentProcessing.toTutorialAddWords(this, title);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial_main);
@@ -60,16 +65,18 @@ public class TutorialMainActivity extends AppCompatActivity {
         settingToolbar();
         judgmentWhichFragment();
         settingShowcaseView();
+        decorateToolbar();
+        replaceFragment();
     }
 
     public void clickHome() {
         switch (number_step) {
             case 1:
-                break;
-            case 2:
                 which_fragment = 0;
                 decorateToolbar();
                 replaceFragment();
+                break;
+            case 2:
                 break;
             case 3:
                 pushBottomNavigation();
@@ -83,14 +90,15 @@ public class TutorialMainActivity extends AppCompatActivity {
     public void clickCards() {
         switch (number_step) {
             case 1:
-                showcaseView.hide();
                 which_fragment = 1;
                 decorateToolbar();
                 replaceFragment();
                 break;
             case 2:
+                pushBottomNavigation();
                 break;
             case 3:
+                pushBottomNavigation();
                 break;
             case 4:
                 pushBottomNavigation();
@@ -210,7 +218,7 @@ public class TutorialMainActivity extends AppCompatActivity {
                 transaction.replace(R.id.relative, TutorialBooksFragment.newInstance());
                 break;
             case 2:
-                transaction.replace(R.id.relative, TutorialShareFragment.newInstance());
+                transaction.replace(R.id.relative, ShareFragment.newInstance());
                 break;
             case 3:
                 transaction.replace(R.id.relative, SettingsUserFragment.newInstance());

@@ -8,6 +8,7 @@ import com.example.gotounaoto.myapplication.activities.MainActivity;
 import com.example.gotounaoto.myapplication.activities.ULBookInformationActivity;
 import com.example.gotounaoto.myapplication.classes.TextsAndNumbers;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
+import com.example.gotounaoto.myapplication.tutorialActivity.TutorialAddWordsActivity;
 import com.example.gotounaoto.myapplication.tutorialActivity.TutorialMainActivity;
 
 import java.util.Arrays;
@@ -100,6 +101,18 @@ public class IntentProcessing {
         List<Integer> numbers = Arrays.asList(intent.getIntExtra("download_time", 0));
         TextsAndNumbers item = new TextsAndNumbers(texts, numbers);
         return item;
+    }
+
+    public static void toTutorialAddWords(Activity activity, String title){
+        Intent intent = new Intent(activity, TutorialAddWordsActivity.class);
+        intent.putExtra("title", title);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static String inTutorialAddWords(Activity activity){
+        Intent intent = activity.getIntent();
+        return intent.getStringExtra("title");
     }
 
 }

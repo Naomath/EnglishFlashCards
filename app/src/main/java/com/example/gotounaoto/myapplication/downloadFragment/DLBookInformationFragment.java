@@ -2,6 +2,7 @@ package com.example.gotounaoto.myapplication.downloadFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,14 @@ import android.widget.ListView;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.InformationAdapter;
 import com.example.gotounaoto.myapplication.processings.BundleProcessing;
+import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
 import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.classes.InformationText;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.extendSugar.Word;
 import com.example.gotounaoto.myapplication.processings.MakeString;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public class DLBookInformationFragment extends Fragment implements FirebaseProce
     Book item;
     DLBookInformationFragment.OnFinishListener onFinishListener;
     String book_path;
+    ShowcaseView showcaseView;
 
     public DLBookInformationFragment() {
         // Required empty public constructor
@@ -87,13 +92,19 @@ public class DLBookInformationFragment extends Fragment implements FirebaseProce
 
     public void download() {
         //実際にbookをダウンロードする処理
+        showcaseView.hide();
         List<Word> list_words = item.getList_words();
         SugarRecord.saveInTx(list_words);
         item.setFirst_id(list_words.get(0).getId());
         item.setLast_id(list_words.get(list_words.size() - 1).getId());
         item.setDone_upload(2);
         item.save();
-        onFinishListener.finishActivity("ダウンロードが終了しました。");
+        if (CallSharedPreference.callTutorialMainStep(getActivity())==4){
+            CallSharedPreference.addTutorialMainStep(getActivity());
+            onFinishListener.finishActivity("ダウンロードを終了しました。これでチュートリアルを終了します。");
+        }else {
+            onFinishListener.finishActivity("ダウンロードが終了しました。");
+        }
         addDownloadedTime();
     }
 
@@ -116,6 +127,20 @@ public class DLBookInformationFragment extends Fragment implements FirebaseProce
         ListView listView = view.findViewById(R.id.list_view);
         adapter = new InformationAdapter(getActivity(), R.layout.adapter_information);
         listView.setAdapter(adapter);
+    }
+
+    public void settingShowcaseView(){
+        if(CallSharedPreference.callTutorialMainStep(getActivity())==4){
+            showcaseView = new ShowcaseView.Builder(getActivity())
+                    .setTarget(new ViewTarget(view.findViewById(R.id.button_download)))
+                    .setContentTitle("単語帳のダウンロード")
+                    .setContentText("下のダウンロードボタンを押してダウンロードしてください。")
+                    .setStyle(R.style.CustomShowcaseTheme)
+                    .withMaterialShowcase()
+                    .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
+                    .build();
+            showcaseView.hideButton();
+        }
     }
 
     public interface OnFinishListener {

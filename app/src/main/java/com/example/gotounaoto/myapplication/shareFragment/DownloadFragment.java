@@ -17,20 +17,24 @@ import android.widget.TextView;
 import com.example.gotounaoto.myapplication.extendSugar.Book;
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.adapters.BooksAdapter;
+import com.example.gotounaoto.myapplication.processings.CallSharedPreference;
 import com.example.gotounaoto.myapplication.processings.FirebaseProcessing;
 import com.example.gotounaoto.myapplication.processings.IntentProcessing;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 public class DownloadFragment extends Fragment implements FirebaseProcessing.OnAddItemListener {
 
     View view;
     SearchView searchView;
     BooksAdapter adapter;
+    ShowcaseView showcaseView;
 
     public DownloadFragment() {
         // Required empty public constructor
     }
 
-    public static DownloadFragment newInstance(){
+    public static DownloadFragment newInstance() {
         DownloadFragment fragment = new DownloadFragment();
         return fragment;
     }
@@ -51,6 +55,7 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         view = inflater.inflate(R.layout.fragment_down_load, container, false);
         setHasOptionsMenu(true);
         settingListView();
+        settingShowcaseView();
         return view;
     }
 
@@ -80,7 +85,7 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
         //ここでadapterをクリアにする
     }
 
-    public void intentToInformation(Book item){
+    public void intentToInformation(Book item) {
         //DownloadActivityに遷移するためのメソッド
         IntentProcessing.fromMainToDownload(getActivity(), item.getBook_path());
     }
@@ -100,12 +105,13 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Book item = (Book) adapter.getItem(i);
+                showcaseView.hide();
                 intentToInformation(item);
             }
         });
     }
 
-    public void settingListener(){
+    public void settingListener() {
         //いろんなリスナーの設定をする
         //まずはsearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -130,13 +136,27 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
                 return false;
             }
         });
-        searchView.setOnClickListener(new SearchView.OnClickListener(){
+        searchView.setOnClickListener(new SearchView.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 adapter.clear();
             }
         });
+    }
+
+    public void settingShowcaseView() {
+        if (CallSharedPreference.callTutorialMainStep(getActivity()) == 4) {
+            showcaseView = new ShowcaseView.Builder(getActivity())
+                    .setTarget(new ViewTarget(view.findViewById(R.id.list_view)))
+                    .setContentTitle("単語帳のダウンロード")
+                    .setContentText("ではまずダウンロードしたい単語帳を選んでタッチしてください。")
+                    .setStyle(R.style.CustomShowcaseTheme)
+                    .withMaterialShowcase()
+                    .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
+                    .build();
+            showcaseView.hideButton();
+        }
     }
 
     public void searchBooksHigher() {
@@ -148,22 +168,22 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
     }
 
     public void searchBooksKeyword(String keyword) {
-       //キーワードで検索する時
+        //キーワードで検索する時
         adapter.clear();
         invisibleTextView();
         FirebaseProcessing firebaseProcessing = new FirebaseProcessing(this);
         firebaseProcessing.startSearchKeyword(keyword);
     }
 
-    public void visibleTextView(){
+    public void visibleTextView() {
         //TextViewを可視化する
-        TextView textView = (TextView)view.findViewById(R.id.text_popular);
+        TextView textView = (TextView) view.findViewById(R.id.text_popular);
         textView.setVisibility(View.VISIBLE);
     }
 
-    public void invisibleTextView(){
+    public void invisibleTextView() {
         //textviewを見えなくする
-        TextView textView = (TextView)view.findViewById(R.id.text_popular);
+        TextView textView = (TextView) view.findViewById(R.id.text_popular);
         textView.setVisibility(View.INVISIBLE);
     }
 
