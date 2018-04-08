@@ -107,6 +107,7 @@ public class TutorialBooksFragment extends Fragment {
                         .setContentTitle("単語帳の登録")
                         .setContentText("最初から入ってる単語帳『重要な動詞』がありますね。まずはこのプラスのボタンを押してください。そして単語帳のタイトルを入力して、ボタンを押してください。")
                         .withMaterialShowcase()
+                        .setStyle(R.style.CustomShowcaseTheme)
                         .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
                         .build();
                 showcaseView.hideButton();

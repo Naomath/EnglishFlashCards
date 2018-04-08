@@ -70,14 +70,14 @@ public class IntentProcessing {
         return book_path;
     }
 
-    public static Intent fromMessageDialog(String s) {
+    public static Intent fromInputMessageDialog(String s) {
         //MessageDialogから呼び出し元のところまでreturnする
         Intent intent = new Intent();
         intent.putExtra("message", s);
         return intent;
     }
 
-    public static String fromMessageDialogInAnyFragment(Intent data) {
+    public static String fromInputMessageDialogInAnyFragment(Intent data) {
         //MessageDialogから送られてきたもの
         return data.getStringExtra("message");
     }

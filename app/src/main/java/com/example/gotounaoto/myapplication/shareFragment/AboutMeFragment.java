@@ -65,11 +65,11 @@ public class AboutMeFragment extends Fragment implements FirebaseProcessing.OnRe
         }
         if (number_uploaded == 0) {
             TextView uploaded_text = (TextView) view.findViewById(R.id.text_uploaded);
-            uploaded_text.setVisibility(View.INVISIBLE);
+            uploaded_text.setVisibility(View.GONE);
         }
         if (number_downloaded == 0) {
             TextView downloaded_text = (TextView) view.findViewById(R.id.text_downloaded);
-            downloaded_text.setVisibility(View.INVISIBLE);
+            downloaded_text.setVisibility(View.GONE);
         }
     }
 

@@ -57,6 +57,7 @@ public class DLBookInformationFragment extends Fragment implements FirebaseProce
         settingListView();
         gettingBook(BundleProcessing.inDlBookInformationFrInDownload(this));
         //この順番は非同期などを考えうまくできているのでいじらないで
+        settingShowcaseView();
         return view;
     }
 

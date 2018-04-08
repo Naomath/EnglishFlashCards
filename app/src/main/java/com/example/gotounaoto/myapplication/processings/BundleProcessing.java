@@ -31,18 +31,22 @@ public class BundleProcessing {
         return bundle.getString("book_path");
     }
 
-    public static Bundle toMessageDialog(Book item, int requestCode) {
+    public static Bundle toInputMessageDialog(Book item, String title, String edit_hint, String btn_message, int requestCode) {
         //MessageDialogにWordsFragmentから
         Bundle bundle = new Bundle();
         bundle.putString("message", item.getMessage());
+        bundle.putString("title", title);
+        bundle.putString("edit_hint", edit_hint);
+        bundle.putString("btn_message", btn_message);
         bundle.putInt("requestCode", requestCode);
         return bundle;
     }
 
-    public static TextsAndNumbers inMessageDialog(CustomDialogInputMessageFragment fragment) {
+    public static TextsAndNumbers inInputMessageDialog(CustomDialogInputMessageFragment fragment) {
         //MessageDialogに送られてきたのを取得する
         Bundle bundle = fragment.getArguments();
-        List<String> texts = Arrays.asList(bundle.getString("message"));
+        List<String> texts = Arrays.asList(bundle.getString("message"), bundle.getString("title"), bundle.getString("edit_hint")
+                , bundle.getString("btn_message"));
         List<Integer> numbers = Arrays.asList(bundle.getInt("requestCode"));
         TextsAndNumbers item = new TextsAndNumbers(texts, numbers);
         return item;

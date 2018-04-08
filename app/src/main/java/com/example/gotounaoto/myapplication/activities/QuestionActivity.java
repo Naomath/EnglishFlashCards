@@ -124,6 +124,7 @@ public class QuestionActivity extends AppCompatActivity implements OnSendWordLis
 
     public void settingPresentedItemsWeak() {
         //苦手な問題のセッティングをやる
+        presented_items = new ArrayList<>();
         List<WeakWord> weak_items = WeakWord.listAll(WeakWord.class);
         for (WeakWord weak_item : weak_items) {
             Word word_item = Word.findById(Word.class, weak_item.getWord_id());

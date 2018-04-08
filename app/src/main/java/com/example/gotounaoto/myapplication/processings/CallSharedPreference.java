@@ -34,9 +34,21 @@ public class CallSharedPreference {
         return user_name;
     }
 
+    public static void saveUserName(Context context, String name) {
+        SharedPreferences.Editor editor = callUserPreference(context).edit();
+        editor.putString("name", name);
+        editor.commit();
+    }
+
     public static float callWeakPercentage(Context context) {
         //間違えやすい問題のボーダーのパーセンテージ
         return callUserPreference(context).getFloat("percentage", 30f);
+    }
+
+    public static void saveWeakPercentage(Context context, float percentage){
+        SharedPreferences.Editor editor = callUserPreference(context).edit();
+        editor.putFloat("percentage", percentage);
+        editor.commit();
     }
 
     public static int callTutorialMainStep(Context context) {

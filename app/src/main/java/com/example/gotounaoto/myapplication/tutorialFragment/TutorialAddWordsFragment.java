@@ -168,6 +168,7 @@ public class TutorialAddWordsFragment extends Fragment implements View.OnClickLi
                 .setContentTitle("単語帳の登録")
                 .setContentText("Addボタンを押して単語帳を登録してください。")
                 .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme)
                 .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
                 .build();
         showcaseView1.hideButton();
@@ -178,6 +179,7 @@ public class TutorialAddWordsFragment extends Fragment implements View.OnClickLi
                 .setTarget(new ViewTarget(view.findViewById(R.id.button_decide)))
                 .setContentTitle("単語帳の登録")
                 .setContentText("DECIDEボタンを押して単語帳の登録を完了してください。")
+                .setStyle(R.style.CustomShowcaseTheme)
                 .withMaterialShowcase()
                 .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
                 .build();

@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import com.example.gotounaoto.myapplication.R;
@@ -69,6 +70,18 @@ public class TutorialMainActivity extends AppCompatActivity implements CustomDia
         replaceFragment();
     }
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event){
+        if(event.getAction() == KeyEvent.ACTION_UP){
+            switch (event.getKeyCode()){
+                case KeyEvent.KEYCODE_BACK:
+                    //ダイアログ表示などの処理を行う時はここに記述する
+                    return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
     public void clickHome() {
         switch (number_step) {
             case 1:
@@ -90,6 +103,7 @@ public class TutorialMainActivity extends AppCompatActivity implements CustomDia
     public void clickCards() {
         switch (number_step) {
             case 1:
+                showcaseView.hide();
                 which_fragment = 1;
                 decorateToolbar();
                 replaceFragment();
@@ -158,7 +172,7 @@ public class TutorialMainActivity extends AppCompatActivity implements CustomDia
                 which_fragment = 0;
                 break;
             case 2:
-                which_fragment = 1;
+                which_fragment = 0;
                 break;
             case 3:
                 which_fragment = 1;
@@ -197,15 +211,17 @@ public class TutorialMainActivity extends AppCompatActivity implements CustomDia
     }
 
     public void settingShowcaseView() {
-        showcaseView = new ShowcaseView.Builder(this)
-                .setTarget(new ViewTarget(navigation))
-                .setContentTitle("ようこそ")
-                .setContentText("早速、単語帳を登録していきます。下の単語帳のアイコンをタップしてください.")
-                .setStyle(R.style.CustomShowcaseTheme)
-                .withMaterialShowcase()
-                .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
-                .build();
-        showcaseView.hideButton();
+        if (CallSharedPreference.callTutorialMainStep(this) == 1) {
+            showcaseView = new ShowcaseView.Builder(this)
+                    .setTarget(new ViewTarget(navigation))
+                    .setContentTitle("ようこそ")
+                    .setContentText("早速、単語帳を登録していきます。下の単語帳のアイコンをタップしてください.")
+                    .setStyle(R.style.CustomShowcaseTheme)
+                    .withMaterialShowcase()
+                    .doNotBlockTouches() //ShowcaseView下のボタンを触れるように。
+                    .build();
+            showcaseView.hideButton();
+        }
     }
 
     public void replaceFragment() {

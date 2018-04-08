@@ -105,7 +105,9 @@ public class DownloadFragment extends Fragment implements FirebaseProcessing.OnA
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Book item = (Book) adapter.getItem(i);
-                showcaseView.hide();
+                if(showcaseView!=null){
+                    showcaseView.hide();
+                }
                 intentToInformation(item);
             }
         });

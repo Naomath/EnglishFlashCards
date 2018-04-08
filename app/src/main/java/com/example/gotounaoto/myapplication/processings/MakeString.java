@@ -31,6 +31,9 @@ public class MakeString {
                 stringBuffer.append(",");
                 //ここで最後の単語の後にはカンマが入らないようにしている
             }
+            if (i==items.size()-1){
+                break;
+            }
         }
         return stringBuffer.toString();
     }

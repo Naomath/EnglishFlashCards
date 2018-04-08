@@ -244,7 +244,8 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
         //このmodeはアップデートかアップロードかの違い
         //modeはそのままrequestCodeに反映される
         dialogInputMessageFragment = new CustomDialogInputMessageFragment();
-        dialogInputMessageFragment.setArguments(BundleProcessing.toMessageDialog(book, mode));
+        dialogInputMessageFragment.setArguments(BundleProcessing.toInputMessageDialog(book, "説明", "単語帳の説明を入力してください。"
+                , "アップロード", mode));
         dialogInputMessageFragment.setTargetFragment(this, Activity.RESULT_OK);
         dialogInputMessageFragment.show(getFragmentManager(), "message");
     }
@@ -393,7 +394,7 @@ public class WordsFragment extends Fragment implements View.OnClickListener {
     public void saveMessage(Intent data, int mode) {
         //bookのmessageを実際に保存するメソッド
         //modeが0ならupload(), 1ならupdate()
-        book.setMessage(IntentProcessing.fromMessageDialogInAnyFragment(data));
+        book.setMessage(IntentProcessing.fromInputMessageDialogInAnyFragment(data));
         dialogInputMessageFragment.dismiss();
         switch (mode) {
             case 0:

@@ -74,8 +74,15 @@ public class ShareFragment extends Fragment {
     }
 
     public void settingTabLayout() {
-        String[] nav_label = {"ユーザーの活動", "ダウンロード"};
-        int[] nav_icon = {R.drawable.ic_person_black_24dp, R.drawable.ic_arrow_downward_black_24dp};
+        String[] nav_label;
+        int[] nav_icon;
+        if (CallSharedPreference.callTutorialMainStep(getActivity()) == 4) {
+            nav_label = new String[]{"ダウンロード", "ユーザーの活動"};
+            nav_icon = new int[]{R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_person_black_24dp};
+        } else {
+            nav_label = new String[]{"ユーザーの活動", "ダウンロード"};
+            nav_icon = new int[]{R.drawable.ic_person_black_24dp, R.drawable.ic_arrow_downward_black_24dp};
+        }
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {

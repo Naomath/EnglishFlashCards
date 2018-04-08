@@ -82,7 +82,7 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
         editor_user.putString("name", user_name);
         editor_user.putBoolean("exist", true);
         editor_user.commit();
-        intentToMain();
+        intentToTutorialMain();
     }
 
     public void settingWeakPercentageInitial() {
@@ -124,7 +124,11 @@ public class SetUpUserActivity extends AppCompatActivity implements TextWatcher,
     }
 
     public void intentToMain() {
-        //tutorialmainActivityにいく
+        //mainActivityにいく
+        IntentProcessing.backToMain(this, 0);
+    }
+
+    public void intentToTutorialMain(){
         IntentProcessing.backToTutorialMain(this);
     }
 

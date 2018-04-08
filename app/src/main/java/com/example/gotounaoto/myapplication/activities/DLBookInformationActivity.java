@@ -66,8 +66,12 @@ public class DLBookInformationActivity extends AppCompatActivity implements DLBo
         setTitle("Download");
     }
 
-    public void backActivity(){
+    public void backActivity() {
         IntentProcessing.backToMain(this, 2);
+    }
+
+    public void backActivityWithMessage(String message) {
+        IntentProcessing.backToMainWithMessage(this, message, 2);
     }
 
 }

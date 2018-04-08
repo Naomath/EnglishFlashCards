@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.gotounaoto.myapplication.R;
@@ -118,7 +117,7 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
     public void updateMessage(Intent intent) {
         long id = Long.parseLong(data.getTexts().get(1));
         Book book = Book.findById(Book.class, id);
-        FirebaseProcessing.updateMessage(book.getBook_path(), IntentProcessing.fromMessageDialogInAnyFragment(intent));
+        FirebaseProcessing.updateMessage(book.getBook_path(), IntentProcessing.fromInputMessageDialogInAnyFragment(intent));
         onFinishListener.finishActivity("単語帳の説明を変更しました。");
     }
 
@@ -155,7 +154,8 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
         editDialog = new CustomDialogInputMessageFragment();
         Book item = new Book();
         item.setMessage(data.getTexts().get(0));
-        editDialog.setArguments(BundleProcessing.toMessageDialog(item, 1));
+        editDialog.setArguments(BundleProcessing.toInputMessageDialog(item, "説明", "単語帳の説明を入力してください。"
+                , "アップデート", 1));
         editDialog.setTargetFragment(this, Activity.RESULT_OK);
         editDialog.show(getFragmentManager(), "edit");
     }

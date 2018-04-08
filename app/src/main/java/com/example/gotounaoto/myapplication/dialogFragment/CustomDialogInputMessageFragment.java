@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.gotounaoto.myapplication.R;
 import com.example.gotounaoto.myapplication.classes.TextsAndNumbers;
@@ -41,6 +42,7 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
         settingRelativeLayout();
         settingButton();
         settingEditText();
+        settingTitleTextView();
         return dialog;
     }
 
@@ -59,16 +61,17 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
         //buttonが押された時の処理
         Fragment target = getTargetFragment();
         target.onActivityResult(item.getNumbers().get(0), Activity.RESULT_OK
-                , IntentProcessing.fromMessageDialog(edit_text.getText().toString()));
+                , IntentProcessing.fromInputMessageDialog(edit_text.getText().toString()));
     }
 
     public void gettingBundle() {
         //送られてきたbundleを取得する
-        item = BundleProcessing.inMessageDialog(this);
+        item = BundleProcessing.inInputMessageDialog(this);
     }
 
     public void settingButton() {
         button = (Button) dialog.findViewById(R.id.decide_button);
+        button.setText(item.getTexts().get(3));
         button.setOnClickListener(this);
         disableButton();
     }
@@ -83,6 +86,7 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
 
     public void settingEditText() {
         edit_text = (EditText) dialog.findViewById(R.id.edit_message);
+        edit_text.setHint(item.getTexts().get(2));
         String message = item.getTexts().get(0);
         if (message != null) {
             edit_text.setText(message);
@@ -110,6 +114,11 @@ public class CustomDialogInputMessageFragment extends DialogFragment implements 
 
     public void settingRelativeLayout() {
         error_layout = (RelativeLayout) dialog.findViewById(R.id.relative_error);
+    }
+
+    public void settingTitleTextView() {
+        TextView textView = (TextView) dialog.findViewById(R.id.dialog_title);
+        textView.setText(item.getTexts().get(1));
     }
 
     public void enableButton() {
