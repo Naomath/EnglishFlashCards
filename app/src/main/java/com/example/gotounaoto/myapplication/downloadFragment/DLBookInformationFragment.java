@@ -2,7 +2,6 @@ package com.example.gotounaoto.myapplication.downloadFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +125,7 @@ public class DLBookInformationFragment extends Fragment implements FirebaseProce
     public void settingListView() {
         //リストビューの設定
         ListView listView = view.findViewById(R.id.list_view);
-        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information);
+        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information_non_clickable);
         listView.setAdapter(adapter);
     }
 

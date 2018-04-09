@@ -131,7 +131,7 @@ public class ULBookInformationFragment extends Fragment implements View.OnClickL
 
     public void settingListView() {
         ListView listView = (ListView) view.findViewById(R.id.list_view);
-        informationAdapter = new InformationAdapter(getActivity(), R.layout.adapter_information);
+        informationAdapter = new InformationAdapter(getActivity(), R.layout.adapter_information_non_clickable);
         listView.setAdapter(informationAdapter);
     }
 

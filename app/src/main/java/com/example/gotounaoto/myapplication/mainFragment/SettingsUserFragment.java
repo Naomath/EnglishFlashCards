@@ -70,8 +70,7 @@ public class SettingsUserFragment extends Fragment {
     public void settingListView() {
         //listviewの設定
         listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information);
-        listView.setAdapter(adapter);
+        adapter = new InformationAdapter(getActivity(), R.layout.adapter_information_clickable);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -87,6 +86,7 @@ public class SettingsUserFragment extends Fragment {
                 }
             }
         });
+        listView.setAdapter(adapter);
     }
 
     public void case0() {

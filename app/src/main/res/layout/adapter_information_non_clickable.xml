@@ -29,5 +29,7 @@
             app:trimCollapsedText="show less"
             app:trimLength="40"
             app:trimMode="trimModeLength"/>
+        <!--ちなみにこのviewを使ったlistviewはクリックしても反応しない。
+        なぜならreadmoreviewの方にタッチイベントが取られてしまうから-->
 
 </LinearLayout>
