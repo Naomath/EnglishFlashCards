@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.gotounaoto.myapplication.downloadFragment.DLBookInformationFragment">
+    tools:context="com.dennnoukishidann.gotonaoto.app.DLBookInformationFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

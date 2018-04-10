@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gotounaoto.myapplication.mainFragment.BooksFragment">
+    tools:context="com.dennnoukishidann.gotonaoto.app.mainFragment.BooksFragment">
 
     <ListView
         android:id="@+id/list_view"

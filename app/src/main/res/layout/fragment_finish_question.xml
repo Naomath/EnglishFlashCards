@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.gotounaoto.myapplication.questionFragment.FinishQuestionFragment">
+    tools:context="com.dennnoukishidann.gotonaoto.app.questionFragment.FinishQuestionFragment">
 
     <TextView
         android:id="@+id/text_first"

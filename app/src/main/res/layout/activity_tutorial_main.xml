@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.gotounaoto.myapplication.tutorialActivity.TutorialMainActivity">
+    tools:context="com.dennnoukishidann.gotonaoto.app.tutorialActivity.TutorialMainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.example.gotounaoto.myapplication"
+        applicationId "com.dennnoukishidann.gotonaoto.app"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
@@ -37,7 +37,6 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.16.18"
     compile 'com.baoyz.swipemenulistview:library:1.3.0'
     compile 'com.google.firebase:firebase-core:11.0.4'
-    compile 'com.google.firebase:firebase-database:11.0.4'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     compile 'com.borjabravo:readmoretextview:2.1.0'
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
